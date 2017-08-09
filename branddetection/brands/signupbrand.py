@@ -1,9 +1,9 @@
 from branddetection.interfaces.brand import Brand
 
 
-class Server4U(Brand):
+class SignUpBrand(Brand):
     """
-    Server4U specific brand for determining whether or not a domain is hosted or registered with Server4U
+    SignUp specific brand for determining whether or not a domain is hosted or registered with SignUp
     """
 
     def __init__(self):

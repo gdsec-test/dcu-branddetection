@@ -19,15 +19,18 @@ class BrandDetector:
         :return:
         """
 
-        ip = self._helper.nslookup(sourceDomainOrIp) if self._helper.is_domain(sourceDomainOrIp) else sourceDomainOrIp
+        brand = None
+        ip = sourceDomainOrIp
+        if self._helper.is_ip(sourceDomainOrIp) is None:
+            ip = self._helper.get_ip_from_domain(sourceDomainOrIp)
 
-        brand = self._is_brand_in_known_ip_range(ip)
-        if brand is None:
-            whois = self._helper.whois_lookup(sourceDomainOrIp)
-            if whois:
-                for brand in self._brands:
-                    if brand.is_hosted(whois):
-                        return brand
+        # brand = self._is_brand_in_known_ip_range(ip)
+        # if brand is None:
+        #     whois = self._helper.whois_lookup(sourceDomainOrIp)
+        #     if whois:
+        #         for brand in self._brands:
+        #             if brand.is_hosted(whois):
+        #                 return brand
         return brand
 
     def find_registrar(self, sourceDomainOrIp):
