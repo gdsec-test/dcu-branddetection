@@ -4,7 +4,7 @@ import yaml
 
 from settings import Settings
 
-path = 'logging.yaml'
+path = 'logging.yml'
 value = os.getenv('LOG_CFG', None)
 if value:
     path = value

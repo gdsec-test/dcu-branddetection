@@ -12,7 +12,8 @@ class DomainHelper:
     def __init__(self):
         self._logger = logging.getLogger(__name__)
 
-    def is_ip(self, sourceDomainOrIp):
+    @staticmethod
+    def is_ip(sourceDomainOrIp):
         """
         Helper function for determining whether a sourceDomainOrIp is an ip or not
         :return:
@@ -22,7 +23,8 @@ class DomainHelper:
         pattern = re.compile(r"((([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])[ (\[]?(\.|dot)[ )\]]?){3}[0-9]{1,3})")
         return pattern.match(sourceDomainOrIp) is not None
 
-    def get_ip_from_domain(self, domain):
+    @staticmethod
+    def get_ip_from_domain(domain):
         """
         Perform a lookup on domain name and attempt to retrieve the corresponding IP
         :param ip:
@@ -36,7 +38,8 @@ class DomainHelper:
         except Exception as e:
             logging.error("Unable to get ip for %s : %s", domain, e.message)
 
-    def get_domain_from_ip(self, ip):
+    @staticmethod
+    def get_domain_from_ip(ip):
         """
         Perform a lookup on an ip and attempt to retrieve the corresponding domain name
         :param ip:
