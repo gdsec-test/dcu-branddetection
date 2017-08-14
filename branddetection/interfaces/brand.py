@@ -30,3 +30,16 @@ class Brand(object):
         :param ip:
         :return:
         """
+
+class ForeignBrand(Brand):
+
+    NAME = "FOREIGN"
+
+    def is_hosted(self, domain):
+        return False
+
+    def is_registered(self, domain):
+        return False
+
+    def is_ip_in_range(self, ip):
+        return False

@@ -10,6 +10,9 @@ class GoDaddyBrand(Brand):
     GoDaddy specific brand for determining whether or not a domain is hosted or registered with GoDaddy
     """
     NAME = 'GODADDY'
+    ORG_NAME = 'GoDaddy.com LLC'
+    ABUSE_EMAIL = 'abuse@godaddy.com'
+
     _asns = [26496]
 
     def __init__(self):

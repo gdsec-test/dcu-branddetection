@@ -2,6 +2,10 @@ import os
 import logging.config
 import yaml
 
+import time
+
+from branddetection.branddetector import BrandDetector
+
 from settings import Settings
 
 path = 'logging.yml'
@@ -17,3 +21,18 @@ else:
 
 if __name__ == '__main__':
     s = Settings()  #placeholder for any necessary configuration from settings
+
+
+    t1 = time.time()
+    brand_detector = BrandDetector(s)
+    logging.info("time take to initialize: {}".format(time.time() - t1))
+
+    while True:
+        ip = raw_input('Please provide an domain/IP to be scanned: ')
+        t2 = time.time()
+        logging.info("Hosting information is: {}".format(brand_detector.find_hosting(ip)))
+        logging.info("Time to find hosting: {}".format(time.time() - t2))
+
+        t2 = time.time()
+        logging.info("Registrar information is: {}".format(brand_detector.find_registrar(ip)))
+        logging.info("Time to find registration: {}".format(time.time() - t2))

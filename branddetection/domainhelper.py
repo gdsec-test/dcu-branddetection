@@ -54,100 +54,98 @@ class DomainHelper:
         except Exception as e:
             logging.error("Unable to get domain for %s : %s", ip, e.message)
 
-    def get_hosting_info(self, domain):
-        """
-        Return hosting network and email
-        :param domain:
-        :return:
-        """
+    # def get_hosting_info(self, domain):
+    #     """
+    #     Return hosting network and email
+    #     :param domain:
+    #     :return:
+    #     """
+    #
+    #     COMPANY_NAME_KEY = 'hosting_company_name'
+    #     ABUSE_EMAIL_KEY = 'hosting_abuse_email'
+    #     IP_KEY = 'ip'
+    #     email_list = []
+    #     query_value = {}
+    #     try:
+    #         if domain is None or domain == '':
+    #             raise ValueError('Blank domain name was provided')
+    #         redis_record_key = u'{}-ip_whois_info'.format(domain)
+    #         query_value = self._redis.get_value(redis_record_key)
+    #         if query_value is None:
+    #             if domain is not str:
+    #                 domain = domain.encode('idna')
+    #             if self.is_ip(domain):
+    #                 ip = domain
+    #             else:
+    #                 ip = self.get_ip_from_domain(domain)
+    #             query_value = dict(ip=ip)
+    #             if self._check_hosted_here(ip):
+    #                 query_value[COMPANY_NAME_KEY] = self.GODADDY_NAME
+    #                 query_value[ABUSE_EMAIL_KEY] = [self.GODADDY_ABUSE_EMAIL]
+    #                 self._redis.set_value(redis_record_key, json.dumps({self.REDIS_DATA_KEY: query_value}))
+    #                 return query_value
+    #             self._logger.info("Resorting to IPWhois lookup for {}".format(ip))
+    #             info = IPWhois(ip).lookup_rdap()
+    #             query_value[COMPANY_NAME_KEY] = info.get('network').get('name')
+    #             for k, v in info['objects'].iteritems():
+    #                 email_address = v['contact']['email']
+    #                 if email_address:
+    #                     for i in email_address:
+    #                         email_list.append(i['value'])
+    #             query_value[ABUSE_EMAIL_KEY] = email_list
+    #             self._redis.set_value(redis_record_key, json.dumps({self.REDIS_DATA_KEY: query_value}))
+    #         else:
+    #             query_value = json.loads(query_value).get(self.REDIS_DATA_KEY)
+    #     except Exception as e:
+    #         self._logger.error("Error in getting the hosting whois info for %s : %s", domain, e.message)
+    #         # If exception occurred before query_value had completed assignment, set keys to None
+    #         query_value = return_expected_dict_due_to_exception(query_value, [COMPANY_NAME_KEY,
+    #                                                                           ABUSE_EMAIL_KEY,
+    #                                                                           IP_KEY])
+    #     return query_value
 
-        # COMPANY_NAME_KEY = 'hosting_company_name'
-        # ABUSE_EMAIL_KEY = 'hosting_abuse_email'
-        # IP_KEY = 'ip'
-        # email_list = []
-        # query_value = {}
-        # try:
-        #     if domain is None or domain == '':
-        #         raise ValueError('Blank domain name was provided')
-        #     redis_record_key = u'{}-ip_whois_info'.format(domain)
-        #     query_value = self._redis.get_value(redis_record_key)
-        #     if query_value is None:
-        #         if domain is not str:
-        #             domain_name = domain.encode('idna')
-        #         if self.is_ip(domain):
-        #             ip = domain
-        #         else:
-        #             ip = self.get_ip_from_domain(domain)
-        #         query_value = dict(ip=ip)
-        #         if self._check_hosted_here(ip):
-        #             query_value[COMPANY_NAME_KEY] = self.GODADDY_NAME
-        #             query_value[ABUSE_EMAIL_KEY] = [self.GODADDY_ABUSE_EMAIL]
-        #             self._redis.set_value(redis_record_key, json.dumps({self.REDIS_DATA_KEY: query_value}))
-        #             return query_value
-        #         self._logger.info("Resorting to IPWhois lookup for {}".format(ip))
-        #         info = IPWhois(ip).lookup_rdap()
-        #         query_value[COMPANY_NAME_KEY] = info.get('network').get('name')
-        #         for k, v in info['objects'].iteritems():
-        #             email_address = v['contact']['email']
-        #             if email_address:
-        #                 for i in email_address:
-        #                     email_list.append(i['value'])
-        #         query_value[ABUSE_EMAIL_KEY] = email_list
-        #         self._redis.set_value(redis_record_key, json.dumps({self.REDIS_DATA_KEY: query_value}))
-        #     else:
-        #         query_value = json.loads(query_value).get(self.REDIS_DATA_KEY)
-        # except Exception as e:
-        #     self._logger.error("Error in getting the hosting whois info for %s : %s", domain, e.message)
-        #     # If exception occurred before query_value had completed assignment, set keys to None
-        #     query_value = return_expected_dict_due_to_exception(query_value, [COMPANY_NAME_KEY,
-        #                                                                       ABUSE_EMAIL_KEY,
-        #                                                                       IP_KEY])
-        # return query_value
-        return None
-
-    def get_registrar_info(self, domain):
-        """
-        Return registrar network, domain create date and email
-        :param domain:
-        :return:
-        """
-        # REGISTRAR_NAME_KEY = 'registrar_name'
-        # ABUSE_EMAIL_KEY = 'registrar_abuse_email'
-        # DOMAIN_CREATE_DATE_KEY = 'domain_create_date'
-        # query_value = {}
-        # try:
-        #     if domain is None or domain == '':
-        #         raise ValueError('Blank domain name was provided')
-        #     redis_record_key = u'{}-registrar_whois_info'.format(domain)
-        #     query_value = self._redis.get_value(redis_record_key)
-        #     if query_value is None:
-        #         # Try godaddy first
-        #         try:
-        #             query = WhoisEntry.load(domain, NICClient().whois(domain, 'whois.godaddy.com', True))
-        #             if query.registrar:
-        #                 query.registrar = self.GODADDY_NAME
-        #                 query.emails = [self.GODADDY_ABUSE_EMAIL]
-        #             else:
-        #                 # If query.registrar is None, go for the alternate whois query
-        #                 raise PywhoisError
-        #         except PywhoisError:
-        #             query = whois(domain)
-        #             if isinstance(query.emails, basestring):
-        #                 query.emails = [query.emails]
-        #         query_value = dict(registrar_name=query.registrar, registrar_abuse_email=query.emails)
-        #         domain_create_date = query.creation_date[0] if isinstance(query.creation_date, list)\
-        #             else query.creation_date
-        #         domain_create_date = domain_create_date.strftime(self.date_format) if domain_create_date and  \
-        #             isinstance(domain_create_date, datetime) else None
-        #         query_value[DOMAIN_CREATE_DATE_KEY] = domain_create_date
-        #         self._redis.set_value(redis_record_key, json.dumps({self.REDIS_DATA_KEY: query_value}))
-        #     else:
-        #         query_value = json.loads(query_value).get(self.REDIS_DATA_KEY)
-        # except Exception as e:
-        #     logging.error("Error in getting the registrar whois info for %s : %s", domain, e.message)
-        #     # If exception occurred before query_value had completed assignment, set keys to None
-        #     query_value = return_expected_dict_due_to_exception(query_value, [REGISTRAR_NAME_KEY,
-        #                                                                       ABUSE_EMAIL_KEY,
-        #                                                                       DOMAIN_CREATE_DATE_KEY])
-        # return query_value
-        return None
+    # def get_registrar_info(self, domain):
+    #     """
+    #     Return registrar network, domain create date and email
+    #     :param domain:
+    #     :return:
+    #     """
+    #     REGISTRAR_NAME_KEY = 'registrar_name'
+    #     ABUSE_EMAIL_KEY = 'registrar_abuse_email'
+    #     DOMAIN_CREATE_DATE_KEY = 'domain_create_date'
+    #     query_value = {}
+    #     try:
+    #         if domain is None or domain == '':
+    #             raise ValueError('Blank domain name was provided')
+    #         redis_record_key = u'{}-registrar_whois_info'.format(domain)
+    #         query_value = self._redis.get_value(redis_record_key)
+    #         if query_value is None:
+    #             # Try godaddy first
+    #             try:
+    #                 query = WhoisEntry.load(domain, NICClient().whois(domain, 'whois.godaddy.com', True))
+    #                 if query.registrar:
+    #                     query.registrar = self.GODADDY_NAME
+    #                     query.emails = [self.GODADDY_ABUSE_EMAIL]
+    #                 else:
+    #                     # If query.registrar is None, go for the alternate whois query
+    #                     raise PywhoisError
+    #             except PywhoisError:
+    #                 query = whois(domain)
+    #                 if isinstance(query.emails, basestring):
+    #                     query.emails = [query.emails]
+    #             query_value = dict(registrar_name=query.registrar, registrar_abuse_email=query.emails)
+    #             domain_create_date = query.creation_date[0] if isinstance(query.creation_date, list)\
+    #                 else query.creation_date
+    #             domain_create_date = domain_create_date.strftime(self.date_format) if domain_create_date and  \
+    #                 isinstance(domain_create_date, datetime) else None
+    #             query_value[DOMAIN_CREATE_DATE_KEY] = domain_create_date
+    #             self._redis.set_value(redis_record_key, json.dumps({self.REDIS_DATA_KEY: query_value}))
+    #         else:
+    #             query_value = json.loads(query_value).get(self.REDIS_DATA_KEY)
+    #     except Exception as e:
+    #         logging.error("Error in getting the registrar whois info for %s : %s", domain, e.message)
+    #         # If exception occurred before query_value had completed assignment, set keys to None
+    #         query_value = return_expected_dict_due_to_exception(query_value, [REGISTRAR_NAME_KEY,
+    #                                                                           ABUSE_EMAIL_KEY,
+    #                                                                           DOMAIN_CREATE_DATE_KEY])
+    #     return query_value
