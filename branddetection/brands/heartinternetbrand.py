@@ -9,7 +9,7 @@ class HeartInternetBrand(Brand):
     HeartInternet specific brand for determining whether or not a domain is hosted or registered with HeartInternet
     """
     NAME = 'HEARTINTERNET'
-    _asns = [20738]
+    _asns = [43788] #20738
 
     def __init__(self):
         self._logger = logging.getLogger(__name__)

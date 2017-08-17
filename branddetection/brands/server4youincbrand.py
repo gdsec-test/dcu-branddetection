@@ -9,7 +9,7 @@ class Server4UIncBrand(Brand):
     Server4UInc specific brand for determining whether or not a domain is hosted or registered with Server4UInc
     """
     NAME = 'SERVER4UINC'
-    _asns = [20773]
+    _asns = [30083, 55225]
 
     def __init__(self):
         self._logger = logging.getLogger(__name__)

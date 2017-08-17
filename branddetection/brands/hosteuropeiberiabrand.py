@@ -9,7 +9,7 @@ class HostEuropeIberia(Brand):
     HostEuropeIberia specific brand for determining whether or not a domain is hosted or registered with HostEuropeIberia
     """
     NAME = 'HOSTEUROPEIBERIA'
-    _asns = [20773]
+    _asns = [44497] # 20773
 
     def __init__(self):
         self._logger = logging.getLogger(__name__)

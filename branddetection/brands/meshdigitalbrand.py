@@ -4,12 +4,13 @@ from branddetection.asnhelper import ASNPrefixes
 from branddetection.interfaces.brand import Brand
 
 
-class Server4UGmbH(Brand):
+class MeshDigitalBrand(Brand):
     """
-    Server4U specific brand for determining whether or not a domain is hosted or registered with Server4U
+    MeshDigital specific brand for determining whether or not a domain is hosted or registered with MeshDigital
     """
-    NAME = 'SERVER4U'
-    _asns = [8972]
+
+    NAME = 'MESHDIGITAL'
+    _asns = [39779, 50932]
 
     def __init__(self):
         self._logger = logging.getLogger(__name__)

@@ -9,7 +9,7 @@ class SignUpBrand(Brand):
     SignUp specific brand for determining whether or not a domain is hosted or registered with SignUp
     """
     NAME = 'SIGNUP'
-    _asns = [16509] #points to AWS ec2 on reverse dns lookup by ripe
+    _asns = [20738]
 
     def __init__(self):
         self._logger = logging.getLogger(__name__)

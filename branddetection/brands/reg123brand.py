@@ -9,7 +9,7 @@ class Reg123Brand(Brand):
     123Reg specific brand for determining whether or not a domain is hosted or registered with 123Reg
     """
     NAME = '123REG'
-    _asns = [20773]
+    _asns = [20738]
 
     def __init__(self):
         self._logger = logging.getLogger(__name__)

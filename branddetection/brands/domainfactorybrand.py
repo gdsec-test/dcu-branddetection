@@ -10,7 +10,7 @@ class DomainFactoryBrand(Brand):
     """
 
     NAME = 'DOMAINFACTORY'
-    _asns = [20738]
+    _asns = [34011] #20738
 
     def __init__(self):
         self._logger = logging.getLogger(__name__)

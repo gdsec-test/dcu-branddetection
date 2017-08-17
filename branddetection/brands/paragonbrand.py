@@ -9,7 +9,7 @@ class ParagonBrand(Brand):
     Paragon specific brand for determining whether or not a domain is hosted or registered with Paragon
     """
     NAME = 'PARAGON'
-    _asns = [198047]
+    _asns = [133882, 198047]
 
     def __init__(self):
         self._logger = logging.getLogger(__name__)

@@ -4,12 +4,13 @@ from branddetection.asnhelper import ASNPrefixes
 from branddetection.interfaces.brand import Brand
 
 
-class Server4UGmbH(Brand):
+class WebFusionBrand(Brand):
     """
-    Server4U specific brand for determining whether or not a domain is hosted or registered with Server4U
+    WebFusion specific brand for determining whether or not a domain is hosted or registered with WebFusion
     """
-    NAME = 'SERVER4U'
-    _asns = [8972]
+
+    NAME = 'WEBFUSION'
+    _asns = [20738]
 
     def __init__(self):
         self._logger = logging.getLogger(__name__)
