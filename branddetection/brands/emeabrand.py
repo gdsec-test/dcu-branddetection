@@ -14,6 +14,10 @@ from branddetection.brands.server4youincbrand import Server4UIncBrand
 from branddetection.brands.server4ugmbhbrand import Server4UGmbH
 from branddetection.brands.signupbrand import SignUpBrand
 from branddetection.brands.veliabrand import VeliaBrand
+from branddetection.brands.webfusionbrand import WebFusionBrand
+from branddetection.brands.meshdigitalbrand import MeshDigitalBrand
+from branddetection.brands.meshdebrand import MeshDeBrand
+from branddetection.brands.mainlabbrand import MainLabBrand
 
 
 class EMEABrand(Brand):
@@ -25,7 +29,8 @@ class EMEABrand(Brand):
     def __init__(self):
         self._brands = [Reg123Brand(), DomainBoxBrand(), DomainFactoryBrand(), DomainMonsterBrand(),
                         HeartInternetBrand(), HostEuropeBrand(), HostEuropeIberia(), Internet24Brand(), LoomesBrand(),
-                        ParagonBrand(), Server4UIncBrand(), Server4UGmbH(), SignUpBrand(), VeliaBrand()]
+                        ParagonBrand(), Server4UIncBrand(), Server4UGmbH(), SignUpBrand(), VeliaBrand(),
+                        WebFusionBrand(), MeshDigitalBrand(), MeshDeBrand(), MainLabBrand()]
 
     def is_hosted(self, domain):
         for brand in self._brands:
