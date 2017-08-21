@@ -1,0 +1,54 @@
+---
+apiVersion: "extensions/v1beta1"
+kind: "Deployment"
+metadata:
+  name: "brand-detection"
+  namespace: "abuse-api-prod"
+  labels:
+    app: "brand-detection"
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: "brand-detection"
+    spec:
+      imagePullSecrets:
+        -
+          name: "k8s-artifactory-creds"
+      containers:
+        -
+          name: "brand-detection"
+          imagePullPolicy: "Always"
+          image: "artifactory.secureserver.net:10014/docker-dcu-local/brand_detection:prod"
+          livenessProbe:
+            exec:
+              command:
+                - '/app/health.sh'
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          env:
+          - name: BUILD_DATE
+            value: 'THIS_STRING_IS_REPLACED_DURING_BUILD'
+          - name: sysenv
+            value: prod
+          - name: BROKER_PASS
+            valueFrom:
+              secretKeyRef:
+                name: amqp-brand-detection
+                key: password
+          - name: KEYFILE
+            value: /keyfiles/key.txt
+          # redis used for a CELERY backend
+          - name: REDIS
+            value: brand-detection-redis.abuse-api-prod.svc.cluster.local
+          volumeMounts:
+          - name: encryption-keys
+            mountPath: /keyfiles
+            readOnly: true
+
+      volumes:
+        - name: encryption-keys
+          secret:
+            secretName: encryption-key-files
+
