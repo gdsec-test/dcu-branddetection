@@ -4,15 +4,15 @@ from branddetection.asnhelper import ASNPrefixes
 from branddetection.interfaces.brand import Brand
 
 
-class HostEuropeIberia(Brand):
+class WebFusionBrand(Brand):
     """
-    HostEuropeIberia specific brand for determining whether or not a domain is hosted or registered with HostEuropeIberia
+    WebFusion specific brand for determining whether or not a domain is hosted or registered with WebFusion
     """
-    NAME = 'HOSTEUROPEIBERIA'
+    NAME = 'WEBFUSION'
     ORG_NAME = ''
     ABUSE_EMAIL = ['']
 
-    _asns = [44497] # 20773
+    _asns = [20738]
 
     def __init__(self):
         self._logger = logging.getLogger(__name__)

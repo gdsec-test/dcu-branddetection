@@ -4,15 +4,15 @@ from branddetection.asnhelper import ASNPrefixes
 from branddetection.interfaces.brand import Brand
 
 
-class HostEuropeIberia(Brand):
+class MainLabBrand(Brand):
     """
-    HostEuropeIberia specific brand for determining whether or not a domain is hosted or registered with HostEuropeIberia
+    MainLab specific brand for determining whether or not a domain is hosted or registered with MainLab
     """
-    NAME = 'HOSTEUROPEIBERIA'
+    NAME = 'MAINLAB'
     ORG_NAME = ''
     ABUSE_EMAIL = ['']
 
-    _asns = [44497] # 20773
+    _asns = [21501]
 
     def __init__(self):
         self._logger = logging.getLogger(__name__)

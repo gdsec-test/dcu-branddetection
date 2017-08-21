@@ -14,6 +14,10 @@ from branddetection.brands.server4youincbrand import Server4UIncBrand
 from branddetection.brands.server4ugmbhbrand import Server4UGmbH
 from branddetection.brands.signupbrand import SignUpBrand
 from branddetection.brands.veliabrand import VeliaBrand
+from branddetection.brands.webfusionbrand import WebFusionBrand
+from branddetection.brands.meshdigitalbrand import MeshDigitalBrand
+from branddetection.brands.meshdebrand import MeshDeBrand
+from branddetection.brands.mainlabbrand import MainLabBrand
 
 
 class EMEABrand(Brand):
@@ -21,21 +25,24 @@ class EMEABrand(Brand):
     EMEA specific brand for determining whether or not a domain is hosted or registered with EMEA
     """
     NAME = 'EMEA'
+    ORG_NAME = ''
+    ABUSE_EMAIL = ['']
 
     def __init__(self):
         self._brands = [Reg123Brand(), DomainBoxBrand(), DomainFactoryBrand(), DomainMonsterBrand(),
                         HeartInternetBrand(), HostEuropeBrand(), HostEuropeIberia(), Internet24Brand(), LoomesBrand(),
-                        ParagonBrand(), Server4UIncBrand(), Server4UGmbH(), SignUpBrand(), VeliaBrand()]
+                        ParagonBrand(), Server4UIncBrand(), Server4UGmbH(), SignUpBrand(), VeliaBrand(),
+                        WebFusionBrand(), MeshDigitalBrand(), MeshDeBrand(), MainLabBrand()]
 
-    def is_hosted(self, domain):
+    def is_hosted(self, whois_lookup):
         for brand in self._brands:
-            if brand.is_hosted(domain):
+            if brand.is_hosted(whois_lookup):
                 return True
         return False
 
-    def is_registered(self, domain):
+    def is_registered(self, whois_lookup):
         for brand in self._brands:
-            if brand.is_registered(domain):
+            if brand.is_registered(whois_lookup):
                 return True
         return False
 

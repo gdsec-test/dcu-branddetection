@@ -21,7 +21,6 @@ class ASNPrefixes(object):
 
         self._prefixes = self._ripe_get_prefixes_per_asn()
 
-
     def get_network_for_ip(self, ipaddr):
         """
         Returns a list of networks that ipaddr exists in based on
