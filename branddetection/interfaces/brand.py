@@ -31,7 +31,7 @@ class Brand(object):
         :return:
         """
 
-    def determine_hosting_brand_from_whois(self, whois_lookup, abuse_email, org_name):
+    def determine_hosting_brand_from_whois(self, whois_lookup, brand_abuse_email, brand_org_name):
         """
         Common code for looking at a whois_lookup and finding matches for the abuse_emails and org_name
         :param whois_lookup:
@@ -39,16 +39,18 @@ class Brand(object):
         :param org_name:
         :return:
         """
-        for email in whois_lookup['hosting_abuse_email']:
-            if email in abuse_email:
+        abuse_emails = [] if whois_lookup['hosting_abuse_email'] is None else whois_lookup['hosting_abuse_email']
+        for email in abuse_emails:
+            if email in brand_abuse_email:
                 return True
-        return whois_lookup['hosting_company_name'] == org_name
+        return whois_lookup['hosting_company_name'] == brand_org_name
 
-    def determine_registrar_from_whois(self, whois_lookup, abuse_email, org_name):
-        for email in whois_lookup['registrar_abuse_email']:
-            if email in abuse_email:
+    def determine_registrar_from_whois(self, whois_lookup, brand_abuse_email, brand_org_name):
+        whois_abuse_emails = [] if whois_lookup['registrar_abuse_email'] is None else whois_lookup['registrar_abuse_email']
+        for email in whois_abuse_emails:
+            if email in brand_abuse_email:
                 return True
-        return whois_lookup['registrar_abuse_email'] == org_name
+        return whois_lookup['registrar_name'] == brand_org_name
 
 
 class ForeignBrand(Brand):

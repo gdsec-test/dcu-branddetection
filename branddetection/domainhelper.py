@@ -94,7 +94,7 @@ class DomainHelper:
             query_value[ABUSE_EMAIL_KEY] = email_list
         except Exception as e:
             logging.error("Error retrieving hosting information: {}".format(e.message))
-            query_value = {IP_KEY: '', COMPANY_NAME_KEY: '', ABUSE_EMAIL_KEY: []}
+            query_value = {IP_KEY: None, COMPANY_NAME_KEY: None, ABUSE_EMAIL_KEY: None}
         return query_value
 
     @staticmethod
@@ -120,5 +120,5 @@ class DomainHelper:
 
         except Exception as e:
             logging.error("Error in retrieving the registrar whois info for {} : {}".format(ip, e.message))
-            query_value = {REGISTRAR_NAME_KEY: '', ABUSE_EMAIL_KEY: [], DOMAIN_CREATE_DATE_KEY: ''}
+            query_value = {REGISTRAR_NAME_KEY: None, ABUSE_EMAIL_KEY: None, DOMAIN_CREATE_DATE_KEY: None}
         return query_value
