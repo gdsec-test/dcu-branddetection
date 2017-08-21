@@ -16,10 +16,10 @@ class Brand(object):
         """
 
     @abc.abstractmethod
-    def is_registered(self, domain):
+    def is_registered(self, whois_lookup):
         """
         Determine whether a domain is registered with a given brand
-        :param domain:
+        :param whois_lookup:
         :return:
         """
 

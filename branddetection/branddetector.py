@@ -35,7 +35,8 @@ class BrandDetector:
         whois_lookup = DomainHelper.retreive_registrar_information(sourceDomainOrIp)
         for brand in self._brands:
             if brand.is_registered(whois_lookup):
-                self._logger.info("Successfully found a registrar: {} for domain/ip: {}".format(brand, sourceDomainOrIp))
+                self._logger.info("Successfully found a registrar: {} for domain/ip: {}"
+                                  .format(brand.NAME, sourceDomainOrIp))
                 return brand.NAME
         self._logger.info("Unable to find a registrar for domain/ip: {}".format(sourceDomainOrIp))
         return ForeignBrand().NAME
