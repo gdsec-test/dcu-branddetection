@@ -8,10 +8,10 @@ class Brand(object):
     __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
-    def is_hosted(self, domain):
+    def is_hosted(self, whois_lookup):
         """
         Determine whether a domain is hosted with a given brand
-        :param domain:
+        :param whois_lookup:
         :return:
         """
 
@@ -31,11 +31,24 @@ class Brand(object):
         :return:
         """
 
+    def determine_brand_from_whois(self, whois_lookup, abuse_email, org_name):
+        """
+        Common code for looking at a whois_lookup and finding matches for the abuse_emails and org_name
+        :param whois_lookup:
+        :param abuse_email:
+        :param org_name:
+        :return:
+        """
+        for email in whois_lookup['hosting_abuse_email']:
+            if email in abuse_email:
+                return True
+        return whois_lookup['hosting_company_name'] == org_name
+
 class ForeignBrand(Brand):
 
     NAME = "FOREIGN"
 
-    def is_hosted(self, domain):
+    def is_hosted(self, whois_lookup):
         return False
 
     def is_registered(self, domain):

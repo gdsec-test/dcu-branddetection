@@ -15,7 +15,7 @@ class ParagonBrand(Brand):
         self._logger = logging.getLogger(__name__)
         self._asn = ASNPrefixes(self._asns)
 
-    def is_hosted(self, domain):
+    def is_hosted(self, whois_lookup):
         return False
 
     def is_registered(self, domain):

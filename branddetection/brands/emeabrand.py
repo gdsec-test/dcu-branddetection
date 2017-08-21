@@ -32,9 +32,9 @@ class EMEABrand(Brand):
                         ParagonBrand(), Server4UIncBrand(), Server4UGmbH(), SignUpBrand(), VeliaBrand(),
                         WebFusionBrand(), MeshDigitalBrand(), MeshDeBrand(), MainLabBrand()]
 
-    def is_hosted(self, domain):
+    def is_hosted(self, whois_lookup):
         for brand in self._brands:
-            if brand.is_hosted(domain):
+            if brand.is_hosted(whois_lookup):
                 return True
         return False
 
