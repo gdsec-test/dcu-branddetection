@@ -20,7 +20,6 @@ else:
 if __name__ == '__main__':
     s = Settings()  #placeholder for any necessary configuration from settings
 
-
     t1 = time.time()
     brand_detector = BrandDetector(s)
     logging.info("time take to initialize: {}".format(time.time() - t1))

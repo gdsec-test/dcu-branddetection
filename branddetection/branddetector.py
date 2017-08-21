@@ -26,19 +26,6 @@ class BrandDetector:
             brand = self._determine_hosting_by_fallback(ip)
         return brand.NAME
 
-    def _determine_hosting_by_fallback(self, ip):
-        """
-        If unable to determine hosting via ip lookup, fall back and use each brand's own way of determining hosting
-        :param ip:
-        :return:
-        """
-        whois_lookup = DomainHelper.retrieve_hosting_information_via_whois(ip)
-        for brand in self._brands:
-            if brand.is_hosted(whois_lookup):
-                self._logger.info("Brand found by using a fallback method: {}".format(brand.NAME))
-                return brand
-        return ForeignBrand()
-
     def find_registrar(self, sourceDomainOrIp):
         """
         Attempt to find the appropriate brand that sourceDomainOrIp is registered with
@@ -66,4 +53,17 @@ class BrandDetector:
                 self._logger.info("Brand found by examining IP ranges: {}".format(brand.NAME))
                 return brand
         return None
+
+    def _determine_hosting_by_fallback(self, ip):
+        """
+        If unable to determine hosting via ip lookup, fall back and use each brand's own way of determining hosting
+        :param ip:
+        :return:
+        """
+        whois_lookup = DomainHelper.retrieve_hosting_information_via_whois(ip)
+        for brand in self._brands:
+            if brand.is_hosted(whois_lookup):
+                self._logger.info("Brand found by using a fallback method: {}".format(brand.NAME))
+                return brand
+        return ForeignBrand()
 

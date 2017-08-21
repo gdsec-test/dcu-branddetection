@@ -44,6 +44,7 @@ class Brand(object):
                 return True
         return whois_lookup['hosting_company_name'] == org_name
 
+
 class ForeignBrand(Brand):
 
     NAME = "FOREIGN"

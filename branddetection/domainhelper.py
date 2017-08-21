@@ -6,6 +6,7 @@ from whois import whois
 from datetime import datetime
 from dns import resolver, reversename
 
+
 class DomainHelper:
     """
     DomainHelper is a helper class to perform common operations and checks on domains and ips
@@ -26,7 +27,7 @@ class DomainHelper:
     def get_ip_from_domain(domain):
         """
         Perform a lookup on domain name and attempt to retrieve the corresponding IP
-        :param ip:
+        :param domain:
         :return:
         """
         dnsresolver = resolver.Resolver()
@@ -109,10 +110,10 @@ class DomainHelper:
             query_value[REGISTRAR_NAME_KEY] = query.registrar
             query_value[ABUSE_EMAIL_KEY] = query.emails
 
-            domain_create_date = query.creation_date[0] if isinstance(query.creation_date, list) \
-                else query.creation_date
-            domain_create_date = domain_create_date.strftime("%Y-%m-%d") if domain_create_date and \
-                                                                            isinstance(domain_create_date, datetime) else None
+            domain_create_date = query.creation_date[0] \
+                if isinstance(query.creation_date, list) else query.creation_date
+            domain_create_date = domain_create_date.strftime("%Y-%m-%d") \
+                if domain_create_date and isinstance(domain_create_date, datetime) else None
 
             query_value[DOMAIN_CREATE_DATE_KEY] = domain_create_date
         except Exception as e:
