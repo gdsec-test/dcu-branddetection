@@ -24,7 +24,7 @@ class GoDaddyBrand(Brand):
         Check the ip address against the asn announced prefixes then check
         the reverse dns for secureserver.net
         """
-        if Brand.determine_brand_from_whois(self, whois_lookup, self.ABUSE_EMAIL, self.ORG_NAME):
+        if Brand.determine_hosting_brand_from_whois(self, whois_lookup, self.ABUSE_EMAIL, self.ORG_NAME):
             return True
 
         reverse_dns = DomainHelper.get_domain_from_ip(whois_lookup['ip'])
@@ -33,8 +33,8 @@ class GoDaddyBrand(Brand):
             return True
         return False
 
-    def is_registered(self, domain):
-        return False
+    def is_registered(self, whois_lookup):
+        return Brand.determine_registrar_from_whois(self, whois_lookup, self.ABUSE_EMAIL, self.ORG_NAME)
 
     def is_ip_in_range(self, ip):
         return self._asn.get_network_for_ip(ip)

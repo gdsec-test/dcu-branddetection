@@ -6,6 +6,8 @@ from whois import whois
 from datetime import datetime
 from dns import resolver, reversename
 
+from whois import NICClient, WhoisEntry
+
 
 class DomainHelper:
     """
@@ -105,7 +107,7 @@ class DomainHelper:
         try:
             query = whois(ip)
             if isinstance(query.emails, basestring):
-                query.emails = [query.emails]
+                 query.emails = [query.emails]
 
             query_value[REGISTRAR_NAME_KEY] = query.registrar
             query_value[ABUSE_EMAIL_KEY] = query.emails
@@ -114,8 +116,8 @@ class DomainHelper:
                 if isinstance(query.creation_date, list) else query.creation_date
             domain_create_date = domain_create_date.strftime("%Y-%m-%d") \
                 if domain_create_date and isinstance(domain_create_date, datetime) else None
-
             query_value[DOMAIN_CREATE_DATE_KEY] = domain_create_date
+
         except Exception as e:
             logging.error("Error in retrieving the registrar whois info for {} : {}".format(ip, e.message))
             query_value = {REGISTRAR_NAME_KEY: '', ABUSE_EMAIL_KEY: [], DOMAIN_CREATE_DATE_KEY: ''}

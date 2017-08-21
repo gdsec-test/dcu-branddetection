@@ -38,9 +38,9 @@ class EMEABrand(Brand):
                 return True
         return False
 
-    def is_registered(self, domain):
+    def is_registered(self, whois_lookup):
         for brand in self._brands:
-            if brand.is_registered(domain):
+            if brand.is_registered(whois_lookup):
                 return True
         return False
 

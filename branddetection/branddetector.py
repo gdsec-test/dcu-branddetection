@@ -10,8 +10,8 @@ class BrandDetector:
 
     def __init__(self, settings):
         self._logger = logging.getLogger(__name__)
-        self._brands = [GoDaddyBrand(), EMEABrand()]
-        #self._brands = [GoDaddyBrand()]
+        #self._brands = [GoDaddyBrand(), EMEABrand()]
+        self._brands = [GoDaddyBrand()]
 
     def find_hosting(self, sourceDomainOrIp):
         """
@@ -32,9 +32,7 @@ class BrandDetector:
         :param sourceDomainOrIp:
         :return:
         """
-        ip = DomainHelper.convert_domain_to_ip(sourceDomainOrIp)
-
-        whois_lookup = DomainHelper.retreive_registrar_information(ip)
+        whois_lookup = DomainHelper.retreive_registrar_information(sourceDomainOrIp)
         for brand in self._brands:
             if brand.is_registered(whois_lookup):
                 self._logger.info("Successfully found a registrar: {} for domain/ip: {}".format(brand, sourceDomainOrIp))
