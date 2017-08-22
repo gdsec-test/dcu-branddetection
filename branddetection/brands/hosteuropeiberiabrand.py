@@ -12,7 +12,7 @@ class HostEuropeIberia(Brand):
     ORG_NAME = ''
     ABUSE_EMAIL = ['']
 
-    _asns = [44497] # 20773
+    _asns = [44497]  # 20773
 
     def __init__(self):
         self._logger = logging.getLogger(__name__)

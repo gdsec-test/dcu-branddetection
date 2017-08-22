@@ -12,7 +12,7 @@ class HeartInternetBrand(Brand):
     ORG_NAME = ''
     ABUSE_EMAIL = ['']
 
-    _asns = [43788] #20738
+    _asns = [43788]  #20738
 
     def __init__(self):
         self._logger = logging.getLogger(__name__)

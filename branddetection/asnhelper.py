@@ -63,4 +63,4 @@ class ASNPrefixes(object):
                 self._last_query = query_time
                 return pref_list
             except Exception as e:
-                self._logger.error("Unable to update the prefix list. Last update at {}:{}".format(self._last_query, e))
+                self._logger.error("Unable to update the prefix list. Last update at {} : {}".format(self._last_query, e))
