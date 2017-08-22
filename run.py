@@ -4,7 +4,7 @@ import yaml
 import time
 
 from branddetection.branddetector import BrandDetector
-from settings import Settings
+from settings import config_by_name
 
 path = 'logging.yml'
 value = os.getenv('LOG_CFG', None)
@@ -17,11 +17,13 @@ if os.path.exists(path):
 else:
     logging.basicConfig(level=logging.INFO)
 
+env = os.getenv('sysenv') or 'dev'
+config = config_by_name[env]()
+
 if __name__ == '__main__':
-    s = Settings()  #placeholder for any necessary configuration from settings
 
     t1 = time.time()
-    brand_detector = BrandDetector(s)
+    brand_detector = BrandDetector(config)
     logging.info("time take to initialize: {}".format(time.time() - t1))
 
     while True:
