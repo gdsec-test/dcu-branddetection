@@ -3,3 +3,4 @@ dnspython
 netaddr==0.7.19
 ipwhois
 python-whois
+redis
