@@ -15,24 +15,36 @@ class BrandDetector:
         # self._brands = [GoDaddyBrand(), EMEABrand()]
         self._brands = [GoDaddyBrand()]
 
-    def find_hosting(self, sourceDomainOrIp):
+    def get_hosting_info(self, sourceDomainOrIp):
         """
         Attempt to find the appropriate brand that sourceDomainOrIp is hosted with
         :param sourceDomainOrIp:
         :return:
         """
+        who_is = {}
         ip = self._domain_helper.convert_domain_to_ip(sourceDomainOrIp)
 
         # If a conversion from domain to ip fails, just return a foreign brand
         if ip is not None:
             brand = self._is_brand_in_known_ip_range(ip)
             if brand is None:
-                brand = self._determine_hosting_by_fallback(ip)
-        else:
-            brand = ForeignBrand()
-        return brand.NAME
+                who_is = self._determine_hosting_by_fallback(ip)
+            else:
+                who_is = {'brand': brand.NAME,
+                         'hosting_company_name': brand.ORG_NAME,
+                         'hosting_abuse_email': brand.ABUSE_EMAIL,
+                         'ip': ip
+                 }
 
-    def find_registrar(self, sourceDomainOrIp):
+        else:
+            who_is = {'brand': None,
+                     'hosting_company_name': None,
+                     'hosting_abuse_email': None,
+                     'ip': None
+            }
+        return who_is
+
+    def get_registrar_info(self, sourceDomainOrIp):
         """
         Attempt to find the appropriate brand that sourceDomainOrIp is registered with
         :param sourceDomainOrIp:
@@ -43,9 +55,11 @@ class BrandDetector:
             if brand.is_registered(whois_lookup):
                 self._logger.info("Successfully found a registrar: {} for domain/ip: {}"
                                   .format(brand.NAME, sourceDomainOrIp))
-                return brand.NAME
+                whois_lookup['brand'] = brand.NAME
+                return whois_lookup
         self._logger.info("Unable to find a registrar for domain/ip: {}".format(sourceDomainOrIp))
-        return ForeignBrand().NAME
+        whois_lookup['brand'] = ForeignBrand().NAME
+        return whois_lookup
 
     def _is_brand_in_known_ip_range(self, ip):
         """
@@ -70,6 +84,8 @@ class BrandDetector:
             for brand in self._brands:
                 if brand.is_hosted(whois_lookup):
                     self._logger.info("Brand found by using a fallback method: {}".format(brand.NAME))
-                    return brand
-        return ForeignBrand()
+                    whois_lookup['brand'] = brand.NAME
+                    return whois_lookup
+        whois_lookup['brand'] = ForeignBrand().NAME
+        return whois_lookup
 
