@@ -4,6 +4,7 @@ import yaml
 import time
 
 from branddetection.branddetector import BrandDetector
+from flask import Flask, request, jsonify
 from settings import config_by_name
 
 path = 'logging.yml'
@@ -20,18 +21,38 @@ else:
 env = os.getenv('sysenv') or 'dev'
 config = config_by_name[env]()
 
+app = Flask(__name__)
+
+t = time.time()
+brand_detector = BrandDetector(config)
+logging.info("Initialization took: {} seconds".format(time.time() - t))
+
+
+@app.route('/hosting', methods=['GET'])
+def find_hosting():
+    domain = request.args.get('domain')
+
+    t = time.time()
+    hosting_information = brand_detector.find_hosting(domain)
+    logging.info("Found hosting for {} in {} seconds".format(domain, time.time() - t))
+
+    return jsonify({'status': '200', 'content': hosting_information})
+
+
+@app.route('/registrar', methods=['GET'])
+def find_registrar():
+    domain = request.args.get('domain')
+
+    t = time.time()
+    registrar_information = brand_detector.find_registrar(domain)
+    logging.info("Found registrar for {} in {} seconds".format(domain, time.time() - t))
+
+    return jsonify({'status': '200', 'content': registrar_information})
+
+
+@app.route('/health', methods=['GET'])
+def health():
+    return '', 200
+
 if __name__ == '__main__':
-
-    t1 = time.time()
-    brand_detector = BrandDetector(config)
-    logging.info("time take to initialize: {}".format(time.time() - t1))
-
-    while True:
-        ip = raw_input('Please provide an domain/IP to be scanned: ')
-        t2 = time.time()
-        logging.info("Hosting information is: {}".format(brand_detector.find_hosting(ip)))
-        logging.info("Time to find hosting: {}".format(time.time() - t2))
-
-        t2 = time.time()
-        logging.info("Registrar information is: {}".format(brand_detector.find_registrar(ip)))
-        logging.info("Time to find registration: {}".format(time.time() - t2))
+    app.run()

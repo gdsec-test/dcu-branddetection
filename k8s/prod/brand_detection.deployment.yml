@@ -22,9 +22,9 @@ spec:
           imagePullPolicy: "Always"
           image: "artifactory.secureserver.net:10014/docker-dcu-local/brand_detection:prod"
           livenessProbe:
-            exec:
-              command:
-                - '/app/health.sh'
+            httpGet:
+              path: /health
+              port: 5000
             initialDelaySeconds: 10
             periodSeconds: 10
           env:
@@ -32,11 +32,6 @@ spec:
             value: 'THIS_STRING_IS_REPLACED_DURING_BUILD'
           - name: sysenv
             value: prod
-          - name: BROKER_PASS
-            valueFrom:
-              secretKeyRef:
-                name: amqp-brand-detection
-                key: password
           - name: KEYFILE
             value: /keyfiles/key.txt
           # redis used for a CELERY backend
