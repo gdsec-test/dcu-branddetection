@@ -36,7 +36,7 @@ def get_hosting_info():
     hosting_information = brand_detector.get_hosting_info(domain)
     logging.info("Found hosting for {} in {} seconds".format(domain, time.time() - t))
 
-    return jsonify({'status': '200', 'content': hosting_information})
+    return jsonify({'data': hosting_information})
 
 
 @app.route('/registrar', methods=['GET'])
@@ -47,7 +47,7 @@ def get_registrar_info():
     registrar_information = brand_detector.get_registrar_info(domain)
     logging.info("Found registrar for {} in {} seconds".format(domain, time.time() - t))
 
-    return jsonify({'status': '200', 'content': registrar_information})
+    return jsonify({'data': registrar_information})
 
 
 @app.route('/health', methods=['GET'])
