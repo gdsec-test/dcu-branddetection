@@ -58,17 +58,3 @@ class Brand(object):
             if email in brand_abuse_email:
                 return True
         return whois_lookup['registrar_name'] == brand_org_name
-
-
-class ForeignBrand(Brand):
-
-    NAME = "FOREIGN"
-
-    def is_hosted(self, whois_lookup):
-        return False
-
-    def is_registered(self, domain):
-        return False
-
-    def is_ip_in_range(self, ip):
-        return False

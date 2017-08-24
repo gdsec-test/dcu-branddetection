@@ -29,25 +29,17 @@ logging.info("Initialization took: {} seconds".format(time.time() - t))
 
 
 @app.route('/hosting', methods=['GET'])
-def find_hosting():
+def get_hosting_info():
     domain = request.args.get('domain')
-
-    t = time.time()
-    hosting_information = brand_detector.find_hosting(domain)
-    logging.info("Found hosting for {} in {} seconds".format(domain, time.time() - t))
-
-    return jsonify({'status': '200', 'content': hosting_information})
+    hosting_information = brand_detector.get_hosting_info(domain)
+    return jsonify(hosting_information)
 
 
 @app.route('/registrar', methods=['GET'])
-def find_registrar():
+def get_registrar_info():
     domain = request.args.get('domain')
-
-    t = time.time()
-    registrar_information = brand_detector.find_registrar(domain)
-    logging.info("Found registrar for {} in {} seconds".format(domain, time.time() - t))
-
-    return jsonify({'status': '200', 'content': registrar_information})
+    registrar_information = brand_detector.get_registrar_info(domain)
+    return jsonify(registrar_information)
 
 
 @app.route('/health', methods=['GET'])
