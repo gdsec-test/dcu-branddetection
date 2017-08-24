@@ -9,7 +9,7 @@ class HostEuropeIberia(Brand):
     HostEuropeIberia specific brand for determining whether or not a domain is hosted or registered with HostEuropeIberia
     """
     NAME = 'HOSTEUROPEIBERIA'
-    ORG_NAME = ''
+    ORG_NAME = ['']
     ABUSE_EMAIL = ['']
 
     _asns = [44497]  # 20773

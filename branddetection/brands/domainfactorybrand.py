@@ -9,7 +9,7 @@ class DomainFactoryBrand(Brand):
     DomainFactory specific brand for determining whether or not a domain is hosted or registered with DomainFactory
     """
     NAME = 'DOMAINFACTORY'
-    ORG_NAME = ''
+    ORG_NAME = ['']
     ABUSE_EMAIL = ['']
 
     _asns = [34011]  #20738

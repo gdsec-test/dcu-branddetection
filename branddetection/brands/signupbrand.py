@@ -9,7 +9,7 @@ class SignUpBrand(Brand):
     SignUp specific brand for determining whether or not a domain is hosted or registered with SignUp
     """
     NAME = 'SIGNUP'
-    ORG_NAME = ''
+    ORG_NAME = ['']
     ABUSE_EMAIL = ['']
 
     _asns = [20738]

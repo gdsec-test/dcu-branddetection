@@ -9,7 +9,7 @@ class DomainBoxBrand(Brand):
     DomainBox specific brand for determining whether or not a domain is hosted or registered with DomainBox
     """
     NAME = 'DOMAINBOX'
-    ORG_NAME = ''
+    ORG_NAME = ['']
     ABUSE_EMAIL = ['']
 
     _asns = [20738]

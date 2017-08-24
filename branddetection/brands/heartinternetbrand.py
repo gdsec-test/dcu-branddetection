@@ -9,7 +9,7 @@ class HeartInternetBrand(Brand):
     HeartInternet specific brand for determining whether or not a domain is hosted or registered with HeartInternet
     """
     NAME = 'HEARTINTERNET'
-    ORG_NAME = ''
+    ORG_NAME = ['']
     ABUSE_EMAIL = ['']
 
     _asns = [43788]  #20738

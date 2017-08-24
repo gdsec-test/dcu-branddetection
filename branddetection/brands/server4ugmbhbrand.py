@@ -9,7 +9,7 @@ class Server4UGmbH(Brand):
     Server4U specific brand for determining whether or not a domain is hosted or registered with Server4U
     """
     NAME = 'SERVER4U'
-    ORG_NAME = ''
+    ORG_NAME = ['']
     ABUSE_EMAIL = ['']
 
     _asns = [8972]
