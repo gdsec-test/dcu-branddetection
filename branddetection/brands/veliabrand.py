@@ -9,7 +9,7 @@ class VeliaBrand(Brand):
     Velia specific brand for determining whether or not a domain is hosted or registered with Velia
     """
     NAME = 'VELIA'
-    ORG_NAME = ''
+    ORG_NAME = ['']
     ABUSE_EMAIL = ['']
 
     _asns = [29066]

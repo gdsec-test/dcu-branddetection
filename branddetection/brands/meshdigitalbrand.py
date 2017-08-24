@@ -9,7 +9,7 @@ class MeshDigitalBrand(Brand):
     MeshDigital specific brand for determining whether or not a domain is hosted or registered with MeshDigital
     """
     NAME = 'MESHDIGITAL'
-    ORG_NAME = ''
+    ORG_NAME = ['']
     ABUSE_EMAIL = ['']
 
     _asns = [39779, 50932]

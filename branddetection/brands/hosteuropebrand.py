@@ -9,7 +9,7 @@ class HostEuropeBrand(Brand):
     HostEuropeBrand specific brand for determining whether or not a domain is hosted or registered with HostEuropeBrand
     """
     NAME = 'HOSTEUROPE'
-    ORG_NAME = ''
+    ORG_NAME = ['']
     ABUSE_EMAIL = ['']
 
     _asns = [20773, 34440]

@@ -9,7 +9,7 @@ class DomainMonsterBrand(Brand):
     DomainMonster specific brand for determining whether or not a domain is hosted or registered with DomainMonster
     """
     NAME = 'DOMAINMONSTER'
-    ORG_NAME = ''
+    ORG_NAME = ['']
     ABUSE_EMAIL = ['']
 
     _asns = [20738]

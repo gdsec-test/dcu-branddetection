@@ -10,8 +10,8 @@ class GoDaddyBrand(Brand):
     GoDaddy specific brand for determining whether or not a domain is hosted or registered with GoDaddy
     """
     NAME = 'GODADDY'
-    ORG_NAME = 'GoDaddy.com LLC'
-    ABUSE_EMAIL = ['abuse@godaddy.com']
+    ORG_NAME = ['GoDaddy.com LLC', 'Wild West Domains, LLC']
+    ABUSE_EMAIL = ['abuse@godaddy.com', 'abuse@wildwestdomains.com']
 
     _asns = [26496]
 

@@ -57,8 +57,8 @@ class BrandDetector:
         for brand in self._brands:
             if brand.is_ip_in_range(ip):
                 self._logger.info("Brand found by examining IP ranges: {}".format(brand.NAME))
-                return {'brand': brand.NAME, 'hosting_company_name': brand.ORG_NAME, 'ip': ip,
-                                'hosting_abuse_email': brand.ABUSE_EMAIL}
+                return {'brand': brand.NAME, 'hosting_company_name': brand.ORG_NAME[0], 'ip': ip,
+                                'hosting_abuse_email': brand.ABUSE_EMAIL[0]}
         return None
 
     def _get_hosting_by_fallback(self, ip):

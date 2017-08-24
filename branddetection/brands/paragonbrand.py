@@ -9,7 +9,7 @@ class ParagonBrand(Brand):
     Paragon specific brand for determining whether or not a domain is hosted or registered with Paragon
     """
     NAME = 'PARAGON'
-    ORG_NAME = ''
+    ORG_NAME = ['']
     ABUSE_EMAIL = ['']
 
     _asns = [133882, 198047]
