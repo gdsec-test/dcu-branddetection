@@ -31,22 +31,14 @@ logging.info("Initialization took: {} seconds".format(time.time() - t))
 @app.route('/hosting', methods=['GET'])
 def get_hosting_info():
     domain = request.args.get('domain')
-
-    t = time.time()
     hosting_information = brand_detector.get_hosting_info(domain)
-    logging.info("Found hosting for {} in {} seconds".format(domain, time.time() - t))
-
     return jsonify(hosting_information)
 
 
 @app.route('/registrar', methods=['GET'])
 def get_registrar_info():
     domain = request.args.get('domain')
-
-    t = time.time()
     registrar_information = brand_detector.get_registrar_info(domain)
-    logging.info("Found registrar for {} in {} seconds".format(domain, time.time() - t))
-
     return jsonify(registrar_information)
 
 
