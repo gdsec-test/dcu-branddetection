@@ -105,8 +105,6 @@ class DomainHelper:
                         for i in email_address:
                             email_list.append(i['value'])
                 query_value[ABUSE_EMAIL_KEY] = email_list
-
-                self.add_whois_info_to_cache(redis_record_key, query_value)
         except Exception as e:
             logging.error("Error retrieving hosting information for {} : {}".format(ip, e.message))
             query_value = {BRAND_KEY: None, IP_KEY: None, COMPANY_NAME_KEY: None, ABUSE_EMAIL_KEY: None}
@@ -134,8 +132,6 @@ class DomainHelper:
                 domain_create_date = domain_create_date.strftime("%Y-%m-%d") \
                     if domain_create_date and isinstance(domain_create_date, datetime) else None
                 query_value[DOMAIN_CREATE_DATE_KEY] = domain_create_date
-
-                self.add_whois_info_to_cache(redis_record_key, query_value)
         except Exception as e:
             logging.error("Error in retrieving the registrar whois info for {} : {}".format(domain, e.message))
             query_value = {BRAND_KEY: None, REGISTRAR_NAME_KEY: None, ABUSE_EMAIL_KEY: None, DOMAIN_CREATE_DATE_KEY: None}
