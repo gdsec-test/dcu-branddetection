@@ -10,7 +10,7 @@ class DomainBoxBrand(Brand):
     """
     NAME = 'DOMAINBOX'
     ORG_NAME = ['']
-    ABUSE_EMAIL = ['']
+    ABUSE_EMAIL = ['abuse@domainbox.com', 'spoc@domainbox.com']
 
     _asns = [20738]
 

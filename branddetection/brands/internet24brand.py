@@ -10,7 +10,7 @@ class Internet24Brand(Brand):
     """
     NAME = 'INTERNET24'
     ORG_NAME = ['']
-    ABUSE_EMAIL = ['']
+    ABUSE_EMAIL = ['abuse@internet24.de', 'behoerden@internet24.de']
 
     _asns = [61157]
 

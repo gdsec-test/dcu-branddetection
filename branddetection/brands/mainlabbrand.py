@@ -6,7 +6,8 @@ from branddetection.interfaces.brand import Brand
 
 class MainLabBrand(Brand):
     """
-    MainLab specific brand for determining whether or not a domain is hosted or registered with MainLab
+    MainLab specific brand for determining whether or not a domain is hosted or registered with MainLab. MainLab is
+    part of PlusServer and is being forwarded to EMEA so they may route to PlusServer as per contract.
     """
     NAME = 'MAINLAB'
     ORG_NAME = ['']

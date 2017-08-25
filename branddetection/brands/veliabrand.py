@@ -10,7 +10,7 @@ class VeliaBrand(Brand):
     """
     NAME = 'VELIA'
     ORG_NAME = ['']
-    ABUSE_EMAIL = ['']
+    ABUSE_EMAIL = ['abuse@velia.net']
 
     _asns = [29066]
 

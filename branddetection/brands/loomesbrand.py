@@ -10,7 +10,7 @@ class LoomesBrand(Brand):
     """
     NAME = 'LOOMES'
     ORG_NAME = ['']
-    ABUSE_EMAIL = ['']
+    ABUSE_EMAIL = ['abuse@loomes.de', 'behoerden@server4you.de']
 
     _asns = [8972, 20773]
 

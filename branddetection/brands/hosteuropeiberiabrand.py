@@ -10,7 +10,7 @@ class HostEuropeIberia(Brand):
     """
     NAME = 'HOSTEUROPEIBERIA'
     ORG_NAME = ['']
-    ABUSE_EMAIL = ['']
+    ABUSE_EMAIL = ['abuse@hosteurope.es', 'spoc@hosteurope.es']
 
     _asns = [44497]  # 20773
 

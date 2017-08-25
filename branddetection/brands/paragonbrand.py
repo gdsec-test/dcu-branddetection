@@ -10,7 +10,7 @@ class ParagonBrand(Brand):
     """
     NAME = 'PARAGON'
     ORG_NAME = ['']
-    ABUSE_EMAIL = ['']
+    ABUSE_EMAIL = ['abuse@paragon.net.uk']
 
     _asns = [133882, 198047]
 

@@ -10,7 +10,7 @@ class SignUpBrand(Brand):
     """
     NAME = 'SIGNUP'
     ORG_NAME = ['']
-    ABUSE_EMAIL = ['']
+    ABUSE_EMAIL = ['abuse.reports@sign-up.to']
 
     _asns = [20738]
 

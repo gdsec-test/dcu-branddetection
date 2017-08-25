@@ -10,7 +10,7 @@ class Server4UGmbH(Brand):
     """
     NAME = 'SERVER4U'
     ORG_NAME = ['']
-    ABUSE_EMAIL = ['']
+    ABUSE_EMAIL = ['abuse@server4you.de', 'behoerden@server4you.de']
 
     _asns = [8972]
 
