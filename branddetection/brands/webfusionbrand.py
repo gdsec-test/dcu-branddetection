@@ -9,7 +9,7 @@ class WebFusionBrand(Brand):
     WebFusion specific brand for determining whether or not a domain is hosted or registered with WebFusion
     """
     NAME = 'WEBFUSION'
-    ORG_NAME = ['']
+    ORG_NAME = ['WEBFUSION LIMITED']
     ABUSE_EMAIL = ['']
 
     _asns = [20738]

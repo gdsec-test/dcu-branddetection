@@ -10,7 +10,7 @@ class Server4UIncBrand(Brand):
     """
     NAME = 'SERVER4UINC'
     ORG_NAME = ['']
-    ABUSE_EMAIL = ['']
+    ABUSE_EMAIL = ['abuse@server4you.com', 'spoc@server4you.com']
 
     _asns = [30083, 55225]
 

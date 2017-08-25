@@ -9,10 +9,10 @@ class HostEuropeBrand(Brand):
     HostEuropeBrand specific brand for determining whether or not a domain is hosted or registered with HostEuropeBrand
     """
     NAME = 'HOSTEUROPE'
-    ORG_NAME = ['']
-    ABUSE_EMAIL = ['']
+    ORG_NAME = ['123-Reg Limited t/a 123-reg [Tag = 123-REG]']
+    ABUSE_EMAIL = ['abuse@hosteurope.de', 'behoerden@hosteurope.de']
 
-    _asns = [20773, 34440]
+    _asns = [20773]
 
     def __init__(self):
         self._logger = logging.getLogger(__name__)

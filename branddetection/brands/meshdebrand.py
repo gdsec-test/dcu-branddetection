@@ -6,7 +6,8 @@ from branddetection.interfaces.brand import Brand
 
 class MeshDeBrand(Brand):
     """
-    MeshDeBrand specific brand for determining whether or not a domain is hosted or registered with MeshDeBrand
+    MeshDeBrand specific brand for determining whether or not a domain is hosted or registered with MeshDeBrand.  MeshDE
+    is part of PlusServer and is being forwarded to EMEA so they may route to PlusServer as per contract.
     """
     NAME = 'MESHDE'
     ORG_NAME = ['']

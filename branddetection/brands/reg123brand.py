@@ -10,7 +10,8 @@ class Reg123Brand(Brand):
     """
     NAME = '123REG'
     ORG_NAME = ['']
-    ABUSE_EMAIL = ['']
+    ABUSE_EMAIL = ['abuse@webfusion.com', 'services@123-reg.co.uk', 'abuse@123-reg.co.uk', 'abuse@donhost.co.uk',
+                   'abuse@xcalibre.co.uk']
 
     _asns = [20738]
 

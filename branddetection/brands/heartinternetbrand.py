@@ -10,7 +10,7 @@ class HeartInternetBrand(Brand):
     """
     NAME = 'HEARTINTERNET'
     ORG_NAME = ['']
-    ABUSE_EMAIL = ['']
+    ABUSE_EMAIL = ['abuse@heartinternet.co.uk', 'abuse@heartinternet.uk']
 
     _asns = [43788]  #20738
 
