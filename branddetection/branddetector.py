@@ -60,6 +60,7 @@ class BrandDetector:
 
         self._logger.info("Unable to find a matching registrar for domain/ip: {}. Brand is FOREIGN".format(domain))
         whois_lookup['brand'] = "FOREIGN"
+        self._domain_helper.add_whois_info_to_cache(redis_record_key, whois_lookup)
         return whois_lookup
 
     def _get_hosting_in_known_ip_range(self, ip):
