@@ -43,13 +43,21 @@ class BrandDetector:
         :param domain:
         :return:
         """
-        whois_lookup = self._domain_helper.get_registrar_information_via_whois(domain)
-        for brand in self._brands:
-            if brand.is_registered(whois_lookup):
-                self._logger.info("Successfully found a registrar: {} for domain/ip: {}"
-                                  .format(brand.NAME, domain))
-                whois_lookup['brand'] = brand.NAME
-                return whois_lookup
+        redis_record_key = u'{}-registrar_whois_info'.format(domain)
+        whois_lookup = self._domain_helper.get_whois_info_from_cache(redis_record_key)
+
+        if whois_lookup is None:
+            whois_lookup = self._domain_helper.get_registrar_information_via_whois(domain)
+            for brand in self._brands:
+                if brand.is_registered(whois_lookup):
+                    self._logger.info("Successfully found a registrar: {} for domain/ip: {}"
+                                      .format(brand.NAME, domain))
+                    whois_lookup['brand'] = brand.NAME
+                    self._domain_helper.add_whois_info_to_cache(redis_record_key, whois_lookup)
+                    return whois_lookup
+        else:
+            return whois_lookup
+
         self._logger.info("Unable to find a matching registrar for domain/ip: {}. Brand is FOREIGN".format(domain))
         whois_lookup['brand'] = "FOREIGN"
         return whois_lookup
