@@ -43,12 +43,7 @@ class Brand(object):
         for email in whois_abuse_emails:
             if email in brand_abuse_emails:
                 return True
-
-        whois_org_names = [] if whois_lookup['hosting_company_name'] is None else whois_lookup['hosting_company_name']
-        for org_name in whois_org_names:
-            if org_name in brand_org_names:
-                return True
-        return False
+        return whois_lookup['hosting_company_name'] in brand_org_names
 
     def determine_registrar_from_whois(self, whois_lookup, brand_abuse_emails, brand_org_names):
         """
@@ -62,9 +57,4 @@ class Brand(object):
         for email in whois_abuse_emails:
             if email in brand_abuse_emails:
                 return True
-
-        whois_org_names = [] if whois_lookup['registrar_name'] is None else whois_lookup['registrar_name']
-        for org_name in whois_org_names:
-            if org_name in brand_org_names:
-                return True
-        return False
+        return whois_lookup['registrar_name'] in brand_org_names
