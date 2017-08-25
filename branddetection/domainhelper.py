@@ -68,8 +68,14 @@ class DomainHelper:
         try:
             return dnsresolver.query(addr, 'PTR')[0].to_text().rstrip('.').encode('idna')
         except Exception as e:
-            logging.error("Unable to get domain for %s : %s", ip, e.message)
+            logging.error("Unable to get domain for {} : {}", ip, e.message)
 
+    def get_whois_info_from_cache(self, redis_record_key):
+        query_value = self._redis.get_value(redis_record_key)
+        return None if query_value is None else json.loads(query_value).get('result')
+
+    def add_whois_info_to_cache(self, redis_record_key, query_value):
+        self._redis.set_value(redis_record_key, json.dumps({'result': query_value}))
 
     def get_hosting_information_via_whois(self, ip):
         """
@@ -84,7 +90,7 @@ class DomainHelper:
 
         try:
             redis_record_key = u'{}-hosting_whois_info'.format(ip)
-            query_value = self._redis.get_value(redis_record_key)
+            query_value = self.get_whois_info_from_cache(redis_record_key)
 
             if query_value is None:
                 query_value = {IP_KEY: ip}
@@ -100,26 +106,24 @@ class DomainHelper:
                             email_list.append(i['value'])
                 query_value[ABUSE_EMAIL_KEY] = email_list
 
-                self._add_whois_info_to_cache(redis_record_key, query_value)
-            else:
-                query_value = json.loads(query_value).get('result')
+                self.add_whois_info_to_cache(redis_record_key, query_value)
         except Exception as e:
-            logging.error("Error retrieving hosting information: {}".format(e.message))
+            logging.error("Error retrieving hosting information for {} : {}".format(ip, e.message))
             query_value = {BRAND_KEY: None, IP_KEY: None, COMPANY_NAME_KEY: None, ABUSE_EMAIL_KEY: None}
         return query_value
 
-    def get_registrar_information_via_whois(self, ip):
+    def get_registrar_information_via_whois(self, domain):
         REGISTRAR_NAME_KEY = 'registrar_name'
         ABUSE_EMAIL_KEY = 'registrar_abuse_email'
         DOMAIN_CREATE_DATE_KEY = 'domain_create_date'
         BRAND_KEY = 'brand'
 
         try:
-            redis_record_key = u'{}-registrar_whois_info'.format(ip)
-            query_value = self._redis.get_value(redis_record_key)
+            redis_record_key = u'{}-registrar_whois_info'.format(domain)
+            query_value = self.get_whois_info_from_cache(redis_record_key)
 
             if query_value is None:
-                query = whois(ip)
+                query = whois(domain)
                 if isinstance(query.emails, basestring):
                     query.emails = [query.emails]
 
@@ -131,14 +135,8 @@ class DomainHelper:
                     if domain_create_date and isinstance(domain_create_date, datetime) else None
                 query_value[DOMAIN_CREATE_DATE_KEY] = domain_create_date
 
-                self._add_whois_info_to_cache(redis_record_key, query_value)
-            else:
-                query_value = json.loads(query_value).get('result')
+                self.add_whois_info_to_cache(redis_record_key, query_value)
         except Exception as e:
-            logging.error("Error in retrieving the registrar whois info for {} : {}".format(ip, e.message))
+            logging.error("Error in retrieving the registrar whois info for {} : {}".format(domain, e.message))
             query_value = {BRAND_KEY: None, REGISTRAR_NAME_KEY: None, ABUSE_EMAIL_KEY: None, DOMAIN_CREATE_DATE_KEY: None}
         return query_value
-
-    def _add_whois_info_to_cache(self, redis_record_key, query_value):
-        self._redis.set_value(redis_record_key, json.dumps({'result': query_value}))
-
