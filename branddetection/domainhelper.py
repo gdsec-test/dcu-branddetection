@@ -14,6 +14,7 @@ class DomainHelper:
     DomainHelper is a helper class to perform common operations and checks on domains and ips
     """
     def __init__(self, settings):
+        self._logger = logging.getLogger(__name__)
         self._redis = RedisCache(settings)
 
     @staticmethod
@@ -106,7 +107,7 @@ class DomainHelper:
                             email_list.append(i['value'])
                 query_value[ABUSE_EMAIL_KEY] = email_list
         except Exception as e:
-            logging.error("Error retrieving hosting information for {} : {}".format(ip, e.message))
+            self._logger.error("Error retrieving hosting information for {} : {}".format(ip, e.message))
             query_value = {BRAND_KEY: None, IP_KEY: None, COMPANY_NAME_KEY: None, ABUSE_EMAIL_KEY: None}
         return query_value
 
@@ -133,6 +134,6 @@ class DomainHelper:
                     if domain_create_date and isinstance(domain_create_date, datetime) else None
                 query_value[DOMAIN_CREATE_DATE_KEY] = domain_create_date
         except Exception as e:
-            logging.error("Error in retrieving the registrar whois info for {} : {}".format(domain, e.message))
+            self._logger.error("Error in retrieving the registrar whois info for {} : {}".format(domain, e.message))
             query_value = {BRAND_KEY: None, REGISTRAR_NAME_KEY: None, ABUSE_EMAIL_KEY: None, DOMAIN_CREATE_DATE_KEY: None}
         return query_value
