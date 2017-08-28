@@ -26,7 +26,10 @@ loggers:
         level: INFO
         handlers: [console]
         propagate: no
-
+    ipwhois:
+        level: ERROR
+        handlers: [console]
+        propagate: no
 root:
     level: INFO
     handlers: [console]
