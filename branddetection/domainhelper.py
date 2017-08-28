@@ -62,11 +62,11 @@ class DomainHelper:
         :param ip:
         :return:
         """
-        dnsresolver = resolver.Resolver()
-        addr = reversename.from_address(ip)
-        dnsresolver.timeout = 1
-        dnsresolver.lifetime = 1
         try:
+            dnsresolver = resolver.Resolver()
+            dnsresolver.timeout = 1
+            dnsresolver.lifetime = 1
+            addr = reversename.from_address(ip)
             return dnsresolver.query(addr, 'PTR')[0].to_text().rstrip('.').encode('idna')
         except Exception as e:
             logging.error("Unable to get domain for {} : {}", ip, e.message)
