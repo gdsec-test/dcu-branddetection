@@ -1,40 +1,92 @@
 import logging
+import json
 
 from branddetection.domainhelper import DomainHelper
 from branddetection.brands.godaddybrand import GoDaddyBrand
 from branddetection.brands.emeabrand import EMEABrand
 
 
-class BrandDetector:
+class BrandDetectorDecorator:
+    _HOSTING_REDIS_KEY = u'{}-hosting_whois_info'
+    _REGISTRAR_REDIS_KEY = u'{}-registrar_whois_info'
 
-    def __init__(self, settings):
+    def __init__(self, decorated, redis):
+        self._decorated = decorated
+        self._redis = redis
+
+    def get_hosting_info(self, sourceDomainOrIp):
+        """
+        Decorator function that validates data and checks the cache before handing the get_hosting_info call off to the
+        decorated class
+        :param sourceDomainOrIp:
+        :return:
+        """
+        ip = DomainHelper.convert_domain_to_ip(sourceDomainOrIp)
+        if ip is None:
+            return {'brand': None, 'hosting_company_name': None, 'hosting_abuse_email': None, 'ip': None}
+
+        redis_record_key = self._HOSTING_REDIS_KEY.format(ip)
+        whois_lookup = self._get_whos_info_from_cache(redis_record_key)
+
+        if whois_lookup is None:
+            whois_lookup = self._decorated.get_hosting_info(ip)
+
+            if whois_lookup.get('brand', None) is not None:
+                self._add_whois_info_to_cache(redis_record_key, whois_lookup)
+        return whois_lookup
+
+    def get_registrar_info(self, domain):
+        """
+        Decorator function that checks the cache before handing the get_registrar_info call off to the decorated class.
+        :param domain:
+        :return:
+        """
+        redis_record_key = self._REGISTRAR_REDIS_KEY.format(domain)
+        whois_lookup = self._get_whos_info_from_cache(redis_record_key)
+
+        if whois_lookup is None:
+            whois_lookup = self._decorated.get_registrar_info(domain)
+
+            if whois_lookup.get('brand', None) is not None:
+                self._add_whois_info_to_cache(redis_record_key, whois_lookup)
+        return whois_lookup
+
+    def _get_whos_info_from_cache(self, redis_record_key):
+        """
+        Attempts to retrieve the record from the cache with key redis_record_key otherwise None
+        :param redis_record_key:
+        :return:
+        """
+        query_value = self._redis.get_value(redis_record_key)
+        return None if query_value is None else json.loads(query_value).get('result')
+
+    def _add_whois_info_to_cache(self, redis_record_key, query_value):
+        """
+        Attempts to add the query_value record with key redis_record_key into the cache
+        :param redis_record_key:
+        :param query_value:
+        :return:
+        """
+        self._redis.set_value(redis_record_key, json.dumps({'result': query_value}))
+
+
+class BrandDetector:
+    def __init__(self):
         self._logger = logging.getLogger(__name__)
-        self._domain_helper = DomainHelper(settings)
+        self._domain_helper = DomainHelper()
 
         # self._brands = [GoDaddyBrand(), EMEABrand()]
         self._brands = [GoDaddyBrand()]
 
-    def get_hosting_info(self, sourceDomainOrIp):
+    def get_hosting_info(self, ip):
         """
         Attempt to find the appropriate brand that sourceDomainOrIp is hosted with
-        :param sourceDomainOrIp:
+        :param ip:
         :return:
         """
-        ip = self._domain_helper.convert_domain_to_ip(sourceDomainOrIp)
-
-        # If a conversion from domain to ip fails, just return a foreign brand
-        if ip is not None:
-            redis_record_key = u'{}-hosting_whois_info'.format(ip)
-            whois_lookup = self._domain_helper.get_whois_info_from_cache(redis_record_key)
-
-            if whois_lookup is None:
-                whois_lookup = self._get_hosting_in_known_ip_range(ip)
-                if whois_lookup is None:
-                    whois_lookup = self._get_hosting_by_fallback(ip)
-                if whois_lookup:
-                    self._domain_helper.add_whois_info_to_cache(redis_record_key, whois_lookup)
-        else:
-            whois_lookup = {'brand': None, 'hosting_company_name': None, 'hosting_abuse_email': None, 'ip': None}
+        whois_lookup = self._get_hosting_in_known_ip_range(ip)
+        if whois_lookup is None:
+            whois_lookup = self._get_hosting_by_fallback(ip)
         return whois_lookup
 
     def get_registrar_info(self, domain):
@@ -43,24 +95,16 @@ class BrandDetector:
         :param domain:
         :return:
         """
-        redis_record_key = u'{}-registrar_whois_info'.format(domain)
-        whois_lookup = self._domain_helper.get_whois_info_from_cache(redis_record_key)
-
-        if whois_lookup is None:
-            whois_lookup = self._domain_helper.get_registrar_information_via_whois(domain)
-            for brand in self._brands:
-                if brand.is_registered(whois_lookup):
-                    self._logger.info("Successfully found a registrar: {} for domain/ip: {}"
-                                      .format(brand.NAME, domain))
-                    whois_lookup['brand'] = brand.NAME
-                    self._domain_helper.add_whois_info_to_cache(redis_record_key, whois_lookup)
-                    return whois_lookup
-        else:
-            return whois_lookup
+        whois_lookup = self._domain_helper.get_registrar_information_via_whois(domain)
+        for brand in self._brands:
+            if brand.is_registered(whois_lookup):
+                self._logger.info("Successfully found a registrar: {} for domain/ip: {}"
+                                  .format(brand.NAME, domain))
+                whois_lookup['brand'] = brand.NAME
+                return whois_lookup
 
         self._logger.info("Unable to find a matching registrar for domain/ip: {}. Brand is FOREIGN".format(domain))
         whois_lookup['brand'] = "FOREIGN"
-        self._domain_helper.add_whois_info_to_cache(redis_record_key, whois_lookup)
         return whois_lookup
 
     def _get_hosting_in_known_ip_range(self, ip):
@@ -73,7 +117,7 @@ class BrandDetector:
             if brand.is_ip_in_range(ip):
                 self._logger.info("Successfully found a hosting provider: {} for domain/ip: {}".format(brand.NAME, ip))
                 return {'brand': brand.NAME, 'hosting_company_name': brand.ORG_NAME[0], 'ip': ip,
-                                'hosting_abuse_email': [brand.ABUSE_EMAIL[0]]}
+                        'hosting_abuse_email': [brand.ABUSE_EMAIL[0]]}
         return None
 
     def _get_hosting_by_fallback(self, ip):
@@ -89,7 +133,7 @@ class BrandDetector:
                                   .format(brand.NAME, ip))
                 whois_lookup['brand'] = brand.NAME
                 return whois_lookup
+
         self._logger.info("Unable to find a matching hosting provider for domain/ip: {}. Brand is FOREIGN.".format(ip))
         whois_lookup['brand'] = "FOREIGN"
         return whois_lookup
-

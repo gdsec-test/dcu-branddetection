@@ -1,21 +1,35 @@
 import re
 import logging
-import json
 
 from ipwhois import IPWhois
 from whois import whois
 from datetime import datetime
 from dns import resolver, reversename
-from branddetection.rediscache import RedisCache
 
 
 class DomainHelper:
     """
     DomainHelper is a helper class to perform common operations and checks on domains and ips
     """
-    def __init__(self, settings):
+    def __init__(self):
         self._logger = logging.getLogger(__name__)
-        self._redis = RedisCache(settings)
+
+    @staticmethod
+    def convert_domain_to_ip(sourceDomainOrIp):
+        """
+        Converts a given sourceDomainOrIp into an IP address
+        :param sourceDomainOrIp:
+        :return:
+        """
+        if sourceDomainOrIp is None or sourceDomainOrIp == '':
+            return None
+        if sourceDomainOrIp is not str:
+            sourceDomainOrIp = sourceDomainOrIp.encode('idna')
+        if DomainHelper.is_ip(sourceDomainOrIp):
+            ip = sourceDomainOrIp
+        else:
+            ip = DomainHelper.get_ip_from_domain(sourceDomainOrIp)
+        return ip
 
     @staticmethod
     def is_ip(sourceDomainOrIp):
@@ -35,25 +49,13 @@ class DomainHelper:
         :param domain:
         :return:
         """
-        dnsresolver = resolver.Resolver()
-        dnsresolver.timeout = 1
-        dnsresolver.lifetime = 1
         try:
+            dnsresolver = resolver.Resolver()
+            dnsresolver.timeout = 1
+            dnsresolver.lifetime = 1
             return dnsresolver.query(domain, 'A')[0].address
         except Exception as e:
-            logging.error("Unable to get ip for %s : %s", domain, e.message)
-
-    @staticmethod
-    def convert_domain_to_ip(sourceDomainOrIp):
-        if sourceDomainOrIp is None or sourceDomainOrIp == '':
-            return None
-        if sourceDomainOrIp is not str:
-            sourceDomainOrIp = sourceDomainOrIp.encode('idna')
-        if DomainHelper.is_ip(sourceDomainOrIp):
-            ip = sourceDomainOrIp
-        else:
-            ip = DomainHelper.get_ip_from_domain(sourceDomainOrIp)
-        return ip
+            logging.error("Unable to get ip for {} : {}".format(domain, e.message))
 
     @staticmethod
     def get_domain_from_ip(ip):
@@ -69,14 +71,7 @@ class DomainHelper:
             addr = reversename.from_address(ip)
             return dnsresolver.query(addr, 'PTR')[0].to_text().rstrip('.').encode('idna')
         except Exception as e:
-            logging.error("Unable to get domain for {} : {}", ip, e.message)
-
-    def get_whois_info_from_cache(self, redis_record_key):
-        query_value = self._redis.get_value(redis_record_key)
-        return None if query_value is None else json.loads(query_value).get('result')
-
-    def add_whois_info_to_cache(self, redis_record_key, query_value):
-        self._redis.set_value(redis_record_key, json.dumps({'result': query_value}))
+            logging.error("Unable to get domain for {} : {}".format(ip, e.message))
 
     def get_hosting_information_via_whois(self, ip):
         """
@@ -90,22 +85,18 @@ class DomainHelper:
         BRAND_KEY = 'brand'
 
         try:
-            redis_record_key = u'{}-hosting_whois_info'.format(ip)
-            query_value = self.get_whois_info_from_cache(redis_record_key)
+            query_value = {IP_KEY: ip}
 
-            if query_value is None:
-                query_value = {IP_KEY: ip}
+            info = IPWhois(ip).lookup_rdap()
+            query_value[COMPANY_NAME_KEY] = info.get('network').get('name')
 
-                info = IPWhois(ip).lookup_rdap()
-                query_value[COMPANY_NAME_KEY] = info.get('network').get('name')
-
-                email_list = []
-                for k, v in info['objects'].iteritems():
-                    email_address = v['contact']['email']
-                    if email_address:
-                        for i in email_address:
-                            email_list.append(i['value'])
-                query_value[ABUSE_EMAIL_KEY] = email_list
+            email_list = []
+            for k, v in info['objects'].iteritems():
+                email_address = v['contact']['email']
+                if email_address:
+                    for i in email_address:
+                        email_list.append(i['value'])
+            query_value[ABUSE_EMAIL_KEY] = email_list
         except Exception as e:
             self._logger.error("Error retrieving hosting information for {} : {}".format(ip, e.message))
             query_value = {BRAND_KEY: None, IP_KEY: None, COMPANY_NAME_KEY: None, ABUSE_EMAIL_KEY: None}
@@ -118,21 +109,17 @@ class DomainHelper:
         BRAND_KEY = 'brand'
 
         try:
-            redis_record_key = u'{}-registrar_whois_info'.format(domain)
-            query_value = self.get_whois_info_from_cache(redis_record_key)
+            query = whois(domain)
+            if isinstance(query.emails, basestring):
+                query.emails = [query.emails]
 
-            if query_value is None:
-                query = whois(domain)
-                if isinstance(query.emails, basestring):
-                    query.emails = [query.emails]
+            query_value = {REGISTRAR_NAME_KEY: query.registrar, ABUSE_EMAIL_KEY: query.emails}
 
-                query_value = {REGISTRAR_NAME_KEY: query.registrar, ABUSE_EMAIL_KEY: query.emails}
-
-                domain_create_date = query.creation_date[0] \
-                    if isinstance(query.creation_date, list) else query.creation_date
-                domain_create_date = domain_create_date.strftime("%Y-%m-%d") \
-                    if domain_create_date and isinstance(domain_create_date, datetime) else None
-                query_value[DOMAIN_CREATE_DATE_KEY] = domain_create_date
+            domain_create_date = query.creation_date[0] \
+                if isinstance(query.creation_date, list) else query.creation_date
+            domain_create_date = domain_create_date.strftime("%Y-%m-%d") \
+                if domain_create_date and isinstance(domain_create_date, datetime) else None
+            query_value[DOMAIN_CREATE_DATE_KEY] = domain_create_date
         except Exception as e:
             self._logger.error("Error in retrieving the registrar whois info for {} : {}".format(domain, e.message))
             query_value = {BRAND_KEY: None, REGISTRAR_NAME_KEY: None, ABUSE_EMAIL_KEY: None, DOMAIN_CREATE_DATE_KEY: None}
