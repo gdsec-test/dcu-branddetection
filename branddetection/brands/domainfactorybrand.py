@@ -12,7 +12,7 @@ class DomainFactoryBrand(Brand):
     ORG_NAME = ['']
     ABUSE_EMAIL = ['abuse@ispgateway.de', 'behoerden@ispgateway.de']
 
-    _asns = [34011]  #20738
+    _asns = [34011]  # 20738
 
     def __init__(self):
         self._logger = logging.getLogger(__name__)
