@@ -1,3 +1,4 @@
+import re
 import logging
 
 from branddetection.interfaces.brand import Brand
@@ -10,8 +11,8 @@ class GoDaddyBrand(Brand):
     GoDaddy specific brand for determining whether or not a domain is hosted or registered with GoDaddy
     """
     NAME = 'GODADDY'
-    ORG_NAME = ['GoDaddy.com LLC', 'Wild West Domains, LLC']
-    ABUSE_EMAIL = ['abuse@godaddy.com', 'abuse@wildwestdomains.com']
+    HOSTING_COMPANY_NAME = 'GoDaddy.com LLC'
+    HOSTING_ABUSE_EMAIL = 'abuse@godaddy.com'
 
     _asns = [26496]
 
@@ -20,11 +21,8 @@ class GoDaddyBrand(Brand):
         self._asn = ASNPrefixes(self._asns)
 
     def is_hosted(self, whois_lookup):
-        """
-        Check the ip address against the asn announced prefixes then check
-        the reverse dns for secureserver.net
-        """
-        if Brand.determine_hosting_brand_from_whois(self, whois_lookup, self.ABUSE_EMAIL, self.ORG_NAME):
+        hostname = self.get_hostname_from_whois(whois_lookup)
+        if hostname and self.NAME in hostname.upper():
             return True
 
         reverse_dns = DomainHelper.get_domain_from_ip(whois_lookup['ip'])
@@ -34,7 +32,8 @@ class GoDaddyBrand(Brand):
         return False
 
     def is_registered(self, whois_lookup):
-        return Brand.determine_registrar_from_whois(self, whois_lookup, self.ABUSE_EMAIL, self.ORG_NAME)
+        registrar = self.get_registrar_from_whois(whois_lookup)
+        return registrar and re.search(r'(?:GODADDY|WILDWESTDOMAINS)', registrar.upper())
 
     def is_ip_in_range(self, ip):
         return self._asn.get_network_for_ip(ip)

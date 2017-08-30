@@ -25,8 +25,8 @@ class EMEABrand(Brand):
     EMEA specific brand for determining whether or not a domain is hosted or registered with EMEA
     """
     NAME = 'EMEA'
-    ORG_NAME = ['']
-    ABUSE_EMAIL = ['']
+    HOSTING_COMPANY_NAME = ''
+    HOSTING_ABUSE_EMAIL = ''
 
     def __init__(self):
         self._brands = [Reg123Brand(), DomainBoxBrand(), DomainFactoryBrand(), DomainMonsterBrand(),
