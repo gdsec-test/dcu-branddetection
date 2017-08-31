@@ -12,6 +12,7 @@ class HeartInternetBrand(Brand):
     HOSTING_COMPANY_NAME = 'Heart Internet Ltd'
     HOSTING_ABUSE_EMAIL = 'abuse@heartinternet.co.uk'
 
+    # AS43788 currently has no originating prefixes
     _asns = [43788]
 
     def __init__(self):

@@ -12,6 +12,7 @@ class DomainFactoryBrand(Brand):
     HOSTING_COMPANY_NAME = 'DomainFactory GmbH'
     HOSTING_ABUSE_EMAIL = 'abuse@domainfactory.de'
 
+    # AS34011 currently has no originating prefixes
     _asns = [34011]
 
     def __init__(self):

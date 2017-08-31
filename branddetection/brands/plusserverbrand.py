@@ -14,6 +14,7 @@ class PlusServerBrand(Brand):
     HOSTING_COMPANY_NAME = 'PlusServer AG'
     HOSTING_ABUSE_EMAIL = 'abuse@plusserver.de'
 
+    # AS21501 (MainLab) currently has no originating prefixes
     _asns = [21501, 25074]
 
     def __init__(self):

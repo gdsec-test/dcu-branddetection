@@ -12,6 +12,7 @@ class HostEuropeIberia(Brand):
     HOSTING_COMPANY_NAME = 'Host Europe Iberia SL'
     HOSTING_ABUSE_EMAIL = 'abuse@hosteurope.es'
 
+    # AS44497 currently has no originating prefixes
     _asns = [44497]
 
     def __init__(self):

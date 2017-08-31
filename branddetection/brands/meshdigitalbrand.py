@@ -12,6 +12,7 @@ class MeshDigitalBrand(Brand):
     HOSTING_COMPANY_NAME = 'MESH Digital Limited'
     HOSTING_ABUSE_EMAIL = 'abuse@meshdigital.com'
 
+    # AS39779 currently has no originating prefixes
     _asns = [39779, 50932]
 
     def __init__(self):
