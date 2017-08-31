@@ -74,9 +74,7 @@ class BrandDetector:
     def __init__(self):
         self._logger = logging.getLogger(__name__)
         self._domain_helper = DomainHelper()
-
-        # self._brands = [GoDaddyBrand(), EMEABrand()]
-        self._brands = [GoDaddyBrand()]
+        self._brands = [GoDaddyBrand(), EMEABrand()]
 
     def get_hosting_info(self, ip):
         """

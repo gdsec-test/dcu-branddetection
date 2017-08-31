@@ -9,7 +9,7 @@ class Server4UIncBrand(Brand):
     Server4UInc specific brand for determining whether or not a domain is hosted or registered with Server4UInc
     """
     NAME = 'SERVER4UINC'
-    HOSTING_COMPANY_NAME = ''
+    HOSTING_COMPANY_NAME = 'Hosting Solutions International, Inc.'
     HOSTING_ABUSE_EMAIL = 'abuse@server4you.com'
 
     _asns = [30083, 55225]
