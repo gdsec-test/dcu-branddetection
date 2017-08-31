@@ -10,7 +10,7 @@ from branddetection.brands.hosteuropeiberiabrand import HostEuropeIberia
 from branddetection.brands.internet24brand import Internet24Brand
 from branddetection.brands.loomesbrand import LoomesBrand
 from branddetection.brands.paragonbrand import ParagonBrand
-from branddetection.brands.server4youincbrand import Server4UIncBrand
+from branddetection.brands.server4uincbrand import Server4UIncBrand
 from branddetection.brands.server4ugmbhbrand import Server4UGmbH
 from branddetection.brands.signupbrand import SignUpBrand
 from branddetection.brands.veliabrand import VeliaBrand

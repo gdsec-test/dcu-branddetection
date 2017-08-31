@@ -38,7 +38,7 @@ class Brand(object):
         :param whois_lookup:
         :return:
         """
-        regex = re.compile('[^a-zA-Z]')
+        regex = re.compile('[^a-zA-Z1-4]')
         whois_host = whois_lookup['hosting_company_name']
         return None if whois_host is None else regex.sub('', whois_host)
 
