@@ -1,4 +1,5 @@
 import abc
+import re
 
 
 class Brand(object):
@@ -31,30 +32,22 @@ class Brand(object):
         :return:
         """
 
-    def determine_hosting_brand_from_whois(self, whois_lookup, brand_abuse_emails, brand_org_names):
+    def get_hostname_from_whois(self, whois_lookup):
         """
-        Common code for looking at a whois_lookup and finding matches for the hosting abuse emails and org names
+        Retrieve the hostname from a whois_lookup and strip out all non-letters else None
         :param whois_lookup:
-        :param brand_abuse_emails:
-        :param brand_org_names:
         :return:
         """
-        whois_abuse_emails = [] if whois_lookup['hosting_abuse_email'] is None else whois_lookup['hosting_abuse_email']
-        for email in whois_abuse_emails:
-            if email in brand_abuse_emails:
-                return True
-        return whois_lookup['hosting_company_name'] in brand_org_names
+        regex = re.compile('[^a-zA-Z1-4]')
+        whois_host = whois_lookup['hosting_company_name']
+        return None if whois_host is None else regex.sub('', whois_host)
 
-    def determine_registrar_from_whois(self, whois_lookup, brand_abuse_emails, brand_org_names):
+    def get_registrar_from_whois(self, whois_lookup):
         """
-        Commond code for looking at a whois_lookup and finding matches for the registrar abuse emails and org names
+        Retrieve the registrar from a whois_lookup and strip out all non-letters else None
         :param whois_lookup:
-        :param brand_abuse_emails:
-        :param brand_org_names:
         :return:
         """
-        whois_abuse_emails = [] if whois_lookup['registrar_abuse_email'] is None else whois_lookup['registrar_abuse_email']
-        for email in whois_abuse_emails:
-            if email in brand_abuse_emails:
-                return True
-        return whois_lookup['registrar_name'] in brand_org_names
+        regex = re.compile('[^a-zA-Z]')
+        whois_registrar = whois_lookup['registrar_name']
+        return None if whois_registrar is None else regex.sub('', whois_registrar)

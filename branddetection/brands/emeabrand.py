@@ -10,7 +10,7 @@ from branddetection.brands.hosteuropeiberiabrand import HostEuropeIberia
 from branddetection.brands.internet24brand import Internet24Brand
 from branddetection.brands.loomesbrand import LoomesBrand
 from branddetection.brands.paragonbrand import ParagonBrand
-from branddetection.brands.server4youincbrand import Server4UIncBrand
+from branddetection.brands.server4uincbrand import Server4UIncBrand
 from branddetection.brands.server4ugmbhbrand import Server4UGmbH
 from branddetection.brands.signupbrand import SignUpBrand
 from branddetection.brands.veliabrand import VeliaBrand
@@ -25,8 +25,8 @@ class EMEABrand(Brand):
     EMEA specific brand for determining whether or not a domain is hosted or registered with EMEA
     """
     NAME = 'EMEA'
-    ORG_NAME = ['']
-    ABUSE_EMAIL = ['']
+    HOSTING_COMPANY_NAME = ''
+    HOSTING_ABUSE_EMAIL = ''
 
     def __init__(self):
         self._brands = [Reg123Brand(), DomainBoxBrand(), DomainFactoryBrand(), DomainMonsterBrand(),

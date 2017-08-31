@@ -9,8 +9,8 @@ class HeartInternetBrand(Brand):
     HeartInternet specific brand for determining whether or not a domain is hosted or registered with HeartInternet
     """
     NAME = 'HEARTINTERNET'
-    ORG_NAME = ['']
-    ABUSE_EMAIL = ['abuse@heartinternet.co.uk', 'abuse@heartinternet.uk']
+    HOSTING_COMPANY_NAME = ''
+    HOSTING_ABUSE_EMAIL = 'abuse@heartinternet.co.uk'
 
     _asns = [43788]  # 20738
 
@@ -19,10 +19,12 @@ class HeartInternetBrand(Brand):
         self._asn = ASNPrefixes(self._asns)
 
     def is_hosted(self, whois_lookup):
-        return Brand.determine_hosting_brand_from_whois(self, whois_lookup, self.ABUSE_EMAIL, self.ORG_NAME)
+        hostname = self.get_hostname_from_whois(whois_lookup)
+        return hostname and self.NAME in hostname.upper()
 
     def is_registered(self, whois_lookup):
-        return Brand.determine_registrar_from_whois(self, whois_lookup, self.ABUSE_EMAIL, self.ORG_NAME)
+        registrar = self.get_registrar_from_whois(whois_lookup)
+        return registrar and self.NAME in registrar.upper()
 
     def is_ip_in_range(self, ip):
         return self._asn.get_network_for_ip(ip)
