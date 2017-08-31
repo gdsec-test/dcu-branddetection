@@ -9,7 +9,7 @@ class VeliaBrand(Brand):
     Velia specific brand for determining whether or not a domain is hosted or registered with Velia
     """
     NAME = 'VELIA'
-    HOSTING_COMPANY_NAME = ''
+    HOSTING_COMPANY_NAME = 'Velia.net Internetdienste GmbH'
     HOSTING_ABUSE_EMAIL = 'abuse@velia.net'
 
     _asns = [29066]

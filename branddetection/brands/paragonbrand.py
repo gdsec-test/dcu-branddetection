@@ -9,7 +9,7 @@ class ParagonBrand(Brand):
     Paragon specific brand for determining whether or not a domain is hosted or registered with Paragon
     """
     NAME = 'PARAGON'
-    HOSTING_COMPANY_NAME = ''
+    HOSTING_COMPANY_NAME = 'Paragon Internet Group Limited'
     HOSTING_ABUSE_EMAIL = 'abuse@paragon.net.uk'
 
     _asns = [133882, 198047]

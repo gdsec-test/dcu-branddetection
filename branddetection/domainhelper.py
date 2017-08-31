@@ -113,7 +113,12 @@ class DomainHelper:
             if isinstance(query.emails, basestring):
                 query.emails = [query.emails]
 
-            query_value = {REGISTRAR_NAME_KEY: query.registrar, ABUSE_EMAIL_KEY: query.emails}
+            registrar = query.registrar
+            if registrar is None:
+                regex = re.compile(r'https?://(www\.)?')
+                registrar = regex.sub('', query.registrar_url) if query.registrar_url else None
+
+            query_value = {REGISTRAR_NAME_KEY: registrar, ABUSE_EMAIL_KEY: query.emails}
 
             domain_create_date = query.creation_date[0] \
                 if isinstance(query.creation_date, list) else query.creation_date

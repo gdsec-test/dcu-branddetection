@@ -9,10 +9,11 @@ class DomainFactoryBrand(Brand):
     DomainFactory specific brand for determining whether or not a domain is hosted or registered with DomainFactory
     """
     NAME = 'DOMAINFACTORY'
-    HOSTING_COMPANY_NAME = ''
-    HOSTING_ABUSE_EMAIL = 'abuse@ispgateway.de'
+    HOSTING_COMPANY_NAME = 'DomainFactory GmbH'
+    HOSTING_ABUSE_EMAIL = 'abuse@domainfactory.de'
 
-    _asns = [34011]  # 20738
+    # AS34011 currently has no originating prefixes
+    _asns = [34011]
 
     def __init__(self):
         self._logger = logging.getLogger(__name__)

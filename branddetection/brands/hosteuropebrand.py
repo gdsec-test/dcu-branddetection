@@ -9,7 +9,7 @@ class HostEuropeBrand(Brand):
     HostEuropeBrand specific brand for determining whether or not a domain is hosted or registered with HostEuropeBrand
     """
     NAME = 'HOSTEUROPE'
-    HOSTING_COMPANY_NAME = '123-Reg Limited t/a 123-reg [Tag = 123-REG]'
+    HOSTING_COMPANY_NAME = 'Host Europe GmbH'
     HOSTING_ABUSE_EMAIL = 'abuse@hosteurope.de'
 
     _asns = [20773]

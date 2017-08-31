@@ -17,7 +17,7 @@ class ASNPrefixes(object):
         self._update_hrs = update_hrs
         self._last_query = datetime(1970, 1, 1)
         self._update_lock = threading.RLock()
-        threading.Thread(target=self._ripe_get_prefixes_per_asn).start()
+        # threading.Thread(target=self._ripe_get_prefixes_per_asn).start()
 
         self._prefixes = self._ripe_get_prefixes_per_asn()
 
@@ -59,7 +59,7 @@ class ASNPrefixes(object):
                         pref_list.append(record['prefix'])
                     # If prefix list is empty, don't overwrite _prefixes nor update _last_query time
                     if len(pref_list) == 0:
-                        raise ValueError('Currently obtained Prefix List is empty.')
+                        raise ValueError('Currently obtained Prefix List is empty. {}'.format(self._asns))
                 self._last_query = query_time
                 return pref_list
             except Exception as e:

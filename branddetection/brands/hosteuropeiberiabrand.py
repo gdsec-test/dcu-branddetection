@@ -9,10 +9,11 @@ class HostEuropeIberia(Brand):
     HostEuropeIberia specific brand for determining whether or not a domain is hosted or registered with HostEuropeIberia
     """
     NAME = 'HOSTEUROPEIBERIA'
-    HOSTING_COMPANY_NAME = ''
+    HOSTING_COMPANY_NAME = 'Host Europe Iberia SL'
     HOSTING_ABUSE_EMAIL = 'abuse@hosteurope.es'
 
-    _asns = [44497]  # 20773
+    # AS44497 currently has no originating prefixes
+    _asns = [44497]
 
     def __init__(self):
         self._logger = logging.getLogger(__name__)

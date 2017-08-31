@@ -9,10 +9,11 @@ class HeartInternetBrand(Brand):
     HeartInternet specific brand for determining whether or not a domain is hosted or registered with HeartInternet
     """
     NAME = 'HEARTINTERNET'
-    HOSTING_COMPANY_NAME = ''
+    HOSTING_COMPANY_NAME = 'Heart Internet Ltd'
     HOSTING_ABUSE_EMAIL = 'abuse@heartinternet.co.uk'
 
-    _asns = [43788]  # 20738
+    # AS43788 currently has no originating prefixes
+    _asns = [43788]
 
     def __init__(self):
         self._logger = logging.getLogger(__name__)
