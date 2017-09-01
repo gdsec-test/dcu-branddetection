@@ -19,7 +19,7 @@ class EMEABrand(Brand):
     """
     NAME = 'EMEA'
     HOSTING_COMPANY_NAME = 'Host Europe GmbH'
-    HOSTING_ABUSE_EMAIL = 'abuse@'
+    HOSTING_ABUSE_EMAIL = 'abuse-input@heg.com'
 
     def __init__(self):
         self._brands = [Reg123Brand(), DomainFactoryBrand(), HeartInternetBrand(), HostEuropeBrand(),
