@@ -1,4 +1,4 @@
-from nose.tools import assert_true, assert_false
+from nose.tools import assert_true
 from branddetection.domainhelper import DomainHelper
 
 
