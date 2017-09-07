@@ -14,7 +14,7 @@ class GoDaddyBrand(Brand):
     HOSTING_COMPANY_NAME = 'GoDaddy.com LLC'
     HOSTING_ABUSE_EMAIL = 'abuse@godaddy.com'
 
-    _asns = [34011, 26496]
+    _asns = [26496]
 
     def __init__(self):
         self._logger = logging.getLogger(__name__)
