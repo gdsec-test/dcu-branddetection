@@ -2,12 +2,15 @@ from nose.tools import assert_true, assert_false
 from branddetection.domainhelper import DomainHelper
 
 
-class TestCmapServiceHelper:
+class TestDomainHelper:
     def __init__(self):
         self._DH = DomainHelper()
 
     def test_convert_domain_to_ip(self):
         no_source = self._DH.convert_domain_to_ip(None)
+        assert_true(no_source is None)
+
+        no_source = self._DH.convert_domain_to_ip('')
         assert_true(no_source is None)
 
         domain = self._DH.convert_domain_to_ip('godaddy.com')
@@ -20,16 +23,16 @@ class TestCmapServiceHelper:
         domain = self._DH.is_ip('comicsn.beer')
         assert_true(domain is False)
 
-        domain = self._DH.is_ip('208.109.192.70')
-        assert_true(domain is True)
+        ip = self._DH.is_ip('208.109.192.70')
+        assert_true(ip is True)
 
     def test_get_ip_from_domain(self):
-        ip = self._DH.get_ip_from_domain('godaddy.com')
-        assert_true(ip == '208.109.192.70')
+        domain = self._DH.get_ip_from_domain('godaddy.com')
+        assert_true(domain == '208.109.192.70')
 
         # downwithtestingupwithstraighttoprod.com not registered
-        ip = self._DH.get_ip_from_domain('downwithtestingupwithstraighttoprod.com')
-        assert_false(ip == '92.242.140.2')
+        fp_domain = self._DH.get_ip_from_domain('downwithtestingupwithstraighttoprod.com')
+        assert_true(fp_domain is None)
 
     def test_get_domain_from_ip(self):
         domain = self._DH.get_domain_from_ip('208.109.192.70')
