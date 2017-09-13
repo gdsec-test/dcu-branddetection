@@ -57,8 +57,21 @@ class TestBrandDetectorDecorator:  # AKA: MOCK ALL THE THINGS!!1!1!!
         result = bd.get_registrar_info('godaddy.com')
         assert_true(result == test_value)
 
-    def test_emea_get_registrar_info(self):
-        pass
+    @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
+    @patch.object(DomainHelper, 'get_registrar_information_via_whois')
+    def test_emea_get_registrar_info(self, get_registrar_information_via_whois, _ripe_get_prefixes_per_asn):
+        get_registrar_information_via_whois.return_value = {'domain_create_date': '2011-08-22',
+                                                            'registrar_abuse_email': None,
+                                                            'registrar_name': '123-reg.co.uk'}
+        _ripe_get_prefixes_per_asn.return_value = []
+        bd = BrandDetector()
+        bd._brands = [EMEABrand()]  # overwrite with removed GoDaddyBrand() to test EMEABrand
+
+        test_value = {'brand': 'EMEA', 'domain_create_date': '2011-08-22', 'registrar_abuse_email': None,
+                      'registrar_name': '123-reg.co.uk'}
+
+        result = bd.get_registrar_info('jenisawesome.co.uk')
+        assert_true(result == test_value)
 
     def test_forgein_get_registrar_info(self):
         pass
@@ -78,7 +91,7 @@ class TestBrandDetectorDecorator:  # AKA: MOCK ALL THE THINGS!!1!1!!
     def test_emea_get_hosting_in_known_ip_range(self, _ripe_get_prefixes_per_asn):
         _ripe_get_prefixes_per_asn.return_value = ['212.48.64.1']
         bd = BrandDetector()
-        bd._brands = [EMEABrand()]  # removed GoDaddyBrand() to test EMEABrand
+        bd._brands = [EMEABrand()]  # overwrite with removed GoDaddyBrand() to test EMEABrand
 
         test_value = {'brand': 'EMEA', 'hosting_company_name': 'Host Europe GmbH', 'ip': '212.48.64.1',
                       'hosting_abuse_email': ['abuse-input@heg.com']}
@@ -90,7 +103,7 @@ class TestBrandDetectorDecorator:  # AKA: MOCK ALL THE THINGS!!1!1!!
     def test_none_get_hosting_in_known_ip_range(self, _ripe_get_prefixes_per_asn):
         _ripe_get_prefixes_per_asn.return_value = []
         bd = BrandDetector()
-        bd._brands = []  # emply for testing return of None
+        bd._brands = []  # overwrite with empty for testing return of None
 
         test_value = None
 
@@ -112,7 +125,7 @@ class TestBrandDetectorDecorator:  # AKA: MOCK ALL THE THINGS!!1!1!!
     def test_emea_get_hosting_by_fallback(self, _ripe_get_prefixes_per_asn):
         _ripe_get_prefixes_per_asn.return_value = ['212.48.64.1']
         bd = BrandDetector()
-        bd._brands = [EMEABrand()]  # removed GoDaddyBrand() to test EMEABrand
+        bd._brands = [EMEABrand()]  # overwrite with removed GoDaddyBrand() to test EMEABrand
 
         test_value = {'hosting_company_name': 'UK-WEBFUSION-LEEDS', 'ip': '212.48.64.1', 'brand': 'EMEA',
                       'hosting_abuse_email': ['abuse@webfusion.com']}
