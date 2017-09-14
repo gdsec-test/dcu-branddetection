@@ -77,16 +77,16 @@ class TestBrandDetectorDecorator:  # AKA: MOCK ALL THE THINGS!!1!1!!
     @patch.object(DomainHelper, 'get_registrar_information_via_whois')
     def test_none_get_registrar_info(self, get_registrar_information_via_whois, _ripe_get_prefixes_per_asn):
         get_registrar_information_via_whois.return_value = {'domain_create_date': '1995-06-02',
-                                                            'registrar_abuse_email': [u'domainabuse@cscglobal.com',
-                                                                                      u'vshostmaster@verisign.com'],
-                                                            'registrar_name': u'CSC CORPORATE DOMAINS, INC.'}
+                                                            'registrar_abuse_email': ['domainabuse@cscglobal.com',
+                                                                                      'vshostmaster@verisign.com'],
+                                                            'registrar_name': 'CSC CORPORATE DOMAINS, INC.'}
         _ripe_get_prefixes_per_asn.return_value = []
         bd = BrandDetector()
         bd._brands = []  # overwrite to test FOREIGN
 
-        test_value = {'domain_create_date': '1995-06-02', 'registrar_abuse_email': [u'domainabuse@cscglobal.com',
-                                                                                    u'vshostmaster@verisign.com'],
-                      'brand': 'FOREIGN', 'registrar_name': u'CSC CORPORATE DOMAINS, INC.'}
+        test_value = {'domain_create_date': '1995-06-02', 'registrar_abuse_email': ['domainabuse@cscglobal.com',
+                                                                                    'vshostmaster@verisign.com'],
+                      'brand': 'FOREIGN', 'registrar_name': 'CSC CORPORATE DOMAINS, INC.'}
 
         result = bd.get_registrar_info('verisign.com')
         assert_true(result == test_value)
