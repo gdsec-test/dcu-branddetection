@@ -57,10 +57,11 @@ class ASNPrefixes(object):
 
                     for record in js_data['data']['prefixes']:
                         pref_list.append(record['prefix'])
-                    # If prefix list is empty, don't overwrite _prefixes nor update _last_query time
                     if len(pref_list) == 0:
-                        raise ValueError('Currently obtained Prefix List is empty. {}'.format(self._asns))
-                self._last_query = query_time
-                return pref_list
+                        self._logger.error("Failed to fetch any prefixes for ASN: {}".format(asn))
             except Exception as e:
                 self._logger.error("Unable to update the prefix list. Last update at {} : {}".format(self._last_query, e))
+            finally:
+                self._last_query = query_time
+                return pref_list
+
