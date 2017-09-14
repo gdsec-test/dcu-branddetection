@@ -73,8 +73,23 @@ class TestBrandDetectorDecorator:  # AKA: MOCK ALL THE THINGS!!1!1!!
         result = bd.get_registrar_info('jenisawesome.co.uk')
         assert_true(result == test_value)
 
-    def test_forgein_get_registrar_info(self):
-        pass
+    @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
+    @patch.object(DomainHelper, 'get_registrar_information_via_whois')
+    def test_none_get_registrar_info(self, get_registrar_information_via_whois, _ripe_get_prefixes_per_asn):
+        get_registrar_information_via_whois.return_value = {'domain_create_date': '1995-06-02',
+                                                            'registrar_abuse_email': [u'domainabuse@cscglobal.com',
+                                                                                      u'vshostmaster@verisign.com'],
+                                                            'registrar_name': u'CSC CORPORATE DOMAINS, INC.'}
+        _ripe_get_prefixes_per_asn.return_value = []
+        bd = BrandDetector()
+        bd._brands = []  # overwrite to test FOREIGN
+
+        test_value = {'domain_create_date': '1995-06-02', 'registrar_abuse_email': [u'domainabuse@cscglobal.com',
+                                                                                    u'vshostmaster@verisign.com'],
+                      'brand': 'FOREIGN', 'registrar_name': u'CSC CORPORATE DOMAINS, INC.'}
+
+        result = bd.get_registrar_info('verisign.com')
+        assert_true(result == test_value)
 
     @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
     def test_godaddy_get_hosting_in_known_ip_range(self, _ripe_get_prefixes_per_asn):
