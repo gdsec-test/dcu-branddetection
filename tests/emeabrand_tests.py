@@ -5,7 +5,7 @@ from mock import patch
 from branddetection.brands.reg123brand import Reg123Brand
 
 
-class TestEMEA():
+class TestEMEA:
     def __init__(self):
         pass
 

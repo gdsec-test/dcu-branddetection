@@ -29,7 +29,7 @@ class TestPlusServerBrand:
         results = self._plusServer.is_registered(plusServer_test)
         assert_true(results is not None)
 
-    def test_is_plusServer_registered(self):
+    def test_is_notplusServer_registered(self):
         not_plusServer_test = {'registrar_name': 'GoDaddy.com, LLC'}
 
         results = self._plusServer.is_registered(not_plusServer_test)
