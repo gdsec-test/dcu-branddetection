@@ -1,15 +1,19 @@
+import json
+
 from nose.tools import assert_true
 from mock import patch
+
 from branddetection.branddetector import BrandDetector, BrandDetectorDecorator
 from branddetection.domainhelper import DomainHelper
 from branddetection.asnhelper import ASNPrefixes
 from branddetection.brands.emeabrand import EMEABrand
+from branddetection.rediscache import RedisCache
 
 
 class TestBrandDetectorDecorator:
 
     def __init__(self):
-        self._tbd = BrandDetectorDecorator(BrandDetector, None)
+        self._tbd = BrandDetectorDecorator(BrandDetector, RedisCache(None))
 
     @patch.object(DomainHelper, 'convert_domain_to_ip')
     def test_none_get_hosting_info(self, convert_domain_to_ip):
@@ -55,14 +59,21 @@ class TestBrandDetectorDecorator:
         result = self._tbd.get_registrar_info('godaddy.com')
         assert_true(result == test_value)
 
-    def test_get_whos_info_from_cache(self):
-        # self._tbd._redis = 'GODADDY'
-        #
-        # test_value = 'GODADDY'
-        #
-        # result = self._tbd._get_whos_info_from_cache(test_value)
-        # assert_true(result == test_value)
-        pass
+    @patch.object(RedisCache, 'get_value')
+    def test_result_get_whos_info_from_cache(self, get_value):
+        json_string = json.dumps({'result': 'test'})
+        get_value.return_value = json_string
+
+        result = self._tbd._get_whos_info_from_cache('godaddy.com-registrar_whois_info')
+        assert_true(result == 'test')
+
+    @patch.object(RedisCache, 'get_value')
+    def test_none_get_whos_info_from_cache(self, get_value):
+        # get_value.return_value = {'result': 'test'}
+        get_value.return_value = None
+
+        result = self._tbd._get_whos_info_from_cache('godaddy.com-registrar_whois_info')
+        assert_true(result is None)
 
 
 class TestBrandDetector:
@@ -141,7 +152,9 @@ class TestBrandDetector:
         result = self._bd.get_registrar_info('verisign.com')
         assert_true(result == test_value)
 
-    def test_godaddy_get_hosting_in_known_ip_range(self):
+    @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
+    def test_godaddy_get_hosting_in_known_ip_range(self, _ripe_get_prefixes_per_asn):
+        _ripe_get_prefixes_per_asn.return_value = ['208.109.192.70']
         test_value = {'brand': 'GODADDY', 'hosting_company_name': 'GoDaddy.com LLC', 'ip': '208.109.192.70',
                       'hosting_abuse_email': ['abuse@godaddy.com']}
 
