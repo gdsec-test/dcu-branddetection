@@ -12,10 +12,8 @@ class TestEMEA:
         _ripe_get_prefixes_per_asn.return_value = []
         self._emea = EMEABrand()
 
-    @patch.object(PlusServerBrand, 'is_hosted')
     @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
-    def test_is_hosted(self, _ripe_get_prefixes_per_asn, is_hosted):
-        is_hosted.return_value = None
+    def test_is_hosted(self, _ripe_get_prefixes_per_asn):
         _ripe_get_prefixes_per_asn.return_value = []
         self._emea._brands = [PlusServerBrand(), Reg123Brand()]
         hosted_dict = {'brand': None, 'ip': None, 'hosting_company_name': '123REG', 'hosting_abuse_email': None}
