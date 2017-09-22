@@ -17,7 +17,7 @@ class TestReg123:
         results = self._reg123.is_hosted(reg123_test)
         assert_true(results is not None)
 
-    def test_is_notreg123_hosted(self):
+    def test_is_not_reg123_hosted(self):
         not_reg123_test = {'hosting_company_name': 'GoDaddy.com, LLC'}
 
         results = self._reg123.is_hosted(not_reg123_test)
@@ -29,7 +29,7 @@ class TestReg123:
         results = self._reg123.is_registered(reg123_test)
         assert_true(results is not None)
 
-    def test_is_notreg123_registered(self):
+    def test_is_not_reg123_registered(self):
         not_reg123_test = {'registrar_name': 'GoDaddy.com, LLC'}
 
         results = self._reg123.is_registered(not_reg123_test)
