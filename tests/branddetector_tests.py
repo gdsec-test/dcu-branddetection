@@ -69,7 +69,6 @@ class TestBrandDetectorDecorator:
 
     @patch.object(RedisCache, 'get_value')
     def test_none_get_whos_info_from_cache(self, get_value):
-        # get_value.return_value = {'result': 'test'}
         get_value.return_value = None
 
         result = self._tbd._get_whos_info_from_cache('godaddy.com-registrar_whois_info')
@@ -80,7 +79,6 @@ class TestBrandDetector:
 
     @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
     def __init__(self, _ripe_get_prefixes_per_asn):
-        _ripe_get_prefixes_per_asn.return_value = []
         self._bd = BrandDetector()
 
     @patch.object(BrandDetector, '_get_hosting_in_known_ip_range')
@@ -121,10 +119,9 @@ class TestBrandDetector:
         result = self._bd.get_registrar_info('godaddy.com')
         assert_true(result == test_value)
 
-    @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
+    @patch.object(ASNPrefixes, '_query_ripe')
     @patch.object(DomainHelper, 'get_registrar_information_via_whois')
-    def test_emea_get_registrar_info(self, get_registrar_information_via_whois, _ripe_get_prefixes_per_asn):
-        _ripe_get_prefixes_per_asn.return_value = []
+    def test_emea_get_registrar_info(self, get_registrar_information_via_whois, _query_ripe):
         get_registrar_information_via_whois.return_value = {'domain_create_date': '2011-08-22',
                                                             'registrar_abuse_email': None,
                                                             'registrar_name': '123-reg.co.uk'}
@@ -152,18 +149,19 @@ class TestBrandDetector:
         result = self._bd.get_registrar_info('verisign.com')
         assert_true(result == test_value)
 
-    @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
-    def test_godaddy_get_hosting_in_known_ip_range(self, _ripe_get_prefixes_per_asn):
-        _ripe_get_prefixes_per_asn.return_value = ['208.109.192.70']
+    @patch.object(ASNPrefixes, '_query_ripe')
+    def test_godaddy_get_hosting_in_known_ip_range(self, _query_ripe):
+        _query_ripe.return_value = {'data': {'prefixes': [{'prefix': '208.109.192.70'}]}}
+
         test_value = {'brand': 'GODADDY', 'hosting_company_name': 'GoDaddy.com LLC', 'ip': '208.109.192.70',
                       'hosting_abuse_email': ['abuse@godaddy.com']}
 
         result = self._bd._get_hosting_in_known_ip_range('208.109.192.70')
         assert_true(result == test_value)
 
-    @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
-    def test_emea_get_hosting_in_known_ip_range(self, _ripe_get_prefixes_per_asn):
-        _ripe_get_prefixes_per_asn.return_value = ['212.48.64.1']
+    @patch.object(ASNPrefixes, '_query_ripe')
+    def test_emea_get_hosting_in_known_ip_range(self, _query_ripe):
+        _query_ripe.return_value = {'data': {'prefixes': [{'prefix': '212.48.64.1'}]}}
         bd = BrandDetector()
         bd._brands = [EMEABrand()]  # overwrite with removed GoDaddyBrand() to test EMEABrand
 
@@ -188,9 +186,9 @@ class TestBrandDetector:
         result = self._bd._get_hosting_by_fallback('208.109.192.70')
         assert_true(result == test_value)
 
-    @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
-    def test_emea_get_hosting_by_fallback(self, _ripe_get_prefixes_per_asn):
-        _ripe_get_prefixes_per_asn.return_value = ['212.48.64.1']
+    @patch.object(ASNPrefixes, '_query_ripe')
+    def test_emea_get_hosting_by_fallback(self, _query_ripe):
+        _query_ripe.return_value = {'data': {'prefixes': [{'prefix': '212.48.64.1'}]}}
         bd = BrandDetector()
         bd._brands = [EMEABrand()]  # overwrite with removed GoDaddyBrand() to test EMEABrand
 

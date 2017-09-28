@@ -17,9 +17,8 @@ class ASNPrefixes(object):
         self._update_hrs = update_hrs
         self._last_query = datetime(1970, 1, 1)
         self._update_lock = threading.RLock()
-        # threading.Thread(target=self._ripe_get_prefixes_per_asn).start()
-
-        self._prefixes = self._ripe_get_prefixes_per_asn()
+        self._prefixes = []
+        threading.Thread(target=self._ripe_get_prefixes_per_asn).start()
 
     def get_network_for_ip(self, ipaddr):
         """
@@ -31,7 +30,7 @@ class ASNPrefixes(object):
         with self._update_lock:
             try:
                 if self._last_query < datetime.utcnow() - timedelta(hours=self._update_hrs):
-                    self._prefixes = self._ripe_get_prefixes_per_asn()
+                    self._ripe_get_prefixes_per_asn()
                     self._logger.info("Updating prefix list for ASN's: {}".format(self._asns))
                 return all_matching_cidrs(ipaddr, self._prefixes)
             except Exception as e:
@@ -46,22 +45,33 @@ class ASNPrefixes(object):
         This API is documented on https://stat.ripe.net/docs/data_api
         """
         with self._update_lock:
-            try:
-                query_time = datetime.utcnow()
-                pref_list = []
-                for asn in self._asns:
-                    rep = urlopen(self._url_base + str(asn) + '&starttime=' + query_time.isoformat().split('.')[0])
-                    data = str(rep.read().decode(encoding='UTF-8'))
-                    rep.close()
-                    js_data = json.loads(data)
+            pref_list = []
+            query_time = datetime.utcnow()
 
+            for asn in self._asns:
+                js_data = self._query_ripe(asn, query_time)
+
+                if js_data:
                     for record in js_data['data']['prefixes']:
                         pref_list.append(record['prefix'])
-                    if len(pref_list) == 0:
-                        self._logger.error("Failed to fetch any prefixes for ASN: {}".format(asn))
-            except Exception as e:
-                self._logger.error("Unable to update the prefix list. Last update at {} : {}".format(self._last_query, e))
-            finally:
-                self._last_query = query_time
-                return pref_list
+                if len(pref_list) == 0:
+                    self._logger.error("Failed to fetch any prefixes for ASN: {}".format(asn))
 
+            self._last_query = query_time
+            if pref_list:
+                self._prefixes = pref_list
+
+    def _query_ripe(self, asn, query_time):
+        """
+        Given an asn and query_time perform a RIPE database lookup and fetch any data associated with this asn
+        :param asn:
+        :param query_time:
+        :return:
+        """
+        try:
+            rep = urlopen(self._url_base + str(asn) + '&starttime=' + query_time.isoformat().split('.')[0])
+            data = str(rep.read().decode(encoding='UTF-8'))
+            rep.close()
+            return json.loads(data)
+        except Exception as e:
+            self._logger.error("Unable to update the prefix list. Last update at {} : {}".format(self._last_query, e))
