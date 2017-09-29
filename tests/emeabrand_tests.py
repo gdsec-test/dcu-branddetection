@@ -9,12 +9,9 @@ from branddetection.brands.plusserverbrand import PlusServerBrand
 class TestEMEA:
     @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
     def __init__(self, _ripe_get_prefixes_per_asn):
-        _ripe_get_prefixes_per_asn.return_value = []
         self._emea = EMEABrand()
 
-    @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
-    def test_is_hosted(self, _ripe_get_prefixes_per_asn):
-        _ripe_get_prefixes_per_asn.return_value = []
+    def test_is_hosted(self):
         self._emea._brands = [PlusServerBrand(), Reg123Brand()]
         hosted_dict = {'brand': None, 'ip': None, 'hosting_company_name': '123REG', 'hosting_abuse_email': None}
         hosted_results = self._emea.is_hosted(hosted_dict)
@@ -35,14 +32,14 @@ class TestEMEA:
         reg_results = self._emea.is_registered(reg_dict)
         assert_true(reg_results is False)
 
-    @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
-    def test_is_ip_in_range(self, _ripe_get_prefixes_per_asn):
-        _ripe_get_prefixes_per_asn.return_value = ['80.90.194.0']
+    @patch.object(ASNPrefixes, '_query_ripe')
+    def test_is_ip_in_range(self, _query_ripe):
+        _query_ripe.return_value = {'data': {'prefixes': [{'prefix': '80.90.194.0'}]}}
         ip_emea = self._emea.is_ip_in_range('80.90.194.0')
         assert_true(ip_emea is True)
 
-    @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
-    def test_is_not_in_range(self, _ripe_get_prefixes_per_asn):
-        _ripe_get_prefixes_per_asn.return_value = ['80.90.194.0']
+    @patch.object(ASNPrefixes, '_query_ripe')
+    def test_is_not_in_range(self, _query_ripe):
+        _query_ripe.return_value = {'data': {'prefixes': [{'prefix': '80.90.194.0'}]}}
         ip_not_emea = self._emea.is_ip_in_range('208.109.192.70')
         assert_true(ip_not_emea is False)

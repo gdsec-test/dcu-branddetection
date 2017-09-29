@@ -4,11 +4,10 @@ from branddetection.asnhelper import ASNPrefixes
 from branddetection.brands.godaddybrand import GoDaddyBrand
 
 
-class TestGoaddyBrand:
+class TestGodaddyBrand:
 
     @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
     def __init__(self, _ripe_get_prefixes_per_asn):
-        _ripe_get_prefixes_per_asn.return_value = []
         self._gdb = GoDaddyBrand()
 
     def test_hostname_is_hosted(self):

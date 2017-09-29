@@ -8,7 +8,6 @@ class TestReg123:
 
     @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
     def __init__(self, _ripe_get_prefixes_per_asn):
-        _ripe_get_prefixes_per_asn.return_value = []
         self._reg123 = Reg123Brand()
 
     def test_is_reg123_hosted(self):

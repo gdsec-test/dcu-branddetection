@@ -8,7 +8,6 @@ class TestPlusServerBrand:
 
     @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
     def __init__(self, _ripe_get_prefixes_per_asn):
-        _ripe_get_prefixes_per_asn.return_value = []
         self._plusserver = PlusServerBrand()
 
     def test_is_plusserver_hosted(self):
