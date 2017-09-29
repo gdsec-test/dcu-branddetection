@@ -17,7 +17,7 @@ class ASNPrefixes(object):
         self._update_hrs = update_hrs
         self._last_query = datetime(1970, 1, 1)
         self._update_lock = threading.RLock()
-        # threading.Thread(target=self._ripe_get_prefixes_per_asn).start()
+        threading.Thread(target=self._ripe_get_prefixes_per_asn).start()
 
         self._prefixes = self._ripe_get_prefixes_per_asn()
 
@@ -46,9 +46,9 @@ class ASNPrefixes(object):
         This API is documented on https://stat.ripe.net/docs/data_api
         """
         with self._update_lock:
+            query_time = datetime.utcnow()
+            pref_list = []
             try:
-                query_time = datetime.utcnow()
-                pref_list = []
                 for asn in self._asns:
                     rep = urlopen(self._url_base + str(asn) + '&starttime=' + query_time.isoformat().split('.')[0])
                     data = str(rep.read().decode(encoding='UTF-8'))
@@ -64,4 +64,3 @@ class ASNPrefixes(object):
             finally:
                 self._last_query = query_time
                 return pref_list
-
