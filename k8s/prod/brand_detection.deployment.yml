@@ -8,6 +8,7 @@ metadata:
     app: "brand-detection"
 spec:
   replicas: 2
+  revisionHistoryLimit: 2
   template:
     metadata:
       labels:
