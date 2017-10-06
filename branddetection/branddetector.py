@@ -1,6 +1,7 @@
 import logging
 import json
 
+from branddetection.pb.domain_service import DomainServce
 from branddetection.domainhelper import DomainHelper
 from branddetection.brands.godaddybrand import GoDaddyBrand
 from branddetection.brands.emeabrand import EMEABrand
@@ -71,9 +72,10 @@ class BrandDetectorDecorator:
 
 
 class BrandDetector:
-    def __init__(self):
+    def __init__(self, settings):
         self._logger = logging.getLogger(__name__)
         self._domain_helper = DomainHelper()
+        self._domain_service = DomainServce(settings)
 
         self._brands = [GoDaddyBrand(), EMEABrand()]
 
@@ -94,6 +96,16 @@ class BrandDetector:
         :param domain:
         :return:
         """
+        is_registered, result = self._domain_service.get_registration(domain)
+        if is_registered:
+            # Actual index into result.domain_create_date will depend on GRPC field
+            return {'brand': 'GODADDY', 'registrar_name': 'GoDaddy.com LLC',
+                    'registrar_abuse_email': 'abuse@godaddy.com', 'domain_create_date': result.domain_create_date}
+        else:
+            return self._get_registrar_by_fallback(domain)
+
+
+    def _get_registrar_by_fallback(self, domain):
         whois_lookup = self._domain_helper.get_registrar_information_via_whois(domain)
         for brand in self._brands:
             if brand.is_registered(whois_lookup):

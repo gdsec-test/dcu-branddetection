@@ -35,9 +35,10 @@ spec:
             value: prod
           - name: KEYFILE
             value: /keyfiles/key.txt
-          # redis used for a CELERY backend
           - name: REDIS
             value: brand-detection-redis.abuse-api-prod.svc.cluster.local
+          - name: DOMAIN_SERVICE_URL
+            value: domainservice.abuse-api-prod.svc.cluster.local:9000
           volumeMounts:
           - name: encryption-keys
             mountPath: /keyfiles

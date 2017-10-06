@@ -6,6 +6,7 @@ class AppConfig(object):
 
     def __init__(self):
         self.REDIS = os.getenv('REDIS') or 'localhost'
+        self.DOMAIN_SERVICE_URL = os.getenv('DOMAIN_SERVICE_URL') or 'localhost'
 
 
 class ProductionAppConfig(AppConfig):
