@@ -19,110 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='domainservice.proto',
   package='domainmessages',
   syntax='proto3',
-  serialized_pb=_b('\n\x13\x64omainservice.proto\x12\x0e\x64omainmessages\"*\n\x06\x44omain\x12\x0e\n\x06\x64omain\x18\x01 \x01(\t\x12\x10\n\x08\x64omainid\x18\x02 \x01(\t\"\'\n\x11GetDomainsRequest\x12\x12\n\ncustomerid\x18\x01 \x01(\t\"=\n\x12GetDomainsResponse\x12\'\n\x07\x64omains\x18\x01 \x03(\x0b\x32\x16.domainmessages.Domain\"F\n\x15SuspendDomainsRequest\x12\x11\n\tdomainids\x18\x01 \x03(\t\x12\x0c\n\x04note\x18\x02 \x01(\t\x12\x0c\n\x04user\x18\x03 \x01(\t\"\'\n\x16SuspendDomainsResponse\x12\r\n\x05\x63ount\x18\x01 \x01(\x05\"H\n\x17UnSuspendDomainsRequest\x12\x11\n\tdomainids\x18\x01 \x03(\t\x12\x0c\n\x04note\x18\x02 \x01(\t\x12\x0c\n\x04user\x18\x03 \x01(\t\")\n\x18UnSuspendDomainsResponse\x12\r\n\x05\x63ount\x18\x01 \x01(\x05\"7\n\x15\x44omainInStatusRequest\x12\x0e\n\x06\x64omain\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x03(\x05\"\'\n\x16\x44omainInStatusResponse\x12\r\n\x05\x66ound\x18\x01 \x01(\x08\x32\x8d\x03\n\rDomainService\x12S\n\nGetDomains\x12!.domainmessages.GetDomainsRequest\x1a\".domainmessages.GetDomainsResponse\x12_\n\x0eSuspendDomains\x12%.domainmessages.SuspendDomainsRequest\x1a&.domainmessages.SuspendDomainsResponse\x12\x65\n\x10UnSuspendDomains\x12\'.domainmessages.UnSuspendDomainsRequest\x1a(.domainmessages.UnSuspendDomainsResponse\x12_\n\x0e\x44omainInStatus\x12%.domainmessages.DomainInStatusRequest\x1a&.domainmessages.DomainInStatusResponseB\x04Z\x02pbb\x06proto3')
+  serialized_pb=_b('\n\x13\x64omainservice.proto\x12\x0e\x64omainmessages\"F\n\x15SuspendDomainsRequest\x12\x11\n\tdomainids\x18\x01 \x03(\t\x12\x0c\n\x04note\x18\x02 \x01(\t\x12\x0c\n\x04user\x18\x03 \x01(\t\"\'\n\x16SuspendDomainsResponse\x12\r\n\x05\x63ount\x18\x01 \x01(\x05\"H\n\x17UnSuspendDomainsRequest\x12\x11\n\tdomainids\x18\x01 \x03(\t\x12\x0c\n\x04note\x18\x02 \x01(\t\x12\x0c\n\x04user\x18\x03 \x01(\t\")\n\x18UnSuspendDomainsResponse\x12\r\n\x05\x63ount\x18\x01 \x01(\x05\"#\n\x11\x44omainInfoRequest\x12\x0e\n\x06\x64omain\x18\x01 \x01(\t\"m\n\x12\x44omainInfoResponse\x12\x0e\n\x06\x64omain\x18\x01 \x01(\t\x12\x11\n\tshopperId\x18\x02 \x01(\t\x12\x10\n\x08\x64omainId\x18\x03 \x01(\x05\x12\x12\n\ncreateDate\x18\x04 \x01(\t\x12\x0e\n\x06status\x18\x05 \x01(\t2\xac\x02\n\rDomainService\x12_\n\x0eSuspendDomains\x12%.domainmessages.SuspendDomainsRequest\x1a&.domainmessages.SuspendDomainsResponse\x12\x65\n\x10UnSuspendDomains\x12\'.domainmessages.UnSuspendDomainsRequest\x1a(.domainmessages.UnSuspendDomainsResponse\x12S\n\nDomainInfo\x12!.domainmessages.DomainInfoRequest\x1a\".domainmessages.DomainInfoResponseB\x04Z\x02pbb\x06proto3')
 )
 
 
-
-
-_DOMAIN = _descriptor.Descriptor(
-  name='Domain',
-  full_name='domainmessages.Domain',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='domain', full_name='domainmessages.Domain.domain', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='domainid', full_name='domainmessages.Domain.domainid', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=39,
-  serialized_end=81,
-)
-
-
-_GETDOMAINSREQUEST = _descriptor.Descriptor(
-  name='GetDomainsRequest',
-  full_name='domainmessages.GetDomainsRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='customerid', full_name='domainmessages.GetDomainsRequest.customerid', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=83,
-  serialized_end=122,
-)
-
-
-_GETDOMAINSRESPONSE = _descriptor.Descriptor(
-  name='GetDomainsResponse',
-  full_name='domainmessages.GetDomainsResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='domains', full_name='domainmessages.GetDomainsResponse.domains', index=0,
-      number=1, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=124,
-  serialized_end=185,
-)
 
 
 _SUSPENDDOMAINSREQUEST = _descriptor.Descriptor(
@@ -165,8 +65,8 @@ _SUSPENDDOMAINSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=187,
-  serialized_end=257,
+  serialized_start=39,
+  serialized_end=109,
 )
 
 
@@ -196,8 +96,8 @@ _SUSPENDDOMAINSRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=259,
-  serialized_end=298,
+  serialized_start=111,
+  serialized_end=150,
 )
 
 
@@ -241,8 +141,8 @@ _UNSUSPENDDOMAINSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=300,
-  serialized_end=372,
+  serialized_start=152,
+  serialized_end=224,
 )
 
 
@@ -272,60 +172,81 @@ _UNSUSPENDDOMAINSRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=374,
-  serialized_end=415,
+  serialized_start=226,
+  serialized_end=267,
 )
 
 
-_DOMAININSTATUSREQUEST = _descriptor.Descriptor(
-  name='DomainInStatusRequest',
-  full_name='domainmessages.DomainInStatusRequest',
+_DOMAININFOREQUEST = _descriptor.Descriptor(
+  name='DomainInfoRequest',
+  full_name='domainmessages.DomainInfoRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='domain', full_name='domainmessages.DomainInStatusRequest.domain', index=0,
+      name='domain', full_name='domainmessages.DomainInfoRequest.domain', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=269,
+  serialized_end=304,
+)
+
+
+_DOMAININFORESPONSE = _descriptor.Descriptor(
+  name='DomainInfoResponse',
+  full_name='domainmessages.DomainInfoResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='domain', full_name='domainmessages.DomainInfoResponse.domain', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='status', full_name='domainmessages.DomainInStatusRequest.status', index=1,
-      number=2, type=5, cpp_type=1, label=3,
-      has_default_value=False, default_value=[],
+      name='shopperId', full_name='domainmessages.DomainInfoResponse.shopperId', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=417,
-  serialized_end=472,
-)
-
-
-_DOMAININSTATUSRESPONSE = _descriptor.Descriptor(
-  name='DomainInStatusResponse',
-  full_name='domainmessages.DomainInStatusResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
     _descriptor.FieldDescriptor(
-      name='found', full_name='domainmessages.DomainInStatusResponse.found', index=0,
-      number=1, type=8, cpp_type=7, label=1,
-      has_default_value=False, default_value=False,
+      name='domainId', full_name='domainmessages.DomainInfoResponse.domainId', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='createDate', full_name='domainmessages.DomainInfoResponse.createDate', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='status', full_name='domainmessages.DomainInfoResponse.status', index=4,
+      number=5, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
@@ -341,42 +262,17 @@ _DOMAININSTATUSRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=474,
-  serialized_end=513,
+  serialized_start=306,
+  serialized_end=415,
 )
 
-_GETDOMAINSRESPONSE.fields_by_name['domains'].message_type = _DOMAIN
-DESCRIPTOR.message_types_by_name['Domain'] = _DOMAIN
-DESCRIPTOR.message_types_by_name['GetDomainsRequest'] = _GETDOMAINSREQUEST
-DESCRIPTOR.message_types_by_name['GetDomainsResponse'] = _GETDOMAINSRESPONSE
 DESCRIPTOR.message_types_by_name['SuspendDomainsRequest'] = _SUSPENDDOMAINSREQUEST
 DESCRIPTOR.message_types_by_name['SuspendDomainsResponse'] = _SUSPENDDOMAINSRESPONSE
 DESCRIPTOR.message_types_by_name['UnSuspendDomainsRequest'] = _UNSUSPENDDOMAINSREQUEST
 DESCRIPTOR.message_types_by_name['UnSuspendDomainsResponse'] = _UNSUSPENDDOMAINSRESPONSE
-DESCRIPTOR.message_types_by_name['DomainInStatusRequest'] = _DOMAININSTATUSREQUEST
-DESCRIPTOR.message_types_by_name['DomainInStatusResponse'] = _DOMAININSTATUSRESPONSE
+DESCRIPTOR.message_types_by_name['DomainInfoRequest'] = _DOMAININFOREQUEST
+DESCRIPTOR.message_types_by_name['DomainInfoResponse'] = _DOMAININFORESPONSE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
-
-Domain = _reflection.GeneratedProtocolMessageType('Domain', (_message.Message,), dict(
-  DESCRIPTOR = _DOMAIN,
-  __module__ = 'domainservice_pb2'
-  # @@protoc_insertion_point(class_scope:domainmessages.Domain)
-  ))
-_sym_db.RegisterMessage(Domain)
-
-GetDomainsRequest = _reflection.GeneratedProtocolMessageType('GetDomainsRequest', (_message.Message,), dict(
-  DESCRIPTOR = _GETDOMAINSREQUEST,
-  __module__ = 'domainservice_pb2'
-  # @@protoc_insertion_point(class_scope:domainmessages.GetDomainsRequest)
-  ))
-_sym_db.RegisterMessage(GetDomainsRequest)
-
-GetDomainsResponse = _reflection.GeneratedProtocolMessageType('GetDomainsResponse', (_message.Message,), dict(
-  DESCRIPTOR = _GETDOMAINSRESPONSE,
-  __module__ = 'domainservice_pb2'
-  # @@protoc_insertion_point(class_scope:domainmessages.GetDomainsResponse)
-  ))
-_sym_db.RegisterMessage(GetDomainsResponse)
 
 SuspendDomainsRequest = _reflection.GeneratedProtocolMessageType('SuspendDomainsRequest', (_message.Message,), dict(
   DESCRIPTOR = _SUSPENDDOMAINSREQUEST,
@@ -406,19 +302,19 @@ UnSuspendDomainsResponse = _reflection.GeneratedProtocolMessageType('UnSuspendDo
   ))
 _sym_db.RegisterMessage(UnSuspendDomainsResponse)
 
-DomainInStatusRequest = _reflection.GeneratedProtocolMessageType('DomainInStatusRequest', (_message.Message,), dict(
-  DESCRIPTOR = _DOMAININSTATUSREQUEST,
+DomainInfoRequest = _reflection.GeneratedProtocolMessageType('DomainInfoRequest', (_message.Message,), dict(
+  DESCRIPTOR = _DOMAININFOREQUEST,
   __module__ = 'domainservice_pb2'
-  # @@protoc_insertion_point(class_scope:domainmessages.DomainInStatusRequest)
+  # @@protoc_insertion_point(class_scope:domainmessages.DomainInfoRequest)
   ))
-_sym_db.RegisterMessage(DomainInStatusRequest)
+_sym_db.RegisterMessage(DomainInfoRequest)
 
-DomainInStatusResponse = _reflection.GeneratedProtocolMessageType('DomainInStatusResponse', (_message.Message,), dict(
-  DESCRIPTOR = _DOMAININSTATUSRESPONSE,
+DomainInfoResponse = _reflection.GeneratedProtocolMessageType('DomainInfoResponse', (_message.Message,), dict(
+  DESCRIPTOR = _DOMAININFORESPONSE,
   __module__ = 'domainservice_pb2'
-  # @@protoc_insertion_point(class_scope:domainmessages.DomainInStatusResponse)
+  # @@protoc_insertion_point(class_scope:domainmessages.DomainInfoResponse)
   ))
-_sym_db.RegisterMessage(DomainInStatusResponse)
+_sym_db.RegisterMessage(DomainInfoResponse)
 
 
 DESCRIPTOR.has_options = True
@@ -430,22 +326,13 @@ _DOMAINSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   options=None,
-  serialized_start=516,
-  serialized_end=913,
+  serialized_start=418,
+  serialized_end=718,
   methods=[
-  _descriptor.MethodDescriptor(
-    name='GetDomains',
-    full_name='domainmessages.DomainService.GetDomains',
-    index=0,
-    containing_service=None,
-    input_type=_GETDOMAINSREQUEST,
-    output_type=_GETDOMAINSRESPONSE,
-    options=None,
-  ),
   _descriptor.MethodDescriptor(
     name='SuspendDomains',
     full_name='domainmessages.DomainService.SuspendDomains',
-    index=1,
+    index=0,
     containing_service=None,
     input_type=_SUSPENDDOMAINSREQUEST,
     output_type=_SUSPENDDOMAINSRESPONSE,
@@ -454,19 +341,19 @@ _DOMAINSERVICE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='UnSuspendDomains',
     full_name='domainmessages.DomainService.UnSuspendDomains',
-    index=2,
+    index=1,
     containing_service=None,
     input_type=_UNSUSPENDDOMAINSREQUEST,
     output_type=_UNSUSPENDDOMAINSRESPONSE,
     options=None,
   ),
   _descriptor.MethodDescriptor(
-    name='DomainInStatus',
-    full_name='domainmessages.DomainService.DomainInStatus',
-    index=3,
+    name='DomainInfo',
+    full_name='domainmessages.DomainService.DomainInfo',
+    index=2,
     containing_service=None,
-    input_type=_DOMAININSTATUSREQUEST,
-    output_type=_DOMAININSTATUSRESPONSE,
+    input_type=_DOMAININFOREQUEST,
+    output_type=_DOMAININFORESPONSE,
     options=None,
   ),
 ])
@@ -494,11 +381,6 @@ try:
       Args:
         channel: A grpc.Channel.
       """
-      self.GetDomains = channel.unary_unary(
-          '/domainmessages.DomainService/GetDomains',
-          request_serializer=GetDomainsRequest.SerializeToString,
-          response_deserializer=GetDomainsResponse.FromString,
-          )
       self.SuspendDomains = channel.unary_unary(
           '/domainmessages.DomainService/SuspendDomains',
           request_serializer=SuspendDomainsRequest.SerializeToString,
@@ -509,23 +391,16 @@ try:
           request_serializer=UnSuspendDomainsRequest.SerializeToString,
           response_deserializer=UnSuspendDomainsResponse.FromString,
           )
-      self.DomainInStatus = channel.unary_unary(
-          '/domainmessages.DomainService/DomainInStatus',
-          request_serializer=DomainInStatusRequest.SerializeToString,
-          response_deserializer=DomainInStatusResponse.FromString,
+      self.DomainInfo = channel.unary_unary(
+          '/domainmessages.DomainService/DomainInfo',
+          request_serializer=DomainInfoRequest.SerializeToString,
+          response_deserializer=DomainInfoResponse.FromString,
           )
 
 
   class DomainServiceServicer(object):
     # missing associated documentation comment in .proto file
     pass
-
-    def GetDomains(self, request, context):
-      """Retrieves domains for the given shopper
-      """
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
 
     def SuspendDomains(self, request, context):
       """Adds an abuse lock for a domain
@@ -541,8 +416,8 @@ try:
       context.set_details('Method not implemented!')
       raise NotImplementedError('Method not implemented!')
 
-    def DomainInStatus(self, request, context):
-      """Determines if the given domain has a status code in the provided list
+    def DomainInfo(self, request, context):
+      """Gathers information about a given domain
       """
       context.set_code(grpc.StatusCode.UNIMPLEMENTED)
       context.set_details('Method not implemented!')
@@ -551,11 +426,6 @@ try:
 
   def add_DomainServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-        'GetDomains': grpc.unary_unary_rpc_method_handler(
-            servicer.GetDomains,
-            request_deserializer=GetDomainsRequest.FromString,
-            response_serializer=GetDomainsResponse.SerializeToString,
-        ),
         'SuspendDomains': grpc.unary_unary_rpc_method_handler(
             servicer.SuspendDomains,
             request_deserializer=SuspendDomainsRequest.FromString,
@@ -566,10 +436,10 @@ try:
             request_deserializer=UnSuspendDomainsRequest.FromString,
             response_serializer=UnSuspendDomainsResponse.SerializeToString,
         ),
-        'DomainInStatus': grpc.unary_unary_rpc_method_handler(
-            servicer.DomainInStatus,
-            request_deserializer=DomainInStatusRequest.FromString,
-            response_serializer=DomainInStatusResponse.SerializeToString,
+        'DomainInfo': grpc.unary_unary_rpc_method_handler(
+            servicer.DomainInfo,
+            request_deserializer=DomainInfoRequest.FromString,
+            response_serializer=DomainInfoResponse.SerializeToString,
         ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -585,10 +455,6 @@ try:
     only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
     # missing associated documentation comment in .proto file
     pass
-    def GetDomains(self, request, context):
-      """Retrieves domains for the given shopper
-      """
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
     def SuspendDomains(self, request, context):
       """Adds an abuse lock for a domain
       """
@@ -597,8 +463,8 @@ try:
       """Removes an abuse lock for a domain
       """
       context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def DomainInStatus(self, request, context):
-      """Determines if the given domain has a status code in the provided list
+    def DomainInfo(self, request, context):
+      """Gathers information about a given domain
       """
       context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
 
@@ -611,11 +477,6 @@ try:
     only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
     # missing associated documentation comment in .proto file
     pass
-    def GetDomains(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      """Retrieves domains for the given shopper
-      """
-      raise NotImplementedError()
-    GetDomains.future = None
     def SuspendDomains(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
       """Adds an abuse lock for a domain
       """
@@ -626,11 +487,11 @@ try:
       """
       raise NotImplementedError()
     UnSuspendDomains.future = None
-    def DomainInStatus(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      """Determines if the given domain has a status code in the provided list
+    def DomainInfo(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+      """Gathers information about a given domain
       """
       raise NotImplementedError()
-    DomainInStatus.future = None
+    DomainInfo.future = None
 
 
   def beta_create_DomainService_server(servicer, pool=None, pool_size=None, default_timeout=None, maximum_timeout=None):
@@ -640,20 +501,17 @@ try:
     file not marked beta) for all further purposes. This function was
     generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
     request_deserializers = {
-      ('domainmessages.DomainService', 'DomainInStatus'): DomainInStatusRequest.FromString,
-      ('domainmessages.DomainService', 'GetDomains'): GetDomainsRequest.FromString,
+      ('domainmessages.DomainService', 'DomainInfo'): DomainInfoRequest.FromString,
       ('domainmessages.DomainService', 'SuspendDomains'): SuspendDomainsRequest.FromString,
       ('domainmessages.DomainService', 'UnSuspendDomains'): UnSuspendDomainsRequest.FromString,
     }
     response_serializers = {
-      ('domainmessages.DomainService', 'DomainInStatus'): DomainInStatusResponse.SerializeToString,
-      ('domainmessages.DomainService', 'GetDomains'): GetDomainsResponse.SerializeToString,
+      ('domainmessages.DomainService', 'DomainInfo'): DomainInfoResponse.SerializeToString,
       ('domainmessages.DomainService', 'SuspendDomains'): SuspendDomainsResponse.SerializeToString,
       ('domainmessages.DomainService', 'UnSuspendDomains'): UnSuspendDomainsResponse.SerializeToString,
     }
     method_implementations = {
-      ('domainmessages.DomainService', 'DomainInStatus'): face_utilities.unary_unary_inline(servicer.DomainInStatus),
-      ('domainmessages.DomainService', 'GetDomains'): face_utilities.unary_unary_inline(servicer.GetDomains),
+      ('domainmessages.DomainService', 'DomainInfo'): face_utilities.unary_unary_inline(servicer.DomainInfo),
       ('domainmessages.DomainService', 'SuspendDomains'): face_utilities.unary_unary_inline(servicer.SuspendDomains),
       ('domainmessages.DomainService', 'UnSuspendDomains'): face_utilities.unary_unary_inline(servicer.UnSuspendDomains),
     }
@@ -668,20 +526,17 @@ try:
     file not marked beta) for all further purposes. This function was
     generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
     request_serializers = {
-      ('domainmessages.DomainService', 'DomainInStatus'): DomainInStatusRequest.SerializeToString,
-      ('domainmessages.DomainService', 'GetDomains'): GetDomainsRequest.SerializeToString,
+      ('domainmessages.DomainService', 'DomainInfo'): DomainInfoRequest.SerializeToString,
       ('domainmessages.DomainService', 'SuspendDomains'): SuspendDomainsRequest.SerializeToString,
       ('domainmessages.DomainService', 'UnSuspendDomains'): UnSuspendDomainsRequest.SerializeToString,
     }
     response_deserializers = {
-      ('domainmessages.DomainService', 'DomainInStatus'): DomainInStatusResponse.FromString,
-      ('domainmessages.DomainService', 'GetDomains'): GetDomainsResponse.FromString,
+      ('domainmessages.DomainService', 'DomainInfo'): DomainInfoResponse.FromString,
       ('domainmessages.DomainService', 'SuspendDomains'): SuspendDomainsResponse.FromString,
       ('domainmessages.DomainService', 'UnSuspendDomains'): UnSuspendDomainsResponse.FromString,
     }
     cardinalities = {
-      'DomainInStatus': cardinality.Cardinality.UNARY_UNARY,
-      'GetDomains': cardinality.Cardinality.UNARY_UNARY,
+      'DomainInfo': cardinality.Cardinality.UNARY_UNARY,
       'SuspendDomains': cardinality.Cardinality.UNARY_UNARY,
       'UnSuspendDomains': cardinality.Cardinality.UNARY_UNARY,
     }

@@ -17,21 +17,17 @@ class DomainServce:
         ready_future = grpc.channel_ready_future(channel)
         stub = domainservice_pb2_grpc.DomainServiceStub(channel)
 
+        resp = None
+
         try:
             ready_future.result(timeout=5)
         except grpc.FutureTimeoutError:
             self._logger.error("Unable to connect to: {}".format(self._url))
-            return False, None
         else:
             try:
-               resp = stub.DomainInStatus(domainservice_pb2.GetDomainsRequest(domain=domain, status=self._STATUS_CODES),
-                                          timeout=5)
-               self._logger.info("resp: {}".format(resp))
-
-               # This will need to change to parse the JSON response that will be updated when switching to REST API under the hood
-               return True, resp
-
+               resp = stub.DomainInfo(domainservice_pb2.DomainInfoRequest(domain=domain), timeout=5)
             except grpc.RpcError as e:
                 self._logger.error("Unable to determine registrar for domain {} : {}".format(domain, e.message))
-                return False, None
+        finally:
+            return resp
 

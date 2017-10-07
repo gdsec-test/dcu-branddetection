@@ -92,20 +92,24 @@ class BrandDetector:
 
     def get_registrar_info(self, domain):
         """
-        Attempt to find the appropriate brand that sourceDomainOrIp is registered with
+        Attempt to find the appropriate brand that sourceDomainOrIp is registered with by connecting to DomainService
         :param domain:
         :return:
         """
-        is_registered, result = self._domain_service.get_registration(domain)
-        if is_registered:
-            # Actual index into result.domain_create_date will depend on GRPC field
+        resp = self._domain_service.get_registration(domain)
+        if resp:
             return {'brand': 'GODADDY', 'registrar_name': 'GoDaddy.com LLC',
-                    'registrar_abuse_email': 'abuse@godaddy.com', 'domain_create_date': result.domain_create_date}
+                    'registrar_abuse_email': 'abuse@godaddy.com', 'domain_create_date': resp.createDate}
         else:
             return self._get_registrar_by_fallback(domain)
 
 
     def _get_registrar_by_fallback(self, domain):
+        """
+        Attempt to find the appropriate brand that sourceDomainOrIp is registered with via a whois lookup
+        :param domain:
+        :return:
+        """
         whois_lookup = self._domain_helper.get_registrar_information_via_whois(domain)
         for brand in self._brands:
             if brand.is_registered(whois_lookup):

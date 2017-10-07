@@ -14,11 +14,6 @@ class DomainServiceStub(object):
     Args:
       channel: A grpc.Channel.
     """
-    self.GetDomains = channel.unary_unary(
-        '/domainmessages.DomainService/GetDomains',
-        request_serializer=domainservice__pb2.GetDomainsRequest.SerializeToString,
-        response_deserializer=domainservice__pb2.GetDomainsResponse.FromString,
-        )
     self.SuspendDomains = channel.unary_unary(
         '/domainmessages.DomainService/SuspendDomains',
         request_serializer=domainservice__pb2.SuspendDomainsRequest.SerializeToString,
@@ -29,23 +24,16 @@ class DomainServiceStub(object):
         request_serializer=domainservice__pb2.UnSuspendDomainsRequest.SerializeToString,
         response_deserializer=domainservice__pb2.UnSuspendDomainsResponse.FromString,
         )
-    self.DomainInStatus = channel.unary_unary(
-        '/domainmessages.DomainService/DomainInStatus',
-        request_serializer=domainservice__pb2.DomainInStatusRequest.SerializeToString,
-        response_deserializer=domainservice__pb2.DomainInStatusResponse.FromString,
+    self.DomainInfo = channel.unary_unary(
+        '/domainmessages.DomainService/DomainInfo',
+        request_serializer=domainservice__pb2.DomainInfoRequest.SerializeToString,
+        response_deserializer=domainservice__pb2.DomainInfoResponse.FromString,
         )
 
 
 class DomainServiceServicer(object):
   # missing associated documentation comment in .proto file
   pass
-
-  def GetDomains(self, request, context):
-    """Retrieves domains for the given shopper
-    """
-    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-    context.set_details('Method not implemented!')
-    raise NotImplementedError('Method not implemented!')
 
   def SuspendDomains(self, request, context):
     """Adds an abuse lock for a domain
@@ -61,8 +49,8 @@ class DomainServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def DomainInStatus(self, request, context):
-    """Determines if the given domain has a status code in the provided list
+  def DomainInfo(self, request, context):
+    """Gathers information about a given domain
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
@@ -71,11 +59,6 @@ class DomainServiceServicer(object):
 
 def add_DomainServiceServicer_to_server(servicer, server):
   rpc_method_handlers = {
-      'GetDomains': grpc.unary_unary_rpc_method_handler(
-          servicer.GetDomains,
-          request_deserializer=domainservice__pb2.GetDomainsRequest.FromString,
-          response_serializer=domainservice__pb2.GetDomainsResponse.SerializeToString,
-      ),
       'SuspendDomains': grpc.unary_unary_rpc_method_handler(
           servicer.SuspendDomains,
           request_deserializer=domainservice__pb2.SuspendDomainsRequest.FromString,
@@ -86,10 +69,10 @@ def add_DomainServiceServicer_to_server(servicer, server):
           request_deserializer=domainservice__pb2.UnSuspendDomainsRequest.FromString,
           response_serializer=domainservice__pb2.UnSuspendDomainsResponse.SerializeToString,
       ),
-      'DomainInStatus': grpc.unary_unary_rpc_method_handler(
-          servicer.DomainInStatus,
-          request_deserializer=domainservice__pb2.DomainInStatusRequest.FromString,
-          response_serializer=domainservice__pb2.DomainInStatusResponse.SerializeToString,
+      'DomainInfo': grpc.unary_unary_rpc_method_handler(
+          servicer.DomainInfo,
+          request_deserializer=domainservice__pb2.DomainInfoRequest.FromString,
+          response_serializer=domainservice__pb2.DomainInfoResponse.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
