@@ -1,7 +1,7 @@
 import logging
 import json
 
-from branddetection.pb.domain_service import DomainServce
+from branddetection.pb.domain_service import DomainService
 from branddetection.domainhelper import DomainHelper
 from branddetection.brands.godaddybrand import GoDaddyBrand
 from branddetection.brands.emeabrand import EMEABrand
@@ -75,7 +75,7 @@ class BrandDetector:
     def __init__(self, settings):
         self._logger = logging.getLogger(__name__)
         self._domain_helper = DomainHelper()
-        self._domain_service = DomainServce(settings)
+        self._domain_service = DomainService(settings)
 
         self._brands = [GoDaddyBrand(), EMEABrand()]
 
@@ -102,7 +102,6 @@ class BrandDetector:
                     'registrar_abuse_email': 'abuse@godaddy.com', 'domain_create_date': resp.createDate}
         else:
             return self._get_registrar_by_fallback(domain)
-
 
     def _get_registrar_by_fallback(self, domain):
         """

@@ -3,6 +3,7 @@ import json
 from nose.tools import assert_true
 from mock import patch
 
+from settings import TestAppConfig
 from branddetection.branddetector import BrandDetector, BrandDetectorDecorator
 from branddetection.domainhelper import DomainHelper
 from branddetection.asnhelper import ASNPrefixes
@@ -79,7 +80,7 @@ class TestBrandDetector:
 
     @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
     def __init__(self, _ripe_get_prefixes_per_asn):
-        self._bd = BrandDetector()
+        self._bd = BrandDetector(TestAppConfig())
 
     @patch.object(BrandDetector, '_get_hosting_in_known_ip_range')
     def test_ip_range_get_hosting_info(self, _get_hosting_in_known_ip_range):
@@ -125,7 +126,7 @@ class TestBrandDetector:
         get_registrar_information_via_whois.return_value = {'domain_create_date': '2011-08-22',
                                                             'registrar_abuse_email': None,
                                                             'registrar_name': '123-reg.co.uk'}
-        bd = BrandDetector()
+        bd = BrandDetector(TestAppConfig())
         bd._brands = [EMEABrand()]  # overwrite with removed GoDaddyBrand() to test EMEABrand
 
         test_value = {'brand': 'EMEA', 'domain_create_date': '2011-08-22', 'registrar_abuse_email': None,
@@ -162,7 +163,7 @@ class TestBrandDetector:
     @patch.object(ASNPrefixes, '_query_ripe')
     def test_emea_get_hosting_in_known_ip_range(self, _query_ripe):
         _query_ripe.return_value = {'data': {'prefixes': [{'prefix': '212.48.64.1'}]}}
-        bd = BrandDetector()
+        bd = BrandDetector(TestAppConfig())
         bd._brands = [EMEABrand()]  # overwrite with removed GoDaddyBrand() to test EMEABrand
 
         test_value = {'brand': 'EMEA', 'hosting_company_name': 'Host Europe GmbH', 'ip': '212.48.64.1',
@@ -189,7 +190,7 @@ class TestBrandDetector:
     @patch.object(ASNPrefixes, '_query_ripe')
     def test_emea_get_hosting_by_fallback(self, _query_ripe):
         _query_ripe.return_value = {'data': {'prefixes': [{'prefix': '212.48.64.1'}]}}
-        bd = BrandDetector()
+        bd = BrandDetector(TestAppConfig())
         bd._brands = [EMEABrand()]  # overwrite with removed GoDaddyBrand() to test EMEABrand
 
         test_value = {'hosting_company_name': 'UK-WEBFUSION-LEEDS', 'ip': '212.48.64.1', 'brand': 'EMEA',

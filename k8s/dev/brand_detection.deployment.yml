@@ -23,10 +23,14 @@ spec:
           imagePullPolicy: "Always"
           image: "artifactory.secureserver.net:10014/docker-dcu-local/brand_detection:dev"
           livenessProbe:
-            httpGet:
-              path: /health
+            tcpSocket:
               port: 5000
-            initialDelaySeconds: 10
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+            tcpSocket:
+              port: 5000
+            initialDelaySeconds: 5
             periodSeconds: 10
           env:
           - name: BUILD_DATE
