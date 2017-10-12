@@ -98,8 +98,9 @@ class BrandDetector:
         """
         resp = self._domain_service.get_registration(domain)
         if resp:
-            return {'brand': 'GODADDY', 'registrar_name': 'GoDaddy.com LLC',
-                    'registrar_abuse_email': 'abuse@godaddy.com', 'domain_create_date': resp.createDate}
+            # NOTE: Since hosting/registrar contacts are the same for GoDaddy, we reuse fields like HOSTING_ABUSE_EMAIL
+            return {'brand': GoDaddyBrand.NAME, 'registrar_name': GoDaddyBrand.HOSTING_COMPANY_NAME,
+                    'registrar_abuse_email': [GoDaddyBrand.HOSTING_ABUSE_EMAIL], 'domain_create_date': resp.createDate}
         else:
             return self._get_registrar_by_fallback(domain)
 
