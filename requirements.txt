@@ -6,3 +6,5 @@ python-whois
 redis
 flask
 uwsgi
+grpcio
+protobuf

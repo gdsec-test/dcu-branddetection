@@ -1,6 +1,7 @@
 import logging
 import json
 
+from branddetection.pb.domain_service import DomainService
 from branddetection.domainhelper import DomainHelper
 from branddetection.brands.godaddybrand import GoDaddyBrand
 from branddetection.brands.emeabrand import EMEABrand
@@ -71,9 +72,10 @@ class BrandDetectorDecorator:
 
 
 class BrandDetector:
-    def __init__(self):
+    def __init__(self, settings):
         self._logger = logging.getLogger(__name__)
         self._domain_helper = DomainHelper()
+        self._domain_service = DomainService(settings)
 
         self._brands = [GoDaddyBrand(), EMEABrand()]
 
@@ -90,7 +92,21 @@ class BrandDetector:
 
     def get_registrar_info(self, domain):
         """
-        Attempt to find the appropriate brand that sourceDomainOrIp is registered with
+        Attempt to find the appropriate brand that sourceDomainOrIp is registered with by connecting to DomainService
+        :param domain:
+        :return:
+        """
+        resp = self._domain_service.get_registration(domain)
+        if resp:
+            # NOTE: Since hosting/registrar contacts are the same for GoDaddy, we reuse fields like HOSTING_ABUSE_EMAIL
+            return {'brand': GoDaddyBrand.NAME, 'registrar_name': GoDaddyBrand.HOSTING_COMPANY_NAME,
+                    'registrar_abuse_email': [GoDaddyBrand.HOSTING_ABUSE_EMAIL], 'domain_create_date': resp.createDate}
+        else:
+            return self._get_registrar_by_fallback(domain)
+
+    def _get_registrar_by_fallback(self, domain):
+        """
+        Attempt to find the appropriate brand that sourceDomainOrIp is registered with via a whois lookup
         :param domain:
         :return:
         """

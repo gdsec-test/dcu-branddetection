@@ -20,10 +20,8 @@ COPY ./*.ini ./logging.yml ./run.py ./runserver.sh ./settings.py ./setup.py /app
 COPY . /tmp
 
 # install other requirements
-RUN pip install --compile /tmp
-
-# cleanup
-RUN rm -rf /tmp/* && chown -R dcu:dcu /app
+RUN pip install --compile /tmp && \
+    rm -rf /tmp/* && chown -R dcu:dcu /app
 
 WORKDIR /app
 ENTRYPOINT ["/app/runserver.sh"]

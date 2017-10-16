@@ -6,6 +6,7 @@ class AppConfig(object):
 
     def __init__(self):
         self.REDIS = os.getenv('REDIS') or 'localhost'
+        self.DOMAIN_SERVICE_URL = os.getenv('DOMAIN_SERVICE_URL') or 'localhost:9000'
 
 
 class ProductionAppConfig(AppConfig):
@@ -24,6 +25,11 @@ class DevelopmentAppConfig(AppConfig):
 
     def __init__(self):
         super(DevelopmentAppConfig, self).__init__()
+
+class TestAppConfig:
+
+    DOMAIN_SERVICE_URL = 'localhost:9000'
+    REDIS = 'localhost'
 
 
 config_by_name = {'dev': DevelopmentAppConfig,
