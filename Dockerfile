@@ -1,6 +1,6 @@
 # Brand Detection Service
 
-FROM alpine:3.5
+FROM artifactory.secureserver.net:10014/docker-dcu-local/grpcio
 MAINTAINER DCU <DCUEng@godaddy.com>
 
 RUN addgroup -S dcu && adduser -H -S -G dcu dcu
