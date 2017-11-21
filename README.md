@@ -3,7 +3,7 @@ Brand Detection determins the hosting provider and registrar for a given domain 
 
 ## Cloning
 Create the appropriate folder in your local dev location and clone the repo.
-Linux example using and python's virtualenvwrapper.
+Linux example using python's virtualenvwrapper.
 ```
 mkdir branddetection
 cd branddetection
