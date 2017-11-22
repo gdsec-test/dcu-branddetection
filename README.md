@@ -23,7 +23,10 @@ pip install -r test_requirements.txt
 ```
 
 ## Building
-Discuss the process of building the project.
+To build a Docker container use a specific target: prod, ote, or dev.
+```
+make [prod,ote,dev]
+```
 
 ## Deploying
 To deploy the container to kubernetes run one of the deploy targets: prod, ote, or dev.
@@ -87,6 +90,8 @@ Flask
 Redis
 gRPC
 
+## Running Locally
+
 ## RIPE API
 Branddetection uses RIPE's API to to find IPs associated with each brands Autonomous System Number (ASN) to determin if a given IP or domain is hosted with each brand.
 
@@ -98,3 +103,7 @@ https://stat.ripe.net/data/announced-prefixes/data.json?resource=AS3333&starttim
 
 This API is documented on:
 https://stat.ripe.net/docs/data_api
+
+## Domain Service
+gRPC is used for retrieving domain information from Domain Service
+Domain Service info: https://github.secureserver.net/ITSecurity/domainservice
