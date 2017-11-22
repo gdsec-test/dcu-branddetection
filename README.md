@@ -89,15 +89,12 @@ gRPC
 
 ## RIPE API
 Branddetection uses RIPE's API to to find IPs associated with each brands Autonomous System Number (ASN) to determin if a given IP or domain is hosted with each brand.
-RIPE's API
-```
+
+RIPE's API:
 https://stat.ripe.net/data/announced-prefixes/data.?
-```
+
 Example API lookup:
-```
 https://stat.ripe.net/data/announced-prefixes/data.json?resource=AS3333&starttime=2011-12-12T12:00
-```
-This API is documented on
-```
+
+This API is documented on:
 https://stat.ripe.net/docs/data_api
-```
