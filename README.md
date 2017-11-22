@@ -86,8 +86,11 @@ TOTAL                                             1020    112    89%
 
 ## Built With
 Docker
+
 Flask
+
 Redis
+
 gRPC
 
 ## Running Locally
@@ -105,5 +108,5 @@ This API is documented on:
 https://stat.ripe.net/docs/data_api
 
 ## Domain Service
-gRPC is used for retrieving domain information from Domain Service
-Domain Service info: https://github.secureserver.net/ITSecurity/domainservice
+gRPC is used for retrieving domain information from Domain Service:
+https://github.secureserver.net/ITSecurity/domainservice
