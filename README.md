@@ -26,13 +26,13 @@ pip install -r test_requirements.txt
 Discuss the process of building the project.
 
 ## Deploying
-To deploy the container to kubernetes run one of the deploy targets
+To deploy the container to kubernetes run one of the deploy targets: prod, ote, or dev.
 ```
 make [prod,ote,dev]-deploy
 ```
 
 ## Testing
-Nose tests can be from within the virtual environment and branddetection directory. A HTML coverage report will be created in a 'cover' directory. Open the index.html file to review the report.
+Nose tests can be run from within the virtual environment and branddetection directory. A HTML coverage report will be created in a 'cover' directory. Open the index.html file to review the report.
 ```
 nosetests --with-coverage --cover-html --cover-package ./
 ```
@@ -82,7 +82,22 @@ TOTAL                                             1020    112    89%
 ```
 
 ## Built With
-A list of technologies that this project utilizes such as Flask, Celery, etc. These should be major architecture technologies and not minutia.
+Docker
+Flask
+Redis
+gRPC
 
-## Other Information (Change section titles for this as necessary)
-Provide any other information that may be relevant for understanding or utilizing this project. This may include re-generating files after making code changes or any other relevant information.
+## RIPE API
+Branddetection uses RIPE's API to to find IPs associated with each brands Autonomous System Number (ASN) to determin if a given IP or domain is hosted with each brand.
+RIPE's API
+```
+https://stat.ripe.net/data/announced-prefixes/data.?
+```
+Example API lookup:
+```
+https://stat.ripe.net/data/announced-prefixes/data.json?resource=AS3333&starttime=2011-12-12T12:00
+```
+This API is documented on
+```
+https://stat.ripe.net/docs/data_api
+```
