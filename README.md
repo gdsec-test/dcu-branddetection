@@ -1,5 +1,5 @@
 # Brand Detection
-Brand Detection determins the hosting provider and registrar for a given domain or IP. It allows CMAP Service (https://github.secureserver.net/ITSecurity/cmap_service) to enrich abuse report data with registrar and hosting data with the corresponding brand (Goaddy or EMEA). This allows for the appropriate routing of abuse reports.
+Brand Detection determines the hosting provider and registrar for a given domain or IP. It allows CMAP Service (https://github.secureserver.net/ITSecurity/cmap_service) to enrich abuse report data with registrar and hosting data with the corresponding brand (Goaddy or EMEA). This allows for the appropriate routing of abuse reports.
 
 ## Cloning
 Create the appropriate folder in your local dev location and clone the repo.
@@ -85,13 +85,11 @@ TOTAL                                             1020    112    89%
 ```
 
 ## Built With
-Docker
-
-Flask
-
-Redis
-
-gRPC
+Branddetection uses the following technologies:
+1. Docker
+2. Flask
+3. Redis
+4. gRPC
 
 ## RIPE API
 Branddetection uses RIPE's API to to find IPs associated with each brands Autonomous System Number (ASN) to determin if a given IP or domain is hosted with each brand.
