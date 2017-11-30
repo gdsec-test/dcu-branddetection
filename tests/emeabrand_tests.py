@@ -7,12 +7,13 @@ from branddetection.brands.plusserverbrand import PlusServerBrand
 
 
 class TestEMEA:
+    _emea_ip = '80.90.194.0'
+    _gd = 'GoDaddy'
+    _123reg = '123REG'
+
     @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
     def __init__(self, _ripe_get_prefixes_per_asn):
         self._emea = EMEABrand()
-        self._emea_ip = '80.90.194.0'
-        self._gd = 'GoDaddy'
-        self._123reg = '123REG'
 
     def test_is_hosted(self):
         self._emea._brands = [PlusServerBrand(), Reg123Brand()]

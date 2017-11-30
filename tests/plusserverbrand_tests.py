@@ -5,12 +5,12 @@ from branddetection.brands.plusserverbrand import PlusServerBrand
 
 
 class TestPlusServerBrand:
+    _emea_ip = '87.119.203.59'
+    _gd_llc = 'GoDaddy.com, LLC'
 
     @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
     def __init__(self, _ripe_get_prefixes_per_asn):
         self._plusserver = PlusServerBrand()
-        self._emea_ip = '87.119.203.59'
-        self._gd_llc = 'GoDaddy.com, LLC'
 
     def test_is_plusserver_hosted(self):
         plusserver_test = {'hosting_company_name': 'Mainlab'}

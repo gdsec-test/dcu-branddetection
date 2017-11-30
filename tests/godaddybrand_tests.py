@@ -5,13 +5,13 @@ from branddetection.brands.godaddybrand import GoDaddyBrand
 
 
 class TestGodaddyBrand:
+    _gd_ip = '208.109.192.70'
+    _gd_llc = 'GoDaddy.com, LLC'
+    _webfusion = 'UK-WEBFUSION-LEEDS'
 
     @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
     def __init__(self, _ripe_get_prefixes_per_asn):
         self._gdb = GoDaddyBrand()
-        self._gd_ip = '208.109.192.70'
-        self._gd_llc = 'GoDaddy.com, LLC'
-        self._webfusion = 'UK-WEBFUSION-LEEDS'
 
     def test_hostname_is_hosted(self):
         test_value = {'hosting_company_name': self._gd_llc}

@@ -3,14 +3,15 @@ from branddetection.domainhelper import DomainHelper
 
 
 class TestDomainHelper:
+    _gd_ip = '208.109.192.70'
+    _gd_abuse_email = 'abuse@godaddy.com'
+    _gd_domain = 'godaddy.com'
+    _gd_llc = 'GO-DADDY-COM-LLC'
+    _local_ip = '127.0.0.0'
+    _test_domain = 'downwithtestingupwithstraighttoprod.com'  # downwithtestingupwithstraighttoprod.com not registered
+
     def __init__(self):
         self._DH = DomainHelper()
-        self._gd_ip = '208.109.192.70'
-        self._gd_abuse_email = 'abuse@godaddy.com'
-        self._gd_domain = 'godaddy.com'
-        self._gd_llc = 'GO-DADDY-COM-LLC'
-        self._local_ip = '127.0.0.0'
-        self._test_domain = 'downwithtestingupwithstraighttoprod.com'  # downwithtestingupwithstraighttoprod.com not registered
 
     def test_none_convert_domain_to_ip(self):
         no_source = self._DH.convert_domain_to_ip(None)

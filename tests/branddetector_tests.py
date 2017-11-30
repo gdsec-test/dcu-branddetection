@@ -12,13 +12,13 @@ from branddetection.rediscache import RedisCache
 
 
 class TestBrandDetectorDecorator:
+    _gd_ip = '208.109.192.70'
+    _gd_abuse_email = 'abuse@godaddy.com'
+    _gd_brand = 'GODADDY'
+    _gd_llc = 'GoDaddy.com LLC'
 
     def __init__(self):
         self._tbd = BrandDetectorDecorator(BrandDetector, RedisCache(None))
-        self._gd_ip = '208.109.192.70'
-        self._gd_abuse_email = 'abuse@godaddy.com'
-        self._gd_brand = 'GODADDY'
-        self._gd_llc = 'GoDaddy.com LLC'
 
     @patch.object(DomainHelper, 'convert_domain_to_ip')
     def test_none_get_hosting_info(self, convert_domain_to_ip):
@@ -81,16 +81,16 @@ class TestBrandDetectorDecorator:
 
 
 class TestBrandDetector:
+    _gd_ip = '208.109.192.70'
+    _gd_abuse_email = 'abuse@godaddy.com'
+    _gd_brand = 'GODADDY'
+    _emea_ip = '212.48.64.1'
+    _emea_brand = 'EMEA'
+    _gd_llc = 'GoDaddy.com LLC'
 
     @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
     def __init__(self, _ripe_get_prefixes_per_asn):
         self._bd = BrandDetector(TestAppConfig())
-        self._gd_ip = '208.109.192.70'
-        self._gd_abuse_email = 'abuse@godaddy.com'
-        self._gd_brand = 'GODADDY'
-        self._emea_ip = '212.48.64.1'
-        self._emea_brand = 'EMEA'
-        self._gd_llc = 'GoDaddy.com LLC'
 
     @patch.object(BrandDetector, '_get_hosting_in_known_ip_range')
     def test_ip_range_get_hosting_info(self, _get_hosting_in_known_ip_range):

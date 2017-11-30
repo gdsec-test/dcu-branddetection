@@ -5,13 +5,13 @@ from branddetection.brands.reg123brand import Reg123Brand
 
 
 class TestReg123:
+    _emea_ip = '80.90.194.0'
+    _123reg = '123-REG'
+    _gd_llc = 'GoDaddy.com, LLC'
 
     @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
     def __init__(self, _ripe_get_prefixes_per_asn):
         self._reg123 = Reg123Brand()
-        self._emea_ip = '80.90.194.0'
-        self._123reg = '123-REG'
-        self._gd_llc = 'GoDaddy.com, LLC'
 
     def test_is_reg123_hosted(self):
         reg123_test = {'hosting_company_name': self._123reg}
