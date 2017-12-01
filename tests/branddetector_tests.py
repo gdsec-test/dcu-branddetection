@@ -53,13 +53,13 @@ class TestBrandDetectorDecorator:
     def test_get_registrar_info(self, get_registrar_info, _get_whos_info_from_cache, _add_whois_info_to_cache):
         get_registrar_info.return_value = {'brand': self._gd_brand, 'domain_create_date': '1999-03-02',
                                            'registrar_abuse_email': [self._gd_abuse_email, 'companynames@godaddy.com'],
-                                           'registrar_name': 'GoDaddy.com, LLC'}
+                                           'registrar_name': self._gd_llc}
         _get_whos_info_from_cache.return_value = None
         _add_whois_info_to_cache.return_value = None
 
         test_value = {'brand': self._gd_brand, 'domain_create_date': '1999-03-02',
                       'registrar_abuse_email': [self._gd_abuse_email, 'companynames@godaddy.com'],
-                      'registrar_name': 'GoDaddy.com, LLC'}
+                      'registrar_name': self._gd_llc}
 
         result = self._tbd.get_registrar_info('godaddy.com')
         assert_true(result == test_value)
