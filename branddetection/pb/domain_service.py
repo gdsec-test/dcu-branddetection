@@ -1,6 +1,6 @@
 import logging
-import domain_service_pb2
-import domain_service_pb2_grpc
+import domainservice_pb2
+import domainservice_pb2_grpc
 import grpc
 
 
@@ -18,7 +18,7 @@ class DomainService:
         """
         channel = grpc.insecure_channel(self._url)
         ready_future = grpc.channel_ready_future(channel)
-        stub = domain_service_pb2_grpc.DomainServiceStub(channel)
+        stub = domainservice_pb2_grpc.DomainServiceStub(channel)
 
         resp = None
 
@@ -28,7 +28,7 @@ class DomainService:
             self._logger.error("Unable to connect to: {}".format(self._url))
         else:
             try:
-                resp = stub.DomainInfo(domain_service_pb2.DomainInfoRequest(domain=domain), timeout=5)
+                resp = stub.DomainInfo(domainservice_pb2.DomainInfoRequest(domain=domain), timeout=5)
             except grpc.RpcError as e:
                 self._logger.error("Unable to retrieve domain from RegDb for domain {} : {}".format(domain, e.code()))
         finally:
