@@ -1,6 +1,6 @@
 REPONAME=infosec-dcu/branddetection
 BUILDROOT=$(HOME)/dockerbuild/$(REPONAME)
-DOCKERREPO=artifactory.secureserver.net:10014/docker-dcu-local/brand_detection
+DOCKERREPO=docker-dcu-local.artifactory.secureserver.net/brand_detection
 DATE=$(shell date)
 COMMIT=
 BUILD_BRANCH=origin/master

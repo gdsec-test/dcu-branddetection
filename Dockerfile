@@ -1,6 +1,6 @@
 # Brand Detection Service
 
-FROM artifactory.secureserver.net:10014/docker-dcu-local/grpcio
+FROM docker-dcu-local.artifactory.secureserver.net/grpcio
 MAINTAINER DCU <DCUEng@godaddy.com>
 
 RUN addgroup -S dcu && adduser -H -S -G dcu dcu
