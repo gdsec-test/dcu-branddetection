@@ -1,10 +1,10 @@
-import logging
 import json
+import logging
 
-from branddetection.pb.domain_service import DomainService
-from branddetection.domainhelper import DomainHelper
-from branddetection.brands.godaddybrand import GoDaddyBrand
 from branddetection.brands.emeabrand import EMEABrand
+from branddetection.brands.godaddybrand import GoDaddyBrand
+from branddetection.connectors.domain_service import DomainService
+from branddetection.domainhelper import DomainHelper
 
 
 class BrandDetectorDecorator:
@@ -27,7 +27,7 @@ class BrandDetectorDecorator:
             return {'brand': None, 'hosting_company_name': None, 'hosting_abuse_email': None, 'ip': None}
 
         redis_record_key = self._HOSTING_REDIS_KEY.format(ip)
-        whois_lookup = self._get_whos_info_from_cache(redis_record_key)
+        whois_lookup = self._get_whois_info_from_cache(redis_record_key)
 
         if whois_lookup is None:
             whois_lookup = self._decorated.get_hosting_info(ip)
@@ -43,7 +43,7 @@ class BrandDetectorDecorator:
         :return:
         """
         redis_record_key = self._REGISTRAR_REDIS_KEY.format(domain)
-        whois_lookup = self._get_whos_info_from_cache(redis_record_key)
+        whois_lookup = self._get_whois_info_from_cache(redis_record_key)
 
         if whois_lookup is None:
             whois_lookup = self._decorated.get_registrar_info(domain)
@@ -52,7 +52,7 @@ class BrandDetectorDecorator:
                 self._add_whois_info_to_cache(redis_record_key, whois_lookup)
         return whois_lookup
 
-    def _get_whos_info_from_cache(self, redis_record_key):
+    def _get_whois_info_from_cache(self, redis_record_key):
         """
         Attempts to retrieve the record from the cache with key redis_record_key otherwise None
         :param redis_record_key:

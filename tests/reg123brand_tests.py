@@ -1,6 +1,7 @@
-from nose.tools import assert_true
-from branddetection.asnhelper import ASNPrefixes
 from mock import patch
+from nose.tools import assert_equal, assert_is_none, assert_is_not_none
+
+from branddetection.asnhelper import ASNPrefixes
 from branddetection.brands.reg123brand import Reg123Brand
 
 
@@ -17,25 +18,25 @@ class TestReg123:
         reg123_test = {'hosting_company_name': self._123reg}
 
         results = self._reg123.is_hosted(reg123_test)
-        assert_true(results is not None)
+        assert_is_not_none(results)
 
     def test_is_not_reg123_hosted(self):
         not_reg123_test = {'hosting_company_name': self._gd_llc}
 
         results = self._reg123.is_hosted(not_reg123_test)
-        assert_true(results is None)
+        assert_is_none(results)
 
     def test_is_reg123_registered(self):
         reg123_test = {'registrar_name': self._123reg}
 
         results = self._reg123.is_registered(reg123_test)
-        assert_true(results is not None)
+        assert_is_not_none(results)
 
     def test_is_not_reg123_registered(self):
         not_reg123_test = {'registrar_name': self._gd_llc}
 
         results = self._reg123.is_registered(not_reg123_test)
-        assert_true(results is None)
+        assert_is_none(results)
 
     @patch.object(ASNPrefixes, 'get_network_for_ip')
     def test_is_ip_in_range(self, get_network_for_ip):
@@ -43,4 +44,4 @@ class TestReg123:
         reg123_test_ip = self._emea_ip
 
         results = self._reg123.is_ip_in_range(reg123_test_ip)
-        assert_true(results == [self._emea_ip])
+        assert_equal(results, [self._emea_ip])

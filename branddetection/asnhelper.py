@@ -1,9 +1,9 @@
+import json
 import logging
 import threading
-import json
-
-from urllib import urlopen
 from datetime import datetime, timedelta
+from urllib import urlopen
+
 from netaddr.ip import all_matching_cidrs
 
 

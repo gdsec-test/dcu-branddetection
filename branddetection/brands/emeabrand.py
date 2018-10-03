@@ -1,16 +1,15 @@
-from branddetection.interfaces.brand import Brand
-
-from branddetection.brands.reg123brand import Reg123Brand
+from branddetection.brands.domainfactorybrand import DomainFactoryBrand
 from branddetection.brands.heartinternetbrand import HeartInternetBrand
 from branddetection.brands.hosteuropebrand import HostEuropeBrand
 from branddetection.brands.hosteuropeiberiabrand import HostEuropeIberia
-from branddetection.brands.paragonbrand import ParagonBrand
-from branddetection.brands.server4uincbrand import Server4UIncBrand
-from branddetection.brands.server4ugmbhbrand import Server4UGmbH
-from branddetection.brands.veliabrand import VeliaBrand
 from branddetection.brands.meshdigitalbrand import MeshDigitalBrand
-from branddetection.brands.domainfactorybrand import DomainFactoryBrand
+from branddetection.brands.paragonbrand import ParagonBrand
 from branddetection.brands.plusserverbrand import PlusServerBrand
+from branddetection.brands.reg123brand import Reg123Brand
+from branddetection.brands.server4ugmbhbrand import Server4UGmbH
+from branddetection.brands.server4uincbrand import Server4UIncBrand
+from branddetection.brands.veliabrand import VeliaBrand
+from branddetection.interfaces.brand import Brand
 
 
 class EMEABrand(Brand):

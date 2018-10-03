@@ -1,5 +1,5 @@
-import re
 import logging
+import re
 
 from branddetection.asnhelper import ASNPrefixes
 from branddetection.interfaces.brand import Brand

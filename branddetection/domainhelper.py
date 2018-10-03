@@ -1,10 +1,10 @@
-import re
 import logging
+import re
+from datetime import datetime
 
+from dns import resolver, reversename
 from ipwhois import IPWhois
 from whois import whois
-from datetime import datetime
-from dns import resolver, reversename
 
 
 class DomainHelper:

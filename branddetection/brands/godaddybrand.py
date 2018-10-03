@@ -1,9 +1,9 @@
-import re
 import logging
+import re
 
-from branddetection.interfaces.brand import Brand
 from branddetection.asnhelper import ASNPrefixes
 from branddetection.domainhelper import DomainHelper
+from branddetection.interfaces.brand import Brand
 
 
 class GoDaddyBrand(Brand):

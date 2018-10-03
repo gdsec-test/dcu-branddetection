@@ -2,42 +2,44 @@
 Brand Detection determines the hosting provider and registrar for a given domain or IP. It allows CMAP Service (https://github.secureserver.net/ITSecurity/cmap_service) to enrich abuse report data with registrar and hosting data with the corresponding brand (Goaddy or EMEA). This allows for the appropriate routing of abuse reports.
 
 ## Cloning
-Create the appropriate folder in your local dev location and clone the repo.
-Linux example using python's virtualenvwrapper.
+To clone the repository via SSH perform the following
 ```
-mkdir branddetection
-cd branddetection
-mkvirtualenv branddetection
-workon branddetection
 git clone git@github.secureserver.net:ITSecurity/branddetection.git
 ```
 
+It is recommended that you clone this project into a pyvirtualenv or equivalent virtual environment.
+
 ## Installing Dependencies
-Depenencies:
-```
-pip install -r requirements.txt
-```
-Test Depenencies:
-```
-pip install -r test_requirements.txt
-```
+To install all dependencies for development and testing simply run `make`.
 
 ## Building
-To build a Docker container use a specific target: prod, ote, or dev.
+Building a local Docker image for the respective development environments can be achieved by
 ```
-make [prod,ote,dev]
+make [dev, ote, prod]
 ```
 
 ## Deploying
-To deploy the container to kubernetes run one of the deploy targets: prod, ote, or dev.
+Deploying the Docker image to Kubernetes can be achieved via
 ```
-make [prod,ote,dev]-deploy
+make [dev, ote, prod]-deploy
 ```
+You must also ensure you have the proper push permissions to Artifactory or you may experience a `Forbidden` message.
 
 ## Testing
-Nose tests can be run from within the virtual environment and branddetection directory. A HTML coverage report will be created in a 'cover' directory. Open the index.html file to review the report.
 ```
-nosetests --with-coverage --cover-html --cover-package ./
+make test     # runs all unit tests
+make testcov  # runs tests with coverage
+```
+
+## Style and Standards
+All deploys must pass Flake8 linting and all unit tests which are baked into the [Makefile](Makfile).
+
+There are a few commands that might be useful to ensure consistent Python style:
+
+```
+make flake8  # Runs the Flake8 linter
+make isort   # Sorts all imports
+make tools   # Runs both Flake8 and isort
 ```
 
 ## Built With

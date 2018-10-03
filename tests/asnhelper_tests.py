@@ -1,4 +1,5 @@
-from nose.tools import assert_true
+from nose.tools import assert_equal, assert_true
+
 from branddetection.asnhelper import ASNPrefixes
 
 
@@ -14,4 +15,4 @@ class TestASNPrefixes:
 
     def test_not_get_network_for_ip(self):
         result = self._asn.get_network_for_ip('A')
-        assert_true(result == [])
+        assert_equal(result, [])

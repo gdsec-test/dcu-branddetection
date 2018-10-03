@@ -26,6 +26,7 @@ class DevelopmentAppConfig(AppConfig):
     def __init__(self):
         super(DevelopmentAppConfig, self).__init__()
 
+
 class TestAppConfig:
 
     DOMAIN_SERVICE_URL = 'localhost:9000'

@@ -1,12 +1,12 @@
-import os
 import logging.config
+import os
+
 import yaml
+from flask import Flask, jsonify, request
 
-from flask import Flask, request, jsonify
-from settings import config_by_name
-
-from branddetection.rediscache import RedisCache
 from branddetection.branddetector import BrandDetector, BrandDetectorDecorator
+from branddetection.rediscache import RedisCache
+from settings import config_by_name
 
 path = 'logging.yml'
 value = os.getenv('LOG_CFG', None)
