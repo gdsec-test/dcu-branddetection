@@ -100,7 +100,8 @@ class BrandDetector:
         if resp:
             # NOTE: Since hosting/registrar contacts are the same for GoDaddy, we reuse fields like HOSTING_ABUSE_EMAIL
             return {'brand': GoDaddyBrand.NAME, 'registrar_name': GoDaddyBrand.HOSTING_COMPANY_NAME,
-                    'registrar_abuse_email': [GoDaddyBrand.HOSTING_ABUSE_EMAIL], 'domain_create_date': resp.createDate}
+                    'registrar_abuse_email': [GoDaddyBrand.HOSTING_ABUSE_EMAIL], 'domain_create_date': resp.createDate,
+                    'domain_id': resp.domainId}
         else:
             return self._get_registrar_by_fallback(domain)
 
@@ -111,6 +112,7 @@ class BrandDetector:
         :return:
         """
         whois_lookup = self._domain_helper.get_registrar_information_via_whois(domain)
+        whois_lookup['domain_id'] = None  # Created for consistency; if DomainService call fails domain_id will be empty
         for brand in self._brands:
             if brand.is_registered(whois_lookup):
                 self._logger.info("Successfully found a registrar: {} for domain/ip: {}"
