@@ -11,6 +11,7 @@ class TestEMEA:
     _emea_ip = '80.90.194.0'
     _gd = 'GoDaddy'
     _123reg = '123REG'
+    _heart_internet = 'HEARTINTERNET'
 
     @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
     def __init__(self, _ripe_get_prefixes_per_asn):
@@ -28,7 +29,7 @@ class TestEMEA:
         assert_false(hosted_results)
 
     def test_is_registered(self):
-        reg_dict = {'brand': None, 'registrar_name': self._123reg, 'registrar_abuse_email': None, 'domain_create_date': None}
+        reg_dict = {'brand': None, 'registrar_name': self._heart_internet, 'registrar_abuse_email': None, 'domain_create_date': None}
         reg_results = self._emea.is_registered(reg_dict)
         assert_true(reg_results)
 

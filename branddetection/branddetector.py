@@ -5,6 +5,7 @@ from branddetection.brands.emeabrand import EMEABrand
 from branddetection.brands.godaddybrand import GoDaddyBrand
 from branddetection.connectors.domain_service import DomainService
 from branddetection.domainhelper import DomainHelper
+from branddetection.brands.reg123brand import Reg123Brand
 
 
 class BrandDetectorDecorator:
@@ -77,7 +78,7 @@ class BrandDetector:
         self._domain_helper = DomainHelper()
         self._domain_service = DomainService(settings)
 
-        self._brands = [GoDaddyBrand(), EMEABrand()]
+        self._brands = [GoDaddyBrand(), Reg123Brand(), EMEABrand()]
 
     def get_hosting_info(self, ip):
         """
