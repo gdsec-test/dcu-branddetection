@@ -5,6 +5,7 @@ from branddetection.brands.hosteuropeiberiabrand import HostEuropeIberia
 from branddetection.brands.meshdigitalbrand import MeshDigitalBrand
 from branddetection.brands.paragonbrand import ParagonBrand
 from branddetection.brands.plusserverbrand import PlusServerBrand
+from branddetection.brands.reg123brand import Reg123Brand
 from branddetection.brands.server4ugmbhbrand import Server4UGmbH
 from branddetection.brands.server4uincbrand import Server4UIncBrand
 from branddetection.brands.veliabrand import VeliaBrand
@@ -20,7 +21,7 @@ class EMEABrand(Brand):
     HOSTING_ABUSE_EMAIL = 'abuse-input@heg.com'
 
     def __init__(self):
-        self._brands = [DomainFactoryBrand(), HeartInternetBrand(), HostEuropeBrand(),
+        self._brands = [Reg123Brand(), DomainFactoryBrand(), HeartInternetBrand(), HostEuropeBrand(),
                         HostEuropeIberia(), ParagonBrand(), Server4UIncBrand(),
                         Server4UGmbH(), VeliaBrand(), MeshDigitalBrand(), PlusServerBrand()]
 

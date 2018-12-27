@@ -6,7 +6,6 @@ from nose.tools import assert_equal, assert_is_none
 from branddetection.asnhelper import ASNPrefixes
 from branddetection.branddetector import BrandDetector, BrandDetectorDecorator
 from branddetection.brands.emeabrand import EMEABrand
-from branddetection.brands.reg123brand import Reg123Brand
 from branddetection.domainhelper import DomainHelper
 from branddetection.rediscache import RedisCache
 from settings import TestAppConfig
@@ -75,7 +74,6 @@ class TestBrandDetector:
     _gd_brand = 'GODADDY'
     _emea_ip = '212.48.64.1'
     _emea_brand = 'EMEA'
-    _123reg = '123REG'
     _gd_llc = 'GoDaddy.com LLC'
 
     @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
@@ -126,7 +124,7 @@ class TestBrandDetector:
         bd = BrandDetector(TestAppConfig())
         bd._brands = [EMEABrand()]  # overwrite with removed GoDaddyBrand() to test EMEABrand
 
-        test_value = {'brand': self._123reg, 'domain_create_date': '2011-08-22', 'registrar_abuse_email': None,
+        test_value = {'brand': self._emea_brand, 'domain_create_date': '2011-08-22', 'registrar_abuse_email': None,
                       'registrar_name': '123-reg.co.uk', 'domain_id': None}
 
         result = self._bd.get_registrar_info('jenisawesome.co.uk')
@@ -182,12 +180,12 @@ class TestBrandDetector:
         assert_equal(result, test_value)
 
     @patch.object(ASNPrefixes, '_query_ripe')
-    def test_123reg_get_hosting_by_fallback(self, _query_ripe):
+    def test_emea_get_hosting_by_fallback(self, _query_ripe):
         _query_ripe.return_value = {'data': {'prefixes': [{'prefix': self._emea_ip}]}}
         bd = BrandDetector(TestAppConfig())
-        bd._brands = [Reg123Brand()]  # overwrite with removed GoDaddyBrand() to test EMEABrand
+        bd._brands = [EMEABrand()]  # overwrite with removed GoDaddyBrand() to test EMEABrand
 
-        test_value = {'hosting_company_name': 'UK-WEBFUSION-LEEDS', 'ip': self._emea_ip, 'brand': self._123reg,
+        test_value = {'hosting_company_name': 'UK-WEBFUSION-LEEDS', 'ip': self._emea_ip, 'brand': self._emea_brand,
                       'hosting_abuse_email': ['abuse@123-reg.co.uk']}
 
         result = bd._get_hosting_by_fallback(self._emea_ip)
