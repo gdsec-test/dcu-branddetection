@@ -32,6 +32,6 @@ class DomainService:
             try:
                 resp = stub.DomainInfo(pb.domainservice_pb2.DomainInfoRequest(domain=domain), timeout=5)
             except grpc.RpcError as e:
-                self._logger.error("Unable to retrieve domain from RegDb for domain {} : {}".format(domain, e.code()))
+                self._logger.error("Unable to retrieve domain from RegDb for domain {} : {}".format(domain, e.details()))
         finally:
             return resp
