@@ -1,10 +1,10 @@
 # Brand Detection
-Brand Detection determines the hosting provider and registrar for a given domain or IP. It allows CMAP Service (https://github.secureserver.net/ITSecurity/cmap_service) to enrich abuse report data with registrar and hosting data with the corresponding brand (Goaddy or EMEA). This allows for the appropriate routing of abuse reports.
+Brand Detection determines the hosting provider and registrar for a given domain or IP. It allows CMAP Service (https://github.secureserver.net/digital-crimes/cmap_service) to enrich abuse report data with registrar and hosting data with the corresponding brand (Goaddy or EMEA). This allows for the appropriate routing of abuse reports.
 
 ## Cloning
 To clone the repository via SSH perform the following
 ```
-git clone git@github.secureserver.net:ITSecurity/branddetection.git
+git clone git@github.secureserver.net:digital-crimes/branddetection.git
 ```
 
 It is recommended that you clone this project into a pyvirtualenv or equivalent virtual environment.
@@ -62,4 +62,4 @@ This API is documented on:
 https://stat.ripe.net/docs/data_api
 
 ## Domain Service
-gRPC is used for retrieving domain information from Domain Service: https://github.secureserver.net/ITSecurity/domainservice
+gRPC is used for retrieving domain information from Domain Service: https://github.secureserver.net/digital-crimes/domainservice

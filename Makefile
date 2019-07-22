@@ -1,4 +1,4 @@
-REPONAME=infosec-dcu/branddetection
+REPONAME=digital-crimes/branddetection
 BUILDROOT=$(HOME)/dockerbuild/$(REPONAME)
 DOCKERREPO=docker-dcu-local.artifactory.secureserver.net/brand_detection
 DATE=$(shell date)

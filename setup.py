@@ -16,7 +16,7 @@ setup(
     author_email='dcueng@godaddy.com',
     description='Brand detection service for determining where a domain is hosted and registered',
     long_description=long_description,
-    url='https://github.secureserver.net/ITSecurity/branddetection/',
+    url='https://github.secureserver.net/digital-crimes/branddetection/',
     packages=find_packages(exclude=['tests']),
     install_requires=install_reqs,
     tests_require=testing_reqs,
