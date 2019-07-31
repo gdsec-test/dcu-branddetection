@@ -67,7 +67,7 @@ prod: prep
 dev-deploy: dev
 	@echo "----- deploying $(REPONAME) dev -----"
 	docker push $(DOCKERREPO):dev
-	kubectl --context dev apply -f $(BUILDROOT)/k8s/dev/brand_detection.deployment.yml --record
+	kubectl --context dev-dcu apply -f $(BUILDROOT)/k8s/dev/brand_detection.deployment.yml --record
 
 .PHONY: ote-deploy
 ote-deploy: ote
