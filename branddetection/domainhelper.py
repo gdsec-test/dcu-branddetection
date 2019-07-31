@@ -93,9 +93,12 @@ class DomainHelper:
             email_list = []
             for k, v in info['objects'].iteritems():
                 email_address = v['contact']['email']
-                if email_address:
-                    for i in email_address:
+                if not email_address:
+                    continue
+                for i in email_address:
+                    if i['value'] not in email_list:
                         email_list.append(i['value'])
+
             query_value[ABUSE_EMAIL_KEY] = email_list
         except Exception as e:
             self._logger.error("Error retrieving hosting information for {} : {}".format(ip, e.message))
