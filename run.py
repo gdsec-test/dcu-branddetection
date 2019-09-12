@@ -8,7 +8,7 @@ from branddetection.branddetector import BrandDetector, BrandDetectorDecorator
 from branddetection.rediscache import RedisCache
 from settings import config_by_name
 
-path = 'logging.yml'
+path = 'logging.yaml'
 value = os.getenv('LOG_CFG', None)
 if value:
     path = value

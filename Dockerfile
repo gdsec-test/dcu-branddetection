@@ -16,7 +16,7 @@ RUN apk --no-cache add build-base \
 EXPOSE 5000
 
 # Move files to new dir
-COPY ./*.ini ./logging.yml ./run.py ./runserver.sh ./settings.py ./setup.py /app/
+COPY ./*.ini ./logging.yaml ./run.py ./runserver.sh ./settings.py ./setup.py /app/
 COPY . /tmp
 
 # install other requirements
