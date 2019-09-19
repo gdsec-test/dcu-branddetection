@@ -180,13 +180,16 @@ class TestBrandDetector:
         assert_equal(result, test_value)
 
     @patch.object(ASNPrefixes, '_query_ripe')
-    def test_emea_get_hosting_by_fallback(self, _query_ripe):
-        _query_ripe.return_value = {'data': {'prefixes': [{'prefix': self._emea_ip}]}}
+    @patch.object(EMEABrand, 'is_hosted', return_value=True)
+    @patch.object(DomainHelper, 'get_hosting_information_via_whois')
+    def test_emea_get_hosting_by_fallback(self, mock_whois, fake_emea, query_ripe):
+        test_value = {'hosting_company_name': 'UK-WEBFUSION-LEEDS', 'ip': self._emea_ip,
+                      'hosting_abuse_email': ['abuse@123-reg.co.uk']}
+        query_ripe.return_value = {'data': {'prefixes': [{'prefix': self._emea_ip}]}}
+        mock_whois.return_value = test_value
         bd = BrandDetector(TestAppConfig())
         bd._brands = [EMEABrand()]  # overwrite with removed GoDaddyBrand() to test EMEABrand
-
-        test_value = {'hosting_company_name': 'UK-WEBFUSION-LEEDS', 'ip': self._emea_ip, 'brand': self._emea_brand,
-                      'hosting_abuse_email': ['abuse@123-reg.co.uk']}
+        test_value['brand'] = self._emea_brand
 
         result = bd._get_hosting_by_fallback(self._emea_ip)
         assert_equal(result, test_value)
