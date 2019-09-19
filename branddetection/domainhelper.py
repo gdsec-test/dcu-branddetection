@@ -11,6 +11,9 @@ class DomainHelper:
     """
     DomainHelper is a helper class to perform common operations and checks on domains and ips
     """
+
+    CNAME_TTL = 3
+
     def __init__(self):
         self._logger = logging.getLogger(__name__)
 
@@ -132,3 +135,24 @@ class DomainHelper:
             self._logger.error("Error in retrieving the registrar whois info for {} : {}".format(domain, e.message))
             query_value = {BRAND_KEY: None, REGISTRAR_NAME_KEY: None, ABUSE_EMAIL_KEY: None, DOMAIN_CREATE_DATE_KEY: None}
         return query_value
+
+    def get_cname_from_domain(self, domain):
+        dnsresolver = resolver.Resolver()
+
+        # The number of seconds to wait for a response from a server, before timing out.
+        dnsresolver.timeout = self.CNAME_TTL
+
+        # The total number of seconds to spend trying to get an answer to the question.
+        dnsresolver.lifetime = self.CNAME_TTL
+        cnames = set()
+
+        try:
+            if not domain.startswith('www.'):
+                domain = 'www.' + domain
+
+            answers = dnsresolver.query(domain, 'CNAME')
+            for rdata in answers:
+                cnames.add(rdata.target.to_text())
+        except Exception as e:
+            self._logger.error('Unable to get CNAME for {} : {}'.format(domain, e.message))
+        return cnames

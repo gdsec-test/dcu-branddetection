@@ -30,7 +30,8 @@ class BrandDetectorDecorator:
         whois_lookup = self._get_whois_info_from_cache(redis_record_key)
 
         if whois_lookup is None:
-            whois_lookup = self._decorated.get_hosting_info(ip)
+            domain = DomainHelper.get_domain_from_ip(sourceDomainOrIp) if DomainHelper.is_ip(sourceDomainOrIp) else sourceDomainOrIp
+            whois_lookup = self._decorated.get_hosting_info(ip, domain)
 
             if whois_lookup.get('brand', None) is not None:
                 self._add_whois_info_to_cache(redis_record_key, whois_lookup)
@@ -79,15 +80,17 @@ class BrandDetector:
 
         self._brands = [GoDaddyBrand(), EMEABrand()]
 
-    def get_hosting_info(self, ip):
+    def get_hosting_info(self, ip, domain):
         """
         Attempt to find the appropriate brand that sourceDomainOrIp is hosted with
         :param ip:
+        :param domain:
         :return:
         """
         whois_lookup = self._get_hosting_in_known_ip_range(ip)
         if whois_lookup is None:
-            whois_lookup = self._get_hosting_by_fallback(ip)
+            whois_lookup = self._get_hosting_by_fallback(ip, domain)
+
         return whois_lookup
 
     def get_registrar_info(self, domain):
@@ -137,10 +140,11 @@ class BrandDetector:
                         'hosting_abuse_email': [brand.HOSTING_ABUSE_EMAIL]}
         return None
 
-    def _get_hosting_by_fallback(self, ip):
+    def _get_hosting_by_fallback(self, ip, domain):
         """
         If unable to determine hosting via ip lookup, fall back and use each brand's own way of determining hosting
         :param ip:
+        :param domain:
         :return:
         """
         whois_lookup = self._domain_helper.get_hosting_information_via_whois(ip)
@@ -149,6 +153,15 @@ class BrandDetector:
                 self._logger.info("Successfully found a hosting provider using fallback method: {} for domain/ip: {}"
                                   .format(brand.NAME, ip))
                 whois_lookup['brand'] = brand.NAME
+                return whois_lookup
+
+        # Retrieving CNAMES to check for Website Builder for Designers (WSBD) products.
+        cnames = self._domain_helper.get_cname_from_domain(domain)
+        for cname in cnames:
+            if 'godaddysiteonline.com' in cname or 'godaddysiteonline.com' in domain:
+                whois_lookup['brand'] = GoDaddyBrand.NAME
+                whois_lookup['hosting_company_name'] = GoDaddyBrand.HOSTING_COMPANY_NAME
+                whois_lookup['hosting_abuse_email'] = [GoDaddyBrand.HOSTING_ABUSE_EMAIL]
                 return whois_lookup
 
         self._logger.info("Unable to find a matching hosting provider for domain/ip: {}. Brand is FOREIGN.".format(ip))
