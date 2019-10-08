@@ -73,13 +73,13 @@ dev-deploy: dev
 ote-deploy: ote
 	@echo "----- deploying $(REPONAME) ote -----"
 	docker push $(DOCKERREPO):ote
-	kubectl --context ote apply -f $(BUILDROOT)/k8s/ote/brand_detection.deployment.yaml --record
+	kubectl --context ote-dcu apply -f $(BUILDROOT)/k8s/ote/brand_detection.deployment.yaml --record
 
 .PHONY: prod-deploy
 prod-deploy: prod
 	@echo "----- deploying $(REPONAME) prod -----"
 	docker push $(DOCKERREPO):$(COMMIT)
-	kubectl --context prod apply -f $(BUILDROOT)/k8s/prod/brand_detection.deployment.yaml --record
+	kubectl --context prod-dcu apply -f $(BUILDROOT)/k8s/prod/brand_detection.deployment.yaml --record
 
 .PHONY: clean
 clean:
