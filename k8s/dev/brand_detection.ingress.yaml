@@ -1,0 +1,19 @@
+---
+apiVersion: "extensions/v1beta1"
+kind: "Ingress"
+metadata:
+  name: "brand-detection"
+  namespace: "abuse-api-dev"
+spec:
+  tls:
+    - hosts:
+      - "branddetection.int.dev-godaddy.com"
+      secretName: tls-brand-detection
+  rules:
+  - host: "branddetection.int.dev-godaddy.com"
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: "brand-detection"
+          servicePort: 5000
