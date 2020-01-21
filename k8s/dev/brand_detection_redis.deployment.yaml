@@ -1,5 +1,5 @@
 ---
-apiVersion: "extensions/v1beta1"
+apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
   name: "brand-detection-redis"
@@ -8,6 +8,9 @@ metadata:
     app: "brand-detection-redis"
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: "brand-detection-redis"
   template:
     metadata:
       labels:
