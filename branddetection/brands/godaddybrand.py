@@ -14,7 +14,8 @@ class GoDaddyBrand(Brand):
     HOSTING_COMPANY_NAME = 'GoDaddy.com LLC'
     HOSTING_ABUSE_EMAIL = 'abuse@godaddy.com'
 
-    _asns = [26496]
+    # ASN 21501 is used in AMS (Amsterdam) for GoDaddy US products
+    _asns = [26496, 21501]
 
     def __init__(self):
         self._logger = logging.getLogger(__name__)

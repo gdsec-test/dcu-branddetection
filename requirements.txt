@@ -8,4 +8,4 @@ flask
 uwsgi
 grpcio
 protobuf
-PyAuth==7.1.1
+PyAuth==7.1.2
