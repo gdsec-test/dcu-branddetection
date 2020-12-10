@@ -20,6 +20,9 @@ EXPOSE 5000
 COPY ./*.ini ./logging.yaml ./run.py ./runserver.sh ./settings.py ./setup.py /app/
 COPY . /tmp
 
+RUN pip install -U pip
+RUN pip install cryptography==2.8
+
 # pip install private pips staged by Makefile
 RUN for entry in PyAuth; \
     do \
