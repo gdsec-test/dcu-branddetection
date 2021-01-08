@@ -1,6 +1,8 @@
 # Brand Detection
 Brand Detection determines the hosting provider and registrar for a given domain or IP. It allows CMAP Service (https://github.secureserver.net/digital-crimes/cmap_service) to enrich abuse report data with registrar and hosting data with the corresponding brand (Goaddy or EMEA). This allows for the appropriate routing of abuse reports.
 
+## [Usage](USAGE.md)
+
 ## Cloning
 To clone the repository via SSH perform the following
 ```
