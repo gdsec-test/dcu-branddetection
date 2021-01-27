@@ -24,10 +24,10 @@ class DomainHelper:
         :param sourceDomainOrIp:
         :return:
         """
-        if sourceDomainOrIp is None or sourceDomainOrIp == '':
+        if not sourceDomainOrIp:
             return None
-        if sourceDomainOrIp is not str:
-            sourceDomainOrIp = sourceDomainOrIp.encode('idna')
+        if type(sourceDomainOrIp) != str:
+            sourceDomainOrIp = sourceDomainOrIp.encode('idna').decode('utf-8')
         if DomainHelper.is_ip(sourceDomainOrIp):
             ip = sourceDomainOrIp
         else:
@@ -42,7 +42,10 @@ class DomainHelper:
         :param sourceDomainOrIp:
         :return:
         """
-        pattern = re.compile(r"((([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])[ (\[]?(\.|dot)[ )\]]?){3}[0-9]{1,3})")
+        if type(sourceDomainOrIp) != str:
+            sourceDomainOrIp = sourceDomainOrIp.decode('utf-8')
+        pattern = re.compile('((([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])[ (\\[]?(\\.|dot)[ )\\]]?){3}[0-9]{1,3})')
+
         return pattern.match(sourceDomainOrIp) is not None
 
     @staticmethod
@@ -58,7 +61,7 @@ class DomainHelper:
             dnsresolver.lifetime = 1
             return dnsresolver.query(domain, 'A')[0].address
         except Exception as e:
-            logging.error("Unable to get ip for {} : {}".format(domain, e.message))
+            logging.error('Unable to get ip for {} : {}'.format(domain, e))
 
     @staticmethod
     def get_domain_from_ip(ip):
@@ -72,9 +75,10 @@ class DomainHelper:
             dnsresolver.timeout = 1
             dnsresolver.lifetime = 1
             addr = reversename.from_address(ip)
-            return dnsresolver.query(addr, 'PTR')[0].to_text().rstrip('.').encode('idna')
+            idna_encoded = dnsresolver.query(addr, 'PTR')[0].to_text().rstrip('.').encode('idna')
+            return idna_encoded.decode('utf-8')
         except Exception as e:
-            logging.error("Unable to get domain for {} : {}".format(ip, e.message))
+            logging.error('Unable to get domain for {} : {}'.format(ip, e))
 
     def get_hosting_information_via_whois(self, ip):
         """
@@ -94,7 +98,7 @@ class DomainHelper:
             query_value[COMPANY_NAME_KEY] = info.get('network').get('name')
 
             email_list = []
-            for k, v in info['objects'].iteritems():
+            for k, v in info['objects'].items():
                 email_address = v['contact']['email']
                 if not email_address:
                     continue
@@ -104,7 +108,7 @@ class DomainHelper:
 
             query_value[ABUSE_EMAIL_KEY] = email_list
         except Exception as e:
-            self._logger.error("Error retrieving hosting information for {} : {}".format(ip, e.message))
+            self._logger.error('Error retrieving hosting information for {} : {}'.format(ip, e))
             query_value = {BRAND_KEY: None, IP_KEY: None, COMPANY_NAME_KEY: None, ABUSE_EMAIL_KEY: None}
         return query_value
 
@@ -116,7 +120,7 @@ class DomainHelper:
 
         try:
             query = whois(domain)
-            if isinstance(query.emails, basestring):
+            if isinstance(query.emails, str):
                 query.emails = [query.emails]
 
             registrar = query.registrar
@@ -128,11 +132,11 @@ class DomainHelper:
 
             domain_create_date = query.creation_date[0] \
                 if isinstance(query.creation_date, list) else query.creation_date
-            domain_create_date = domain_create_date.strftime("%Y-%m-%d") \
+            domain_create_date = domain_create_date.strftime('%Y-%m-%d') \
                 if domain_create_date and isinstance(domain_create_date, datetime) else None
             query_value[DOMAIN_CREATE_DATE_KEY] = domain_create_date
         except Exception as e:
-            self._logger.error("Error in retrieving the registrar whois info for {} : {}".format(domain, e.message))
+            self._logger.error('Error in retrieving the registrar whois info for {} : {}'.format(domain, e))
             query_value = {BRAND_KEY: None, REGISTRAR_NAME_KEY: None, ABUSE_EMAIL_KEY: None, DOMAIN_CREATE_DATE_KEY: None}
         return query_value
 
@@ -154,5 +158,5 @@ class DomainHelper:
             for rdata in answers:
                 cnames.add(rdata.target.to_text())
         except Exception as e:
-            self._logger.error('Unable to get CNAME for {} : {}'.format(domain, e.message))
+            self._logger.error('Unable to get CNAME for {} : {}'.format(domain, e))
         return cnames

@@ -8,8 +8,8 @@ from branddetection.domainhelper import DomainHelper
 
 
 class BrandDetectorDecorator:
-    _HOSTING_REDIS_KEY = u'{}-hosting_whois_info'
-    _REGISTRAR_REDIS_KEY = u'{}-registrar_whois_info'
+    _HOSTING_REDIS_KEY = '{}-hosting_whois_info'
+    _REGISTRAR_REDIS_KEY = '{}-registrar_whois_info'
 
     def __init__(self, decorated, redis):
         self._decorated = decorated
@@ -60,7 +60,9 @@ class BrandDetectorDecorator:
         :return:
         """
         query_value = self._redis.get_value(redis_record_key)
-        return None if query_value is None else json.loads(query_value).get('result')
+        if query_value and type(query_value) != str:
+            query_value = query_value.decode('utf-8')
+        return None if not query_value else json.loads(query_value).get('result')
 
     def _add_whois_info_to_cache(self, redis_record_key, query_value):
         """

@@ -6,6 +6,7 @@ from nose.tools import assert_equal, assert_is_none
 from branddetection.asnhelper import ASNPrefixes
 from branddetection.branddetector import BrandDetector, BrandDetectorDecorator
 from branddetection.brands.emeabrand import EMEABrand
+from branddetection.connectors.domain_service import DomainService
 from branddetection.domainhelper import DomainHelper
 from branddetection.rediscache import RedisCache
 from settings import TestAppConfig
@@ -104,7 +105,8 @@ class TestBrandDetector:
         assert_equal(result, test_value)
 
     @patch.object(DomainHelper, 'get_registrar_information_via_whois')
-    def test_godaddy_get_registrar_info(self, get_registrar_information_via_whois):
+    @patch.object(DomainService, 'get_registration', return_value=None)
+    def test_godaddy_get_registrar_info(self, get_registration, get_registrar_information_via_whois):
         get_registrar_information_via_whois.return_value = {'domain_create_date': '1999-03-02',
                                                             'registrar_abuse_email': [self._gd_abuse_email,
                                                                                       'companynames@godaddy.com'],
@@ -119,7 +121,8 @@ class TestBrandDetector:
 
     @patch.object(ASNPrefixes, '_query_ripe')
     @patch.object(DomainHelper, 'get_registrar_information_via_whois')
-    def test_emea_get_registrar_info(self, get_registrar_information_via_whois, _query_ripe):
+    @patch.object(DomainService, 'get_registration', return_value=None)
+    def test_emea_get_registrar_info(self, get_registration, get_registrar_information_via_whois, _query_ripe):
         get_registrar_information_via_whois.return_value = {'domain_create_date': '2011-08-22',
                                                             'registrar_abuse_email': None,
                                                             'registrar_name': '123-reg.co.uk'}
@@ -133,7 +136,8 @@ class TestBrandDetector:
         assert_equal(result, test_value)
 
     @patch.object(DomainHelper, 'get_registrar_information_via_whois')
-    def test_none_get_registrar_info(self, get_registrar_information_via_whois):
+    @patch.object(DomainService, 'get_registration', return_value=None)
+    def test_none_get_registrar_info(self, get_registration, get_registrar_information_via_whois):
         get_registrar_information_via_whois.return_value = {'domain_create_date': '1995-06-02',
                                                             'registrar_abuse_email': ['domainabuse@cscglobal.com',
                                                                                       'vshostmaster@verisign.com'],

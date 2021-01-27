@@ -2,7 +2,7 @@ import json
 import logging
 import threading
 from datetime import datetime, timedelta
-from urllib import urlopen
+from urllib import request
 
 from netaddr.ip import all_matching_cidrs
 
@@ -34,7 +34,7 @@ class ASNPrefixes(object):
                     self._logger.info("Updating prefix list for ASN's: {}".format(self._asns))
                 return all_matching_cidrs(ipaddr, self._prefixes)
             except Exception as e:
-                self._logger.error('Exception in _update_lock(): {}'.format(e.message))
+                self._logger.error('Exception in _update_lock(): {}'.format(e))
                 return []
 
     def _ripe_get_prefixes_per_asn(self):
@@ -69,7 +69,7 @@ class ASNPrefixes(object):
         :return:
         """
         try:
-            rep = urlopen(self._url_base + str(asn) + '&starttime=' + query_time.isoformat().split('.')[0])
+            rep = request.urlopen(self._url_base + str(asn) + '&starttime=' + query_time.isoformat().split('.')[0])
             data = str(rep.read().decode(encoding='UTF-8'))
             rep.close()
             return json.loads(data)

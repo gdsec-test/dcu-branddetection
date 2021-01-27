@@ -9,8 +9,10 @@ To clone the repository via SSH perform the following
 git clone git@github.secureserver.net:digital-crimes/branddetection.git
 ```
 
-It is recommended that you clone this project into a pyvirtualenv or equivalent virtual environment.
-
+It is recommended that you clone this project into a pyvirtualenv or equivalent virtual environment. For this project,
+be sure to create a virtual environment with Python 3.
+This is achievable via `mkproject --python=/usr/local/bin/python3 brand_detection`
+ 
 ## Installing Dependencies
 To install all dependencies for development and testing simply run `make`.
 

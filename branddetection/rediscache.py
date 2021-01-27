@@ -12,7 +12,7 @@ class RedisCache(object):
             self.redis = Redis(settings.REDIS)
             self.redis_ttl = settings.REDIS_TTL
         except Exception as e:
-            logging.fatal("Error in creating redis connection: %s", e.message)
+            logging.fatal("Error in creating redis connection: %s", e)
 
     def get_value(self, redis_key):
         """
@@ -23,7 +23,7 @@ class RedisCache(object):
         try:
             redis_value = self.redis.get(redis_key)
         except Exception as e:
-            logging.error("Error while retrieving {} : {}".format(redis_key, e.message))
+            logging.error("Error while retrieving {} : {}".format(redis_key, e))
             redis_value = None
         return redis_value
 
@@ -38,4 +38,4 @@ class RedisCache(object):
             self.redis.set(redis_key, redis_value)
             self.redis.expire(redis_key, self.redis_ttl)
         except Exception as e:
-            logging.error("Error in setting the redis value for {} : {}".format(redis_key.decode('utf-8'), e.message))
+            logging.error("Error in setting the redis value for {} : {}".format(redis_key.decode('utf-8'), e))

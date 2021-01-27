@@ -10,6 +10,7 @@ class TestGodaddyBrand:
     _gd_ip = '208.109.192.70'
     _gd_llc = 'GoDaddy.com, LLC'
     _webfusion = 'UK-WEBFUSION-LEEDS'
+    _KEY_IP = 'ip'
 
     @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
     def __init__(self, _ripe_get_prefixes_per_asn):
@@ -21,12 +22,12 @@ class TestGodaddyBrand:
         assert_true(result)
 
     def test_rdns_is_hosted(self):
-        test_value = {'hosting_company_name': self._webfusion, 'ip': self._gd_ip}
+        test_value = {'hosting_company_name': self._webfusion, self._KEY_IP: self._gd_ip}
         result = self._gdb.is_hosted(test_value)
         assert_true(result)
 
     def test_false_is_hosted(self):
-        test_value = {'hosting_company_name': self._webfusion, 'ip': '212.48.64.1'}
+        test_value = {'hosting_company_name': self._webfusion, self._KEY_IP: '212.48.64.1'}
         result = self._gdb.is_hosted(test_value)
         assert_false(result)
 

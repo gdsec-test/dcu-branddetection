@@ -2,11 +2,10 @@ import abc
 import re
 
 
-class Brand(object):
+class Brand(object, metaclass=abc.ABCMeta):
     """
     Abstract base class for all brands
     """
-    __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
     def is_hosted(self, whois_lookup):

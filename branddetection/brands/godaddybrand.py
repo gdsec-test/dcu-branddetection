@@ -13,6 +13,8 @@ class GoDaddyBrand(Brand):
     NAME = 'GODADDY'
     HOSTING_COMPANY_NAME = 'GoDaddy.com LLC'
     HOSTING_ABUSE_EMAIL = 'abuse@godaddy.com'
+    IP = 'ip'
+    SECURESERVER = 'secureserver.net'
 
     # ASN 21501 is used in AMS (Amsterdam) for GoDaddy US products
     _asns = [26496, 21501]
@@ -26,9 +28,9 @@ class GoDaddyBrand(Brand):
         if hostname and self.NAME in hostname.upper():
             return True
 
-        reverse_dns = DomainHelper.get_domain_from_ip(whois_lookup['ip'])
-        if reverse_dns is not None and 'secureserver.net' in reverse_dns:
-            self._logger.info("{} hosted info found in reverse dns".format(whois_lookup['ip']))
+        reverse_dns = DomainHelper.get_domain_from_ip(whois_lookup[self.IP])
+        if reverse_dns is not None and self.SECURESERVER in reverse_dns:
+            self._logger.info('{} hosted info found in reverse dns'.format(whois_lookup[self.IP]))
             return True
         return False
 

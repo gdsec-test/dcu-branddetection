@@ -11,8 +11,10 @@ RUN apk --no-cache add build-base \
     libffi-dev \
     openssl-dev \
     linux-headers \
-    python-dev \
-    py-pip
+    python3-dev \
+    py3-pip \
+    && ln -s /usr/bin/python3 python \
+    && pip3 --no-cache-dir install --upgrade pip
 
 EXPOSE 5000
 
@@ -20,13 +22,13 @@ EXPOSE 5000
 COPY ./*.ini ./logging.yaml ./run.py ./runserver.sh ./settings.py ./setup.py /app/
 COPY . /tmp
 
-RUN pip install -U pip
-RUN pip install cryptography==2.8
+RUN pip3 install -U pip
+RUN pip3 install cryptography==2.8
 
 # pip install private pips staged by Makefile
 RUN for entry in PyAuth; \
     do \
-    pip install --compile "/tmp/private_pips/$entry"; \
+    pip3 install --compile "/tmp/private_pips/$entry"; \
     done
 
 # install other requirements
