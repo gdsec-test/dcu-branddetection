@@ -75,7 +75,10 @@ class DomainHelper:
             dnsresolver.timeout = 1
             dnsresolver.lifetime = 1
             addr = reversename.from_address(ip)
-            idna_encoded = dnsresolver.query(addr, 'PTR')[0].to_text().rstrip('.').encode('idna')
+            _domain_string = dnsresolver.query(addr, 'PTR')[0].to_text().rstrip('.')
+            if not _domain_string:
+                raise Exception('IP doesnt resolve')
+            idna_encoded = _domain_string.encode('idna')
             return idna_encoded.decode('utf-8')
         except Exception as e:
             logging.error('Unable to get domain for {} : {}'.format(ip, e))
@@ -98,8 +101,11 @@ class DomainHelper:
             query_value[COMPANY_NAME_KEY] = info.get('network').get('name')
 
             email_list = []
-            for k, v in info['objects'].items():
-                email_address = v['contact']['email']
+            for k, v in info.get('objects', {}).items():
+                _contact = v.get('contact')
+                if not _contact or not isinstance(_contact, dict):
+                    continue
+                email_address = _contact.get('email')
                 if not email_address:
                     continue
                 for i in email_address:
