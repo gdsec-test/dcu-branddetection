@@ -155,6 +155,7 @@ class BrandDetector:
                 self._logger.info("Successfully found a hosting provider using fallback method: {} for domain/ip: {}"
                                   .format(brand.NAME, ip))
                 whois_lookup['brand'] = brand.NAME
+                whois_lookup['hosting_company_name'] = brand.HOSTING_COMPANY_NAME
                 return whois_lookup
 
         # Retrieving CNAMES to check for Website Builder for Designers (WSBD) products.

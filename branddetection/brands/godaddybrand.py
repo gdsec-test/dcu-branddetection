@@ -11,6 +11,7 @@ class GoDaddyBrand(Brand):
     GoDaddy specific brand for determining whether or not a domain is hosted or registered with GoDaddy
     """
     NAME = 'GODADDY'
+    GODADDY_RDAP_PREFIXS = ['GDYUSEAST', 'GDYFRANCE']
     HOSTING_COMPANY_NAME = 'GoDaddy.com LLC'
     HOSTING_ABUSE_EMAIL = 'abuse@godaddy.com'
     IP = 'ip'
@@ -25,7 +26,7 @@ class GoDaddyBrand(Brand):
 
     def is_hosted(self, whois_lookup):
         hostname = self.get_hostname_from_whois(whois_lookup)
-        if hostname and self.NAME in hostname.upper():
+        if hostname and (self.NAME in hostname.upper() or hostname.upper() in self.GODADDY_RDAP_PREFIXS):
             return True
 
         reverse_dns = DomainHelper.get_domain_from_ip(whois_lookup[self.IP])

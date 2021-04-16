@@ -23,7 +23,7 @@ flake8:
 .PHONY: isort
 isort:
 	@echo "----- Optimizing imports -----"
-	isort -rc --atomic .
+	isort --atomic .
 
 .PHONY: tools
 tools: flake8 isort

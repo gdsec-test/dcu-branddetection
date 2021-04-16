@@ -180,7 +180,7 @@ class TestBrandDetector:
         assert_equal(result, test_value)
 
     def test_godaddy_get_hosting_by_fallback(self):
-        test_value = {'brand': self._gd_brand, 'hosting_company_name': 'GO-DADDY-COM-LLC', 'ip': self._gd_ip,
+        test_value = {'brand': self._gd_brand, 'hosting_company_name': 'GoDaddy.com LLC', 'ip': self._gd_ip,
                       'hosting_abuse_email': [self._gd_abuse_email, 'noc@godaddy.com']}
         result = self._bd._get_hosting_by_fallback(self._gd_ip, self._sample_domain)
         assert_equal(result, test_value)
