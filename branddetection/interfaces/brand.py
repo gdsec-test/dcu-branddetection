@@ -38,7 +38,7 @@ class Brand(object, metaclass=abc.ABCMeta):
         :return:
         """
         regex = re.compile('[^a-zA-Z1-4]')
-        whois_host = whois_lookup['hosting_company_name']
+        whois_host = whois_lookup.get('hosting_company_name')
         return None if whois_host is None else regex.sub('', whois_host)
 
     def get_registrar_from_whois(self, whois_lookup):
@@ -48,5 +48,5 @@ class Brand(object, metaclass=abc.ABCMeta):
         :return:
         """
         regex = re.compile('[^a-zA-Z1-4]')
-        whois_registrar = whois_lookup['registrar_name']
+        whois_registrar = whois_lookup.get('registrar_name')
         return None if whois_registrar is None else regex.sub('', whois_registrar)

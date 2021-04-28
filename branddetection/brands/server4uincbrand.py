@@ -1,4 +1,5 @@
 import logging
+import socket
 
 from branddetection.asnhelper import ASNPrefixes
 from branddetection.interfaces.brand import Brand
@@ -6,10 +7,12 @@ from branddetection.interfaces.brand import Brand
 
 class Server4UIncBrand(Brand):
     """
-    Server4UInc specific brand for determining whether or not a domain is hosted or registered with Server4UInc
+    For determining whether a domain is hosted or registered with Server4You/Hosting Solutions International
     """
     NAME = 'SERVER4UINC'
-    HOSTING_COMPANY_NAME = 'Hosting Solutions International, Inc.'
+    HOSTING_MATCHES = ['HOSTING SOLUTIONS INTERNATIONAL', 'SERVER4YOU', 'IP-POOL.COM', 'STARBAND.NET',
+                       'SERVERPROFI24.COM', 'DEDICATEDPANEL.COM', 'STARTDEDICATED.COM',
+                       'NAMESERVERSERVICE.COM']
     HOSTING_ABUSE_EMAIL = 'abuse@server4you.com'
 
     _asns = [30083, 55225]
@@ -19,8 +22,21 @@ class Server4UIncBrand(Brand):
         self._asn = ASNPrefixes(self._asns)
 
     def is_hosted(self, whois_lookup):
-        hostname = self.get_hostname_from_whois(whois_lookup)
-        return hostname and self.NAME in hostname.upper()
+        if isinstance(whois_lookup, dict):
+            hostname = self.get_hostname_from_whois(whois_lookup) or ''
+            for hosting_string in self.HOSTING_MATCHES:
+                if hosting_string in hostname.upper():
+                    return True
+            # If we don't have a match, check whether Host lookup matches same pattern
+            try:
+                host_ip = whois_lookup.get('ip')
+                host_result = socket.gethostbyaddr(host_ip)[0].upper()
+                for hosting_string in self.HOSTING_MATCHES:
+                    if hosting_string in host_result:
+                        return True
+            except Exception as e:
+                logging.warning('Unknown host for {} : {}'.format(host_ip, e))
+        return False
 
     def is_registered(self, whois_lookup):
         registrar = self.get_registrar_from_whois(whois_lookup)
