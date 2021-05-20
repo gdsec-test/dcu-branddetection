@@ -1,12 +1,12 @@
-import logging
 import os
 
+from dcustructuredloggingflask.flasklogger import get_logging
 from flask import Response, request
 from gd_auth.token import AuthToken
 
 from settings import config_by_name
 
-logger = logging.getLogger(__name__)
+logger = get_logging()
 env = os.getenv('sysenv', 'dev')
 app_settings = config_by_name[env]()
 

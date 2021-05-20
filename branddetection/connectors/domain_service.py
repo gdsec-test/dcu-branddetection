@@ -1,6 +1,5 @@
-import logging
-
 import grpc
+from dcustructuredloggingflask.flasklogger import get_logging
 
 import pb.domainservice_pb2
 import pb.domainservice_pb2_grpc
@@ -8,7 +7,7 @@ import pb.domainservice_pb2_grpc
 
 class DomainService:
     def __init__(self, settings):
-        self._logger = logging.getLogger(__name__)
+        self._logger = get_logging()
         self._url = settings.DOMAIN_SERVICE_URL
 
     def get_registration(self, domain):

@@ -1,24 +1,12 @@
-import logging.config
 import os
 
-import yaml
+from dcustructuredloggingflask.flasklogger import add_request_logging
 from flask import Flask, jsonify, request
 
 from branddetection.branddetector import BrandDetector, BrandDetectorDecorator
 from branddetection.rediscache import RedisCache
 from branddetection.utils.auth_tools import authenticate_jwt
 from settings import config_by_name
-
-path = 'logging.yaml'
-value = os.getenv('LOG_CFG', None)
-if value:
-    path = value
-if os.path.exists(path):
-    with open(path, 'rt') as f:
-        lconfig = yaml.safe_load(f.read())
-    logging.config.dictConfig(lconfig)
-else:
-    logging.basicConfig(level=logging.INFO)
 
 env = os.getenv('sysenv', 'dev')
 app_settings = config_by_name[env]()
@@ -48,6 +36,8 @@ def get_registrar_info():
     registrar_information = decorator.get_registrar_info(domain)
     return jsonify(registrar_information)
 
+
+add_request_logging(app, 'brand-detection', sso=app_settings.SSO_URL)
 
 if __name__ == '__main__':
     app.run()

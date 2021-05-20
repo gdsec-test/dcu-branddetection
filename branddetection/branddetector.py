@@ -1,5 +1,6 @@
 import json
-import logging
+
+from dcustructuredloggingflask.flasklogger import get_logging
 
 from branddetection.brands.emeabrand import EMEABrand
 from branddetection.brands.godaddybrand import GoDaddyBrand
@@ -76,7 +77,7 @@ class BrandDetectorDecorator:
 
 class BrandDetector:
     def __init__(self, settings):
-        self._logger = logging.getLogger(__name__)
+        self._logger = get_logging()
         self._domain_helper = DomainHelper()
         self._domain_service = DomainService(settings)
 

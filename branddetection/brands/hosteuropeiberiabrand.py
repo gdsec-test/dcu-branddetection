@@ -1,4 +1,4 @@
-import logging
+from dcustructuredloggingflask.flasklogger import get_logging
 
 from branddetection.asnhelper import ASNPrefixes
 from branddetection.interfaces.brand import Brand
@@ -16,7 +16,7 @@ class HostEuropeIberia(Brand):
     _asns = [44497]
 
     def __init__(self):
-        self._logger = logging.getLogger(__name__)
+        self._logger = get_logging()
         self._asn = ASNPrefixes(self._asns)
 
     def is_hosted(self, whois_lookup):

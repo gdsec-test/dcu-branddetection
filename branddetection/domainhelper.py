@@ -1,7 +1,7 @@
-import logging
 import re
 from datetime import datetime
 
+from dcustructuredloggingflask.flasklogger import get_logging
 from dns import resolver, reversename
 from ipwhois import IPWhois
 from whois import whois
@@ -15,7 +15,7 @@ class DomainHelper:
     CNAME_TTL = 3
 
     def __init__(self):
-        self._logger = logging.getLogger(__name__)
+        self._logger = get_logging()
 
     @staticmethod
     def convert_domain_to_ip(sourceDomainOrIp):
@@ -61,7 +61,7 @@ class DomainHelper:
             dnsresolver.lifetime = 1
             return dnsresolver.query(domain, 'A')[0].address
         except Exception as e:
-            logging.error('Unable to get ip for {} : {}'.format(domain, e))
+            get_logging().error('Unable to get ip for {} : {}'.format(domain, e))
 
     @staticmethod
     def get_domain_from_ip(ip):
@@ -81,7 +81,7 @@ class DomainHelper:
             idna_encoded = _domain_string.encode('idna')
             return idna_encoded.decode('utf-8')
         except Exception as e:
-            logging.error('Unable to get domain for {} : {}'.format(ip, e))
+            get_logging().error('Unable to get domain for {} : {}'.format(ip, e))
 
     def get_hosting_information_via_whois(self, ip):
         """

@@ -1,5 +1,6 @@
-import logging
 import socket
+
+from dcustructuredloggingflask.flasklogger import get_logging
 
 from branddetection.asnhelper import ASNPrefixes
 from branddetection.interfaces.brand import Brand
@@ -18,7 +19,7 @@ class Server4UIncBrand(Brand):
     _asns = [30083, 55225]
 
     def __init__(self):
-        self._logger = logging.getLogger(__name__)
+        self._logger = get_logging()
         self._asn = ASNPrefixes(self._asns)
 
     def is_hosted(self, whois_lookup):
@@ -35,7 +36,7 @@ class Server4UIncBrand(Brand):
                     if hosting_string in host_result:
                         return True
             except Exception as e:
-                logging.warning('Unknown host for {} : {}'.format(host_ip, e))
+                self._logger.warning('Unknown host for {} : {}'.format(host_ip, e))
         return False
 
     def is_registered(self, whois_lookup):

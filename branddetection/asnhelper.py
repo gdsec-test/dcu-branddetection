@@ -1,9 +1,9 @@
 import json
-import logging
 import threading
 from datetime import datetime, timedelta
 from urllib import request
 
+from dcustructuredloggingflask.flasklogger import get_logging
 from netaddr.ip import all_matching_cidrs
 
 
@@ -12,7 +12,7 @@ class ASNPrefixes(object):
     _url_base = 'https://stat.ripe.net/data/announced-prefixes/data.json?resource=AS'
 
     def __init__(self, asns=list(), update_hrs=24):
-        self._logger = logging.getLogger(__name__)
+        self._logger = get_logging()
         self._asns = asns
         self._update_hrs = update_hrs
         self._last_query = datetime(1970, 1, 1)
