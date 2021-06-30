@@ -47,3 +47,9 @@ class TestGodaddyBrand:
         test_value = self._gd_ip
         result = self._gdb.is_ip_in_range(test_value)
         assert_equal(result, [self._gd_ip])
+
+    def test_is_hosted_parked(self):
+        test_value = {'hosting_company_name': self._webfusion, self._KEY_IP: '34.102.136.180'}
+        assert_true(self._gdb.is_hosted(test_value))
+        test_value = {'hosting_company_name': self._webfusion, self._KEY_IP: '34.98.99.30'}
+        assert_true(self._gdb.is_hosted(test_value))

@@ -20,12 +20,16 @@ class GoDaddyBrand(Brand):
 
     # ASN 21501 is used in AMS (Amsterdam) for GoDaddy US products
     _asns = [26496, 21501]
+    _parked_ips = ['34.102.136.180', '34.98.99.30']
 
     def __init__(self):
         self._logger = get_logging()
         self._asn = ASNPrefixes(self._asns)
 
     def is_hosted(self, whois_lookup):
+        if whois_lookup.get(self.IP) in self._parked_ips:
+            return True
+
         hostname = self.get_hostname_from_whois(whois_lookup)
         if hostname and (self.NAME in hostname.upper() or hostname.upper() in self.GODADDY_RDAP_PREFIXS):
             return True
