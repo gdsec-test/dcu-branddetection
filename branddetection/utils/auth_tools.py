@@ -25,6 +25,8 @@ def authenticate_jwt():
 def validate_auth(jwt):
     try:
         payload = AuthToken.payload(jwt)
+        if not payload:
+            return Response('Authentication invalid. Please verify your token \n', status=401)
         typ = payload.get('typ')
         parsed = AuthToken.parse(jwt, app_settings.SSO_URL, app="Brand Detection", typ=typ)
         if parsed.subject.get('cn', '') not in app_settings.CN_WHITELIST:
@@ -32,4 +34,4 @@ def validate_auth(jwt):
             return Response('Forbidden. Please verify your token \n', status=403)
     except Exception as e:
         logger.error('Authentication invalid with error: {}'.format(e.message))
-        return Response('Authentication invalid. Please verify your token \n', status=403)
+        return Response('Authentication invalid. Please verify your token \n', status=401)

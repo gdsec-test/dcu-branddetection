@@ -18,6 +18,9 @@ brand_detector = BrandDetector(app_settings)
 decorator = BrandDetectorDecorator(brand_detector, redis)
 
 
+add_request_logging(app, 'brand-detection', sso=app_settings.SSO_URL)
+
+
 @app.before_request
 def before_request():
     return authenticate_jwt()
@@ -36,8 +39,6 @@ def get_registrar_info():
     registrar_information = decorator.get_registrar_info(domain)
     return jsonify(registrar_information)
 
-
-add_request_logging(app, 'brand-detection', sso=app_settings.SSO_URL)
 
 if __name__ == '__main__':
     app.run()
