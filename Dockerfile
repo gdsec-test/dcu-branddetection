@@ -12,10 +12,7 @@ COPY ./*.ini ./run.py ./runserver.sh ./settings.py ./setup.py /app/
 COPY . /tmp
 
 RUN apt-get update && apt-get install gcc -y
-RUN pip install --compile /tmp/private_pips/PyAuth
-RUN pip install --compile /tmp/private_pips/dcu-structured-logging-flask
-# install other requirements
-RUN pip install --compile /tmp && rm -rf /tmp/* && chown -R dcu:dcu /app
+RUN PIP_CONFIG_FILE=/tmp/pip_config/pip.conf pip install --compile /tmp && rm -rf /tmp/* && chown -R dcu:dcu /app
 RUN apt-get remove -y gcc
 
 WORKDIR /app
