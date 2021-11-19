@@ -114,7 +114,7 @@ class TestBrandDetector:
 
         test_value = {'brand': self._gd_brand, 'domain_create_date': '1999-03-02',
                       'registrar_abuse_email': [self._gd_abuse_email, 'companynames@godaddy.com'],
-                      'registrar_name': 'GoDaddy.com, LLC', 'domain_id': None}
+                      'registrar_name': 'GoDaddy.com, LLC', 'domain_id': None, 'first_pass_enrichment': 'whois'}
 
         result = self._bd.get_registrar_info('godaddy.com')
         assert_equal(result, test_value)
@@ -130,7 +130,7 @@ class TestBrandDetector:
         bd._brands = [EMEABrand()]  # overwrite with removed GoDaddyBrand() to test EMEABrand
 
         test_value = {'brand': self._emea_brand, 'domain_create_date': '2011-08-22', 'registrar_abuse_email': None,
-                      'registrar_name': '123-reg.co.uk', 'domain_id': None}
+                      'registrar_name': '123-reg.co.uk', 'domain_id': None, 'first_pass_enrichment': 'whois'}
 
         result = self._bd.get_registrar_info('jenisawesome.co.uk')
         assert_equal(result, test_value)
@@ -146,7 +146,7 @@ class TestBrandDetector:
 
         test_value = {'domain_create_date': '1995-06-02', 'registrar_abuse_email': ['domainabuse@cscglobal.com',
                                                                                     'vshostmaster@verisign.com'],
-                      'brand': 'FOREIGN', 'registrar_name': 'CSC CORPORATE DOMAINS, INC.', 'domain_id': None}
+                      'brand': 'FOREIGN', 'registrar_name': 'CSC CORPORATE DOMAINS, INC.', 'domain_id': None, 'first_pass_enrichment': 'whois'}
 
         result = self._bd.get_registrar_info('verisign.com')
         assert_equal(result, test_value)
