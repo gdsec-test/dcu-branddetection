@@ -4,7 +4,6 @@ DOCKERREPO=docker-dcu-local.artifactory.secureserver.net/brand_detection
 DATE=$(shell date)
 COMMIT=
 BUILD_BRANCH=origin/main
-SHELL=/bin/bash
 
 all: env
 

@@ -66,3 +66,5 @@ docs/_build/
 .venv/
 .vscode/
 .noseids
+.envrc
+shell.nix
