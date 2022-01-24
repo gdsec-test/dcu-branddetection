@@ -1,0 +1,46 @@
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "brand-detection"
+  namespace: "abuse-api-test"
+  labels:
+    app: "brand-detection"
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: "brand-detection"
+  template:
+    metadata:
+      labels:
+        app: "brand-detection"
+    spec:
+      imagePullSecrets:
+        -
+          name: "dcu-artifactory-creds"
+      containers:
+        -
+          name: "brand-detection"
+          imagePullPolicy: "Always"
+          image: "docker-dcu-local.artifactory.secureserver.net/brand_detection:test"
+          livenessProbe:
+            tcpSocket:
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+            tcpSocket:
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          env:
+          - name: BUILD_DATE
+            value: 'THIS_STRING_IS_REPLACED_DURING_BUILD'
+          - name: sysenv
+            value: testenv
+          - name: REDIS
+            value: brand-detection-redis.abuse-api-test.svc.cluster.local
+          - name: DOMAIN_SERVICE_URL
+            value: domainservice.abuse-api-test.svc.cluster.local:9000

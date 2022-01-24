@@ -1,0 +1,19 @@
+---
+apiVersion: "networking.k8s.io/v1beta1"
+kind: "Ingress"
+metadata:
+  name: "brand-detection"
+  namespace: "abuse-api-test"
+spec:
+  tls:
+    - hosts:
+      - "branddetection.int.test-godaddy.com"
+      secretName: tls-brand-detection
+  rules:
+  - host: "branddetection.int.test-godaddy.com"
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: "brand-detection"
+          servicePort: 5000

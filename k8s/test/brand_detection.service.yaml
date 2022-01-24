@@ -1,0 +1,18 @@
+---
+  kind: "Service"
+  apiVersion: "v1"
+  metadata:
+    labels:
+      app: "brand-detection"
+    # this name is accessible via cluster DNS
+    # ("brand-detection" or "brand-detection.<namespace>.svc.cluster.local")
+    name: "brand-detection"
+    namespace: abuse-api-test
+  spec:
+    ports:
+      -
+        name: "brand-detection"
+        port: 5000
+        targetPort: 5000
+    selector:
+      app: "brand-detection"

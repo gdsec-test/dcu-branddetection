@@ -33,6 +33,14 @@ class DevelopmentAppConfig(AppConfig):
         super(DevelopmentAppConfig, self).__init__()
 
 
+class TestEnvironmentAppConfig(AppConfig):
+    SSO_URL = 'sso.test-godaddy.com'
+    CN_WHITELIST = ['cmapservice.int.test-godaddy.com', 'kelvinservice.int.test-godaddy.com', 'testapi.threat.test-godaddy.com']
+
+    def __init__(self):
+        super(TestEnvironmentAppConfig, self).__init__()
+
+
 class TestAppConfig:
 
     DOMAIN_SERVICE_URL = 'localhost:9000'
@@ -43,4 +51,5 @@ class TestAppConfig:
 
 config_by_name = {'dev': DevelopmentAppConfig,
                   'ote': OTEAppConfig,
-                  'prod': ProductionAppConfig}
+                  'prod': ProductionAppConfig,
+                  'testenv': TestEnvironmentAppConfig}
