@@ -1,3 +1,4 @@
+import os
 import re
 from datetime import datetime
 
@@ -5,6 +6,11 @@ from dcustructuredloggingflask.flasklogger import get_logging
 from dns import resolver, reversename
 from ipwhois import IPWhois
 from whois import whois
+
+from settings import config_by_name
+
+env = os.getenv('sysenv', 'dev')
+app_settings = config_by_name[env]()
 
 
 class DomainHelper:
@@ -57,10 +63,21 @@ class DomainHelper:
         """
         try:
             dnsresolver = resolver.Resolver()
+            if app_settings.CUSTOM_NS:
+                dnsresolver.nameservers = [app_settings.CUSTOM_NS]
             dnsresolver.timeout = 1
             dnsresolver.lifetime = 1
             return dnsresolver.query(domain, 'A')[0].address
         except Exception as e:
+            # Fallback to pod level DNS if we fail to find a match in test.
+            try:
+                if app_settings.CUSTOM_NS:
+                    dnsresolver = resolver.Resolver()
+                    dnsresolver.timeout = 1
+                    dnsresolver.lifetime = 1
+                    return dnsresolver.query(domain, 'A')[0].address
+            except:  # noqa: E722
+                pass
             get_logging().error('Unable to get ip for {} : {}'.format(domain, e))
 
     @staticmethod

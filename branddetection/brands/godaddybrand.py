@@ -1,10 +1,16 @@
+import os
 import re
+from ipaddress import IPv4Address
 
 from dcustructuredloggingflask.flasklogger import get_logging
 
 from branddetection.asnhelper import ASNPrefixes
 from branddetection.domainhelper import DomainHelper
 from branddetection.interfaces.brand import Brand
+from settings import config_by_name
+
+env = os.getenv('sysenv', 'dev')
+app_settings = config_by_name[env]()
 
 
 class GoDaddyBrand(Brand):
@@ -45,4 +51,8 @@ class GoDaddyBrand(Brand):
         return registrar and re.search(r'(?:GODADDY|WILDWESTDOMAINS)', registrar.upper())
 
     def is_ip_in_range(self, ip):
+        if app_settings.GODADDY_BRAND_NETWORK_OVERRIDES:
+            if any(IPv4Address(ip) in x for x in app_settings.GODADDY_BRAND_NETWORK_OVERRIDES):
+                return True
+
         return self._asn.get_network_for_ip(ip)

@@ -1,8 +1,13 @@
 import os
+import socket
+from ipaddress import IPv4Network
+from typing import Dict, List, Optional, Type
 
 
 class AppConfig(object):
     REDIS_TTL = 24 * 60 * 60  # Seconds in a day
+    CUSTOM_NS = None
+    GODADDY_BRAND_NETWORK_OVERRIDES: Optional[List[IPv4Network]] = None
 
     def __init__(self):
         self.REDIS = os.getenv('REDIS') or 'localhost'
@@ -39,6 +44,8 @@ class TestEnvironmentAppConfig(AppConfig):
 
     def __init__(self):
         super(TestEnvironmentAppConfig, self).__init__()
+        self.CUSTOM_NS = socket.gethostbyname('ns05.test-dc.gdns.godaddy.com')
+        self.GODADDY_BRAND_NETWORK_OVERRIDES = [IPv4Network('10.0.0.0/8')]
 
 
 class TestAppConfig:
@@ -49,7 +56,9 @@ class TestAppConfig:
     CN_WHITELIST = []
 
 
-config_by_name = {'dev': DevelopmentAppConfig,
-                  'ote': OTEAppConfig,
-                  'prod': ProductionAppConfig,
-                  'testenv': TestEnvironmentAppConfig}
+config_by_name: Dict[str, Type[AppConfig]] = {
+    'dev': DevelopmentAppConfig,
+    'ote': OTEAppConfig,
+    'prod': ProductionAppConfig,
+    'testenv': TestEnvironmentAppConfig
+}
