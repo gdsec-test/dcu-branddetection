@@ -14,18 +14,6 @@ class TestReg123:
     def __init__(self, _ripe_get_prefixes_per_asn):
         self._reg123 = Reg123Brand()
 
-    def test_is_reg123_hosted(self):
-        reg123_test = {'hosting_company_name': self._123reg}
-
-        results = self._reg123.is_hosted(reg123_test)
-        assert_is_not_none(results)
-
-    def test_is_not_reg123_hosted(self):
-        not_reg123_test = {'hosting_company_name': self._gd_llc}
-
-        results = self._reg123.is_hosted(not_reg123_test)
-        assert_is_none(results)
-
     def test_is_reg123_registered(self):
         reg123_test = {'registrar_name': self._123reg}
 

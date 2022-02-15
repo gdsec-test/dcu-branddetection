@@ -1,7 +1,5 @@
 import re
 
-from dcustructuredloggingflask.flasklogger import get_logging
-
 from branddetection.asnhelper import ASNPrefixes
 from branddetection.interfaces.brand import Brand
 
@@ -13,17 +11,16 @@ class PlusServerBrand(Brand):
     """
     NAME = 'PLUSSERVER'
     HOSTING_COMPANY_NAME = 'PlusServer AG'
+    HOSTING_MATCHES = ['MAINLAB', 'MESHDE', 'PLUSSERVER', 'PLUSSERVER AG']
     HOSTING_ABUSE_EMAIL = 'abuse@plusserver.de'
 
     _asns = [25074]
 
     def __init__(self):
-        self._logger = get_logging()
         self._asn = ASNPrefixes(self._asns)
 
     def is_hosted(self, whois_lookup):
-        hostname = self.get_hostname_from_whois(whois_lookup)
-        return hostname and re.search(r'(?:MAINLAB|MESHDE|PLUSSERVER)', hostname.upper())
+        pass
 
     def is_registered(self, whois_lookup):
         registrar = self.get_registrar_from_whois(whois_lookup)

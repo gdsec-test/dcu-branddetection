@@ -1,3 +1,7 @@
+import socket
+
+from dcustructuredloggingflask.flasklogger import get_logging
+
 from branddetection.brands.domainfactorybrand import DomainFactoryBrand
 from branddetection.brands.heartinternetbrand import HeartInternetBrand
 from branddetection.brands.hosteuropebrand import HostEuropeBrand
@@ -21,14 +25,32 @@ class EMEABrand(Brand):
     HOSTING_ABUSE_EMAIL = 'abuse-input@heg.com'
 
     def __init__(self):
+        self._logger = get_logging()
         self._brands = [Reg123Brand(), DomainFactoryBrand(), HeartInternetBrand(), HostEuropeBrand(),
                         HostEuropeIberia(), ParagonBrand(), Server4UIncBrand(),
                         Server4UGmbH(), VeliaBrand(), MeshDigitalBrand(), PlusServerBrand()]
 
-    def is_hosted(self, whois_lookup):
-        for brand in self._brands:
-            if brand.is_hosted(whois_lookup):
-                return True
+    def is_hosted(self, whois_lookup: dict) -> bool:
+        if isinstance(whois_lookup, dict):
+            for brand in self._brands:
+                hostname = self.get_hostname_from_whois(whois_lookup) or ''
+                if brand.NAME in hostname.upper():
+                    return True
+                for hosting_string in brand.HOSTING_MATCHES:
+                    if hosting_string in hostname.upper():
+                        return True
+
+                host_ip = whois_lookup.get('ip')
+                # If we don't have a match, check whether Host lookup matches same pattern
+                if host_ip:
+                    try:
+                        host_result = socket.gethostbyaddr(host_ip)[0].upper()
+                        for hosting_string in brand.HOSTING_MATCHES:
+                            if hosting_string in host_result:
+                                return True
+                    except Exception as e:
+                        self._logger.warning('Unknown host for {} : {}'.format(host_ip, e))
+
         return False
 
     def is_registered(self, whois_lookup):

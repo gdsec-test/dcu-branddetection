@@ -1,5 +1,3 @@
-from dcustructuredloggingflask.flasklogger import get_logging
-
 from branddetection.asnhelper import ASNPrefixes
 from branddetection.interfaces.brand import Brand
 
@@ -10,18 +8,17 @@ class HeartInternetBrand(Brand):
     """
     NAME = 'HEARTINTERNET'
     HOSTING_COMPANY_NAME = 'Heart Internet Ltd'
+    HOSTING_MATCHES = ['HEARTINTERNET', 'HEART INTERNET', 'VPS-10', 'DS-10', 'EXTENDCP', 'EXTENDNET']
     HOSTING_ABUSE_EMAIL = 'abuse@heartinternet.co.uk'
 
     # AS43788 currently has no originating prefixes
     _asns = [43788]
 
     def __init__(self):
-        self._logger = get_logging()
         self._asn = ASNPrefixes(self._asns)
 
     def is_hosted(self, whois_lookup):
-        hostname = self.get_hostname_from_whois(whois_lookup)
-        return hostname and self.NAME in hostname.upper()
+        pass
 
     def is_registered(self, whois_lookup):
         registrar = self.get_registrar_from_whois(whois_lookup)

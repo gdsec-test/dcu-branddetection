@@ -1,5 +1,3 @@
-from dcustructuredloggingflask.flasklogger import get_logging
-
 from branddetection.asnhelper import ASNPrefixes
 from branddetection.interfaces.brand import Brand
 
@@ -10,17 +8,16 @@ class ParagonBrand(Brand):
     """
     NAME = 'PARAGON'
     HOSTING_COMPANY_NAME = 'Paragon Internet Group Limited'
+    HOSTING_MATCHES = ['PARAGON', 'PARAGON INTERNET GROUP LIMITED']
     HOSTING_ABUSE_EMAIL = 'abuse@paragon.net.uk'
 
     _asns = [133882, 198047]
 
     def __init__(self):
-        self._logger = get_logging()
         self._asn = ASNPrefixes(self._asns)
 
     def is_hosted(self, whois_lookup):
-        hostname = self.get_hostname_from_whois(whois_lookup)
-        return hostname and self.NAME in hostname.upper()
+        pass
 
     def is_registered(self, whois_lookup):
         registrar = self.get_registrar_from_whois(whois_lookup)

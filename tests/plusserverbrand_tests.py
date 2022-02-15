@@ -13,18 +13,6 @@ class TestPlusServerBrand:
     def __init__(self, _ripe_get_prefixes_per_asn):
         self._plusserver = PlusServerBrand()
 
-    def test_is_plusserver_hosted(self):
-        plusserver_test = {'hosting_company_name': 'Mainlab'}
-
-        results = self._plusserver.is_hosted(plusserver_test)
-        assert_is_not_none(results)
-
-    def test_is_not_plusserver_hosted(self):
-        not_plusserver_test = {'hosting_company_name': self._gd_llc}
-
-        results = self._plusserver.is_hosted(not_plusserver_test)
-        assert_is_none(results)
-
     def test_is_plusserver_registered(self):
         plusserver_test = {'registrar_name': 'MESHDE'}
 

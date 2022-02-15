@@ -10,7 +10,7 @@ from branddetection.brands.reg123brand import Reg123Brand
 class TestEMEA:
     _emea_ip = '80.90.194.0'
     _gd = 'GoDaddy'
-    _123reg = '123REG'
+    _123reg = 'WEBFUSION'
 
     @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
     def __init__(self, _ripe_get_prefixes_per_asn):

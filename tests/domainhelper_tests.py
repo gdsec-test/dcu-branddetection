@@ -120,8 +120,8 @@ class TestDomainHelper:
         assert_equal(ip, 'ip-0-0-0-0.ip.secureserver.net')
 
     def test_none_domain_from_ip(self):
-        domain2 = self._DH.get_domain_from_ip(self._local_ip)
-        assert_is_none(domain2)
+        domain = self._DH.get_domain_from_ip(self._local_ip)
+        assert_equal(domain, 'localhost')
 
     @patch('branddetection.domainhelper.whois', return_value=MockWhoisResponse())
     @patch.object(IPWhois, 'lookup_rdap', return_value=_rdap_dict)
