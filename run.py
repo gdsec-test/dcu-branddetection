@@ -1,6 +1,7 @@
 import os
 
 from dcustructuredloggingflask.flasklogger import add_request_logging
+from elasticapm.contrib.flask import ElasticAPM
 from flask import Flask, jsonify, request
 
 from branddetection.branddetector import BrandDetector, BrandDetectorDecorator
@@ -13,6 +14,9 @@ app_settings = config_by_name[env]()
 redis = RedisCache(app_settings)
 
 app = Flask(__name__)
+
+apm = ElasticAPM()
+apm.init_app(app, service_name='brand-detection', debug=True, environment=env)
 
 brand_detector = BrandDetector(app_settings)
 decorator = BrandDetectorDecorator(brand_detector, redis)

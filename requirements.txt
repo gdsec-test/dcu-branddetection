@@ -3,6 +3,7 @@ click==7.1.1
 cryptography==3.3.2
 dcu-structured-logging-flask==1.0.1
 dnspython==1.16.0
+elastic-apm[flask]==6.7.2
 enum34==1.1.6
 Flask==1.1.1
 future==0.18.2
