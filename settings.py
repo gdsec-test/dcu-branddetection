@@ -44,7 +44,10 @@ class TestEnvironmentAppConfig(AppConfig):
 
     def __init__(self):
         super(TestEnvironmentAppConfig, self).__init__()
-        self.CUSTOM_NS = socket.gethostbyname('ns05.test-dc.gdns.godaddy.com')
+        self.CUSTOM_NS = [
+            socket.gethostbyname('ns03.test-dc.gdns.godaddy.com'),
+            socket.gethostbyname('ns05.test-dc.gdns.godaddy.com')
+        ]
         self.GODADDY_BRAND_NETWORK_OVERRIDES = [IPv4Network('10.0.0.0/8')]
 
 
