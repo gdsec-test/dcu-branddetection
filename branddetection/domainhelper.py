@@ -64,7 +64,7 @@ class DomainHelper:
         try:
             dnsresolver = resolver.Resolver()
             if app_settings.CUSTOM_NS:
-                dnsresolver.nameservers = [app_settings.CUSTOM_NS]
+                dnsresolver.nameservers = app_settings.CUSTOM_NS
             dnsresolver.timeout = 1
             dnsresolver.lifetime = 1
             return dnsresolver.query(domain, 'A')[0].address
