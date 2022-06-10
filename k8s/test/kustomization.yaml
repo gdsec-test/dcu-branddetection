@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../base
+- brand_detection.ingress.yaml
+
+namespace: abuse-api-test
+images:
+- name: docker-dcu-local.artifactory.secureserver.net/brand_detection
+  newTag: test
+
+configMapGenerator:
+- literals:
+  - sysenv=test
+  - REDIS=brand-detection-redis.abuse-api-test.svc.cluster.local
+  - KEYFILE=/keyfiles/key.txt
+  - DOMAIN_SERVICE_URL=domainservice.abuse-api-test.svc.cluster.local:9000
+  name: env-specific-values

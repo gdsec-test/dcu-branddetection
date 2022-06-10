@@ -7,7 +7,6 @@
     # this name is accessible via cluster DNS
     # ("brand-detection" or "brand-detection.<namespace>.svc.cluster.local")
     name: "brand-detection"
-    namespace: abuse-api-test
   spec:
     ports:
       -

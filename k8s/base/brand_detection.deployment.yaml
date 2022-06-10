@@ -3,7 +3,6 @@ apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
   name: "brand-detection"
-  namespace: "abuse-api-dev"
   labels:
     app: "brand-detection"
 spec:
@@ -23,8 +22,10 @@ spec:
       containers:
         -
           name: "brand-detection"
-          imagePullPolicy: "Always"
-          image: "docker-dcu-local.artifactory.secureserver.net/brand_detection:dev"
+          image: "docker-dcu-local.artifactory.secureserver.net/brand_detection"
+          envFrom:
+            - configMapRef:
+                name: env-specific-values
           livenessProbe:
             tcpSocket:
               port: 5000
@@ -36,16 +37,6 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 10
           env:
-          - name: BUILD_DATE
-            value: 'THIS_STRING_IS_REPLACED_DURING_BUILD'
-          - name: sysenv
-            value: dev
-          - name: KEYFILE
-            value: /keyfiles/key.txt
-          - name: REDIS
-            value: brand-detection-redis.abuse-api-dev.svc.cluster.local
-          - name: DOMAIN_SERVICE_URL
-            value: domainservice.abuse-api-dev.svc.cluster.local:9000
           - name: ELASTIC_APM_SERVER_URL
             valueFrom:
               secretKeyRef:

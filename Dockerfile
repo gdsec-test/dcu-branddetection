@@ -1,10 +1,9 @@
 # Brand Detection Service
+FROM docker-dcu-local.artifactory.secureserver.net/dcu-python3.7:3.3
 
-FROM python:3.7.10-slim
 LABEL MAINTAINER=dcueng@godaddy.com
 
-RUN addgroup dcu && adduser --disabled-password --disabled-login --no-create-home --ingroup dcu --system dcu
-
+USER root
 EXPOSE 5000
 
 # Move files to new dir
@@ -16,4 +15,5 @@ RUN PIP_CONFIG_FILE=/tmp/pip_config/pip.conf pip install --compile /tmp && rm -r
 RUN apt-get remove -y gcc
 
 WORKDIR /app
+USER dcu
 ENTRYPOINT ["/app/runserver.sh"]

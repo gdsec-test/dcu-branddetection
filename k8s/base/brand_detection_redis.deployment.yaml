@@ -3,7 +3,6 @@ apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
   name: "brand-detection-redis"
-  namespace: "abuse-api-prod"
   labels:
     app: "brand-detection-redis"
 spec:
