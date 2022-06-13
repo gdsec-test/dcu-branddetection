@@ -11,7 +11,7 @@ images:
 
 configMapGenerator:
 - literals:
-  - sysenv=test
+  - sysenv=testenv
   - REDIS=brand-detection-redis.abuse-api-test.svc.cluster.local
   - KEYFILE=/keyfiles/key.txt
   - DOMAIN_SERVICE_URL=domainservice.abuse-api-test.svc.cluster.local:9000

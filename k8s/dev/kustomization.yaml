@@ -5,24 +5,6 @@ resources:
 - brand_detection.ingress.yaml
 
 namespace: abuse-api-dev
-patches:
-- patch: |-
-    - op: add
-      path: "/spec/template/spec/containers/0/volumeMounts"
-      value:
-      - name: encryption-keys
-        mountPath: /keyfiles
-        readOnly: true
-    - op: add
-      path: "/spec/template/spec/volumes/0"
-      value:
-        name: encryption-keys
-        secret:
-          secretName: encryption-key-files
-  target:
-    kind: Deployment
-    name: brand-detection
-
 
 images:
 - name: docker-dcu-local.artifactory.secureserver.net/brand_detection
