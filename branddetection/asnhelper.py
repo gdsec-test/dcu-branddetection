@@ -3,7 +3,7 @@ import threading
 from datetime import datetime, timedelta
 from urllib import request
 
-from dcustructuredloggingflask.flasklogger import get_logging
+from csetutils.flask.logging import get_logging
 from netaddr.ip import all_matching_cidrs
 
 

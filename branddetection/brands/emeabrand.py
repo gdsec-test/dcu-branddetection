@@ -1,6 +1,6 @@
 import socket
 
-from dcustructuredloggingflask.flasklogger import get_logging
+from csetutils.flask.logging import get_logging
 
 from branddetection.brands.domainfactorybrand import DomainFactoryBrand
 from branddetection.brands.heartinternetbrand import HeartInternetBrand

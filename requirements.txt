@@ -1,8 +1,6 @@
 cffi==1.14.0
-cryptography==3.3.2
-dcu-structured-logging-flask==1.0.1
+csetutils>=0.1.7
 dnspython==1.16.0
-elastic-apm[flask]==6.7.2
 enum34==1.1.6
 Flask==2.1.2
 future==0.18.2

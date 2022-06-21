@@ -2,7 +2,7 @@ import os
 import re
 from ipaddress import IPv4Address
 
-from dcustructuredloggingflask.flasklogger import get_logging
+from csetutils.flask.logging import get_logging
 
 from branddetection.asnhelper import ASNPrefixes
 from branddetection.domainhelper import DomainHelper

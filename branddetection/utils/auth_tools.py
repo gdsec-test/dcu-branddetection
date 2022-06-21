@@ -1,6 +1,6 @@
 import os
 
-from dcustructuredloggingflask.flasklogger import get_logging
+from csetutils.flask.logging import get_logging
 from flask import Response, request
 from gd_auth.exceptions import TokenExpiredException
 from gd_auth.token import AuthToken, TokenBusinessLevel

@@ -1,5 +1,5 @@
 import grpc
-from dcustructuredloggingflask.flasklogger import get_logging
+from csetutils.flask.logging import get_logging
 
 import pb.domainservice_pb2
 import pb.domainservice_pb2_grpc

@@ -2,7 +2,7 @@ import os
 import re
 from datetime import datetime
 
-from dcustructuredloggingflask.flasklogger import get_logging
+from csetutils.flask.logging import get_logging
 from dns import resolver, reversename
 from ipwhois import IPWhois
 from whois import whois
