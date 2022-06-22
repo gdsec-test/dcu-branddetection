@@ -4,6 +4,7 @@ kind: "Ingress"
 metadata:
   name: "brand-detection"
   namespace: "abuse-api-test"
+
 spec:
   tls:
     - hosts:
