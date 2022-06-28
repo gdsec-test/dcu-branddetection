@@ -1,5 +1,5 @@
 cffi==1.14.0
-csetutils>=0.1.7
+csetutils>=0.2.1
 dnspython==1.16.0
 enum34==1.1.6
 Flask==2.1.2
