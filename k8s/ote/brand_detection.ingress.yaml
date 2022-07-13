@@ -9,8 +9,18 @@ spec:
     - hosts:
       - "branddetection.int.ote-godaddy.com"
       secretName: tls-brand-detection
+    - hosts:
+      - "branddetection.cset.int.ote-gdcorp.tools"
+      secretName: cset-wildcard
   rules:
   - host: "branddetection.int.ote-godaddy.com"
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: "brand-detection"
+          servicePort: 5000
+  - host: "branddetection.cset.int.ote-gdcorp.tools"
     http:
       paths:
       - path: /
