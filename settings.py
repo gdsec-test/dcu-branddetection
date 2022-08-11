@@ -15,7 +15,7 @@ class AppConfig(object):
 
 
 class ProductionAppConfig(AppConfig):
-    SSO_URL = 'sso.godaddy.com'
+    SSO_URL = 'sso.gdcorp.tools'
     CN_WHITELIST = ['cmapservice.int.godaddy.com', 'kelvinservice.int.godaddy.com', 'testapi.threat.dev-godaddy.com']
 
     def __init__(self):
@@ -23,7 +23,7 @@ class ProductionAppConfig(AppConfig):
 
 
 class OTEAppConfig(AppConfig):
-    SSO_URL = 'sso.ote-godaddy.com'
+    SSO_URL = 'sso.ote-gdcorp.tools'
     CN_WHITELIST = ['cmapservice.int.ote-godaddy.com', 'kelvinservice.int.ote-godaddy.com', 'testapi.threat.dev-godaddy.com']
 
     def __init__(self):
@@ -31,7 +31,7 @@ class OTEAppConfig(AppConfig):
 
 
 class DevelopmentAppConfig(AppConfig):
-    SSO_URL = 'sso.dev-godaddy.com'
+    SSO_URL = 'sso.dev-gdcorp.tools'
     CN_WHITELIST = ['cmapservice.int.dev-godaddy.com', 'kelvinservice.int.dev-godaddy.com', 'testapi.threat.dev-godaddy.com']
 
     def __init__(self):
@@ -39,7 +39,7 @@ class DevelopmentAppConfig(AppConfig):
 
 
 class TestEnvironmentAppConfig(AppConfig):
-    SSO_URL = 'sso.test-godaddy.com'
+    SSO_URL = 'sso.test-gdcorp.tools'
     CN_WHITELIST = ['cmapservice.int.test-godaddy.com', 'kelvinservice.int.test-godaddy.com', 'testapi.threat.test-godaddy.com']
 
     def __init__(self):
