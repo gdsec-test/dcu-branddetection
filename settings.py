@@ -16,7 +16,7 @@ class AppConfig(object):
 
 class ProductionAppConfig(AppConfig):
     SSO_URL = 'sso.gdcorp.tools'
-    CN_WHITELIST = ['cmapservice.int.godaddy.com', 'kelvinservice.int.godaddy.com', 'testapi.threat.dev-godaddy.com']
+    CN_WHITELIST = ['cmapservice.cset.int.gdcorp.tools', 'kelvinservice.int.godaddy.com', 'testapi.threat.dev-godaddy.com']
 
     def __init__(self):
         super(ProductionAppConfig, self).__init__()
@@ -24,7 +24,7 @@ class ProductionAppConfig(AppConfig):
 
 class OTEAppConfig(AppConfig):
     SSO_URL = 'sso.ote-gdcorp.tools'
-    CN_WHITELIST = ['cmapservice.int.ote-godaddy.com', 'kelvinservice.int.ote-godaddy.com', 'testapi.threat.dev-godaddy.com']
+    CN_WHITELIST = ['cmapservice.cset.int.ote-gdcorp.tools', 'kelvinservice.int.ote-godaddy.com', 'testapi.threat.dev-godaddy.com']
 
     def __init__(self):
         super(OTEAppConfig, self).__init__()
@@ -32,7 +32,7 @@ class OTEAppConfig(AppConfig):
 
 class DevelopmentAppConfig(AppConfig):
     SSO_URL = 'sso.dev-gdcorp.tools'
-    CN_WHITELIST = ['cmapservice.int.dev-godaddy.com', 'kelvinservice.int.dev-godaddy.com', 'testapi.threat.dev-godaddy.com']
+    CN_WHITELIST = ['cmapservice.cset.int.dev-gdcorp.tools', 'kelvinservice.int.dev-godaddy.com', 'testapi.threat.dev-godaddy.com']
 
     def __init__(self):
         super(DevelopmentAppConfig, self).__init__()
@@ -40,7 +40,7 @@ class DevelopmentAppConfig(AppConfig):
 
 class TestEnvironmentAppConfig(AppConfig):
     SSO_URL = 'sso.test-gdcorp.tools'
-    CN_WHITELIST = ['cmapservice.int.test-godaddy.com', 'kelvinservice.int.test-godaddy.com', 'testapi.threat.test-godaddy.com']
+    CN_WHITELIST = ['cmapservice.cset.int.test-gdcorp.tools', 'kelvinservice.int.test-godaddy.com', 'testapi.threat.test-godaddy.com']
 
     def __init__(self):
         super(TestEnvironmentAppConfig, self).__init__()

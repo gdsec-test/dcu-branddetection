@@ -8,9 +8,9 @@ See [this gist](https://github.secureserver.net/gist/clake1/a5781dd5415504dcbbef
 
 ### API Domains
 
-* branddetection.int.dev-godaddy.com
-* branddetection.int.ote-godaddy.com
-* branddetection.int.godaddy.com
+* branddetection.cset.int.dev-gdcorp.tools
+* branddetection.cset.int.ote-gdcorp.tools
+* branddetection.cset.int.gdcorp.tools
 
 ### Auth header
 
