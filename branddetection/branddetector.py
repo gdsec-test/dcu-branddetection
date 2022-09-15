@@ -141,7 +141,7 @@ class BrandDetector:
             if brand.is_ip_in_range(ip):
                 self._logger.info("Successfully found a hosting provider: {} for domain/ip: {}".format(brand.NAME, ip))
                 return {'brand': brand.NAME, 'hosting_company_name': brand.HOSTING_COMPANY_NAME, 'ip': ip,
-                        'hosting_abuse_email': [brand.HOSTING_ABUSE_EMAIL], }
+                        'hosting_abuse_email': [brand.HOSTING_ABUSE_EMAIL]}
         return None
 
     def _get_hosting_by_fallback(self, ip, domain):
@@ -175,7 +175,7 @@ class BrandDetector:
 
     def get_plid_email(self, plid):
         """
-        Function that does BLAH LKM TODO
+        Function that returns the email address associated with a given PLID
         :param plid:
         :return:
         """
