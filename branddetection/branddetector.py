@@ -141,7 +141,7 @@ class BrandDetector:
             if brand.is_ip_in_range(ip):
                 self._logger.info("Successfully found a hosting provider: {} for domain/ip: {}".format(brand.NAME, ip))
                 return {'brand': brand.NAME, 'hosting_company_name': brand.HOSTING_COMPANY_NAME, 'ip': ip,
-                        'hosting_abuse_email': [brand.HOSTING_ABUSE_EMAIL]}
+                        'hosting_abuse_email': [brand.HOSTING_ABUSE_EMAIL], }
         return None
 
     def _get_hosting_by_fallback(self, ip, domain):
@@ -172,3 +172,20 @@ class BrandDetector:
         self._logger.info("Unable to find a matching hosting provider for domain/ip: {}. Brand is FOREIGN.".format(ip))
         whois_lookup['brand'] = "FOREIGN"
         return whois_lookup
+
+    def get_plid_email(self, plid):
+        """
+        Function that does BLAH LKM TODO
+        :param plid:
+        :return:
+        """
+        mail_to = {'525844': 'abuse@123-reg.co.uk',  # 123REG
+                   '525845': 'abuse@df.eu',  # Domain Factory
+                   '525848': 'abuse@heartinternet.uk',  # Heart Internet
+                   '525847': 'abuse@hosteurope.de',  # HostEurope
+                   '527397': 'abuse@tsohost.com',  # TSOHost
+                   '541136': 'abuse@velia.net',  # Velia
+                   '536004': 'abuse@webhuset.no',  # Webhuset
+                   'default': 'automationfails-emea@godaddy.com'  # Default address for undefined PLID or enrichment error
+                   }
+        return {'email': mail_to.get(plid, self.mail_to.get('default'))}

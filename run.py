@@ -40,5 +40,11 @@ def get_registrar_info():
     return jsonify(registrar_information)
 
 
+@app.route('/email', methods=['GET'])
+def get_plid_email():
+    plid = request.args.get('plid')
+    return jsonify(brand_detector.get_plid_email(plid))
+
+
 if __name__ == '__main__':
     app.run()
