@@ -29,4 +29,4 @@ Note both `Hosting()` and `Registrar()` accept an IP address or domain.  Under t
 * `/hosting?domain=x`
   * Response: `{'brand': '', 'hosting_company_name': '', 'hosting_abuse_email': '', ip': ''}`
 * `/registrar?domain=x`
-  * Response: `{'brand': '', 'registrar_name': '', 'registrar_abuse_email': '', 'domain_create_date': '', 'domain_id': ''}`
+  * Response: `{'brand': '', 'registrar_name': '', 'registrar_abuse_email': '', 'domain_create_date': '', 'domain_id': '', 'abuse_report_email': ''}`
