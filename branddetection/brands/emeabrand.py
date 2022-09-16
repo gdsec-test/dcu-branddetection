@@ -67,7 +67,7 @@ class EMEABrand(Brand):
         return False
 
     def get_email_from_ip(self, ip):
-        for brand in self._brand:
+        for brand in self._brands:
             if brand.is_ip_in_range(ip):
                 return brand.HOSTING_ABUSE_EMAIL
         return self.DEFAULT_REPORT_EMAIL

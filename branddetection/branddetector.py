@@ -196,18 +196,18 @@ class BrandDetector:
         test = mail_to.get(plid, mail_to.get('default'))
         return {'email': test}
 
-    def get_email_for_registrar_by_whois(self, brand, whois):
-        if brand.NAME == GoDaddyBrand.NAME:
-            return brand.HOSTING_ABUSE_EMAIL
-        return EMEABrand.get_email_for_registrar_from_whois(whois)
+    def get_email_for_registrar_by_whois(self, brand_name, whois):
+        if brand_name == GoDaddyBrand.NAME:
+            return GoDaddyBrand.HOSTING_ABUSE_EMAIL
+        return EMEABrand().get_email_for_registrar_from_whois(whois_lookup=whois)
 
     def get_email_for_hosted_by_whois(self, brand_name, whois):
         if brand_name == GoDaddyBrand.NAME:
             return GoDaddyBrand.HOSTING_ABUSE_EMAIL
-        return EMEABrand.get_email_for_hosted_from_whois(whois)
+        return EMEABrand().get_email_for_hosted_from_whois(whois_lookup=whois)
 
     def get_email_by_ip(self, brand_name, ip):
         if brand_name == GoDaddyBrand.NAME:
             return GoDaddyBrand.HOSTING_ABUSE_EMAIL
         else:
-            return EMEABrand.get_email_from_ip(ip)
+            return EMEABrand().get_email_from_ip(ip=ip)
