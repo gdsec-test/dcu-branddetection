@@ -1,13 +1,11 @@
 import json
 
 from csetutils.flask.logging import get_logging
-from branddetection.brands import godaddybrand
 
 from branddetection.brands.emeabrand import EMEABrand
 from branddetection.brands.godaddybrand import GoDaddyBrand
 from branddetection.connectors.domain_service import DomainService
 from branddetection.domainhelper import DomainHelper
-from branddetection.interfaces import brand
 
 
 class BrandDetectorDecorator:
@@ -109,7 +107,8 @@ class BrandDetector:
             # NOTE: Since hosting/registrar contacts are the same for GoDaddy, we reuse fields like HOSTING_ABUSE_EMAIL
             return {'brand': GoDaddyBrand.NAME, 'registrar_name': GoDaddyBrand.HOSTING_COMPANY_NAME,
                     'registrar_abuse_email': [GoDaddyBrand.HOSTING_ABUSE_EMAIL], 'domain_create_date': resp.createDate,
-                    'domain_id': resp.domainId, 'first_pass_enrichment': 'regdb', 'abuse_report_email': GoDaddyBrand.HOSTING_ABUSE_EMAIL}
+                    'domain_id': resp.domainId, 'first_pass_enrichment': 'regdb',
+                    'abuse_report_email': GoDaddyBrand.HOSTING_ABUSE_EMAIL}
         else:
             return self._get_registrar_by_fallback(domain)
 
@@ -126,7 +125,7 @@ class BrandDetector:
             if brand.is_registered(whois_lookup):
                 self._logger.info("Successfully found a registrar: {} for domain/ip: {}"
                                   .format(brand.NAME, domain))
-                whois_lookup['abuse_report_email'] = self.get_email_for_registrar_by_whois(brand, whois_lookup)
+                whois_lookup['abuse_report_email'] = self.get_email_for_registrar_by_whois(brand.NAME, whois_lookup)
                 whois_lookup['brand'] = brand.NAME
                 return whois_lookup
 
@@ -144,7 +143,8 @@ class BrandDetector:
             if brand.is_ip_in_range(ip):
                 self._logger.info("Successfully found a hosting provider: {} for domain/ip: {}".format(brand.NAME, ip))
                 return {'brand': brand.NAME, 'hosting_company_name': brand.HOSTING_COMPANY_NAME, 'ip': ip,
-                        'hosting_abuse_email': [brand.HOSTING_ABUSE_EMAIL], 'abuse_report_email': self.get_email_by_ip(brand, ip)}
+                        'hosting_abuse_email': [brand.HOSTING_ABUSE_EMAIL],
+                        'abuse_report_email': self.get_email_by_ip(brand.NAME, ip)}
         return None
 
     def _get_hosting_by_fallback(self, ip, domain):
@@ -161,8 +161,7 @@ class BrandDetector:
                                   .format(brand.NAME, ip))
                 whois_lookup['brand'] = brand.NAME
                 whois_lookup['hosting_company_name'] = brand.HOSTING_COMPANY_NAME
-                # LKM TODO: add call to 
-                whois_lookup['abuse_report_emeail'] = brand.get_email_from_brand(whois_lookup)
+                whois_lookup['abuse_report_email'] = self.get_email_for_hosted_by_whois(brand.NAME, whois_lookup)
                 return whois_lookup
 
         # Retrieving CNAMES to check for Website Builder for Designers (WSBD) products.
@@ -202,13 +201,13 @@ class BrandDetector:
             return brand.HOSTING_ABUSE_EMAIL
         return EMEABrand.get_email_for_registrar_from_whois(whois)
 
-    def get_email_for_hosted_by_whois(self, brand, whois):
-        if brand.NAME == GoDaddyBrand.NAME:
-            return brand.HOSTING_ABUSE_EMAIL
+    def get_email_for_hosted_by_whois(self, brand_name, whois):
+        if brand_name == GoDaddyBrand.NAME:
+            return GoDaddyBrand.HOSTING_ABUSE_EMAIL
         return EMEABrand.get_email_for_hosted_from_whois(whois)
 
-    def get_email_by_ip(self, brand, ip):
-        if brand.NAME == GoDaddyBrand.NAME:
-            return brand.HOSTING_ABUSE_EMAIL
+    def get_email_by_ip(self, brand_name, ip):
+        if brand_name == GoDaddyBrand.NAME:
+            return GoDaddyBrand.HOSTING_ABUSE_EMAIL
         else:
-            return brand.get_email_from_ip(ip)
+            return EMEABrand.get_email_from_ip(ip)
