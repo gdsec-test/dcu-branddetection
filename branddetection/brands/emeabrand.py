@@ -23,6 +23,7 @@ class EMEABrand(Brand):
     NAME = 'EMEA'
     HOSTING_COMPANY_NAME = 'Host Europe GmbH'
     HOSTING_ABUSE_EMAIL = 'abuse-input@heg.com'
+    DEFAULT_REPORT_EMAIL = 'automationfails-emea@godaddy.com'
 
     def __init__(self):
         self._logger = get_logging()
@@ -64,3 +65,21 @@ class EMEABrand(Brand):
             if brand.is_ip_in_range(ip):
                 return True
         return False
+
+    def get_email_from_ip(self, ip):
+        for brand in self._brands:
+            if brand.is_ip_in_range(ip):
+                return brand.HOSTING_ABUSE_EMAIL
+        return self.DEFAULT_REPORT_EMAIL
+
+    def get_email_for_registrar_from_whois(self, whois_lookup):
+        for brand in self._brands:
+            if brand.is_registered(whois_lookup):
+                return brand.HOSTING_ABUSE_EMAIL
+        return self.DEFAULT_REPORT_EMAIL
+
+    def get_email_for_hosted_from_whois(self, whois_lookup):
+        for brand in self._brands:
+            if brand.is_hosted(whois_lookup):
+                return brand.HOSTING_ABUSE_EMAIL
+        return self.DEFAULT_REPORT_EMAIL

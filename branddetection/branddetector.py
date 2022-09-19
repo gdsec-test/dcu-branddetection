@@ -25,7 +25,7 @@ class BrandDetectorDecorator:
         """
         ip = DomainHelper.convert_domain_to_ip(sourceDomainOrIp)
         if ip is None:
-            return {'brand': None, 'hosting_company_name': None, 'hosting_abuse_email': None, 'ip': None}
+            return {'brand': None, 'hosting_company_name': None, 'hosting_abuse_email': None, 'ip': None, 'abuse_report_email': None}
 
         redis_record_key = self._HOSTING_REDIS_KEY.format(ip)
         whois_lookup = self._get_whois_info_from_cache(redis_record_key)
@@ -107,7 +107,8 @@ class BrandDetector:
             # NOTE: Since hosting/registrar contacts are the same for GoDaddy, we reuse fields like HOSTING_ABUSE_EMAIL
             return {'brand': GoDaddyBrand.NAME, 'registrar_name': GoDaddyBrand.HOSTING_COMPANY_NAME,
                     'registrar_abuse_email': [GoDaddyBrand.HOSTING_ABUSE_EMAIL], 'domain_create_date': resp.createDate,
-                    'domain_id': resp.domainId, 'first_pass_enrichment': 'regdb'}
+                    'domain_id': resp.domainId, 'first_pass_enrichment': 'regdb',
+                    'abuse_report_email': GoDaddyBrand.HOSTING_ABUSE_EMAIL}
         else:
             return self._get_registrar_by_fallback(domain)
 
@@ -124,6 +125,7 @@ class BrandDetector:
             if brand.is_registered(whois_lookup):
                 self._logger.info("Successfully found a registrar: {} for domain/ip: {}"
                                   .format(brand.NAME, domain))
+                whois_lookup['abuse_report_email'] = self.get_email_for_registrar_by_whois(brand.NAME, whois_lookup)
                 whois_lookup['brand'] = brand.NAME
                 return whois_lookup
 
@@ -141,7 +143,8 @@ class BrandDetector:
             if brand.is_ip_in_range(ip):
                 self._logger.info("Successfully found a hosting provider: {} for domain/ip: {}".format(brand.NAME, ip))
                 return {'brand': brand.NAME, 'hosting_company_name': brand.HOSTING_COMPANY_NAME, 'ip': ip,
-                        'hosting_abuse_email': [brand.HOSTING_ABUSE_EMAIL]}
+                        'hosting_abuse_email': [brand.HOSTING_ABUSE_EMAIL],
+                        'abuse_report_email': self.get_email_by_ip(brand.NAME, ip)}
         return None
 
     def _get_hosting_by_fallback(self, ip, domain):
@@ -158,6 +161,7 @@ class BrandDetector:
                                   .format(brand.NAME, ip))
                 whois_lookup['brand'] = brand.NAME
                 whois_lookup['hosting_company_name'] = brand.HOSTING_COMPANY_NAME
+                whois_lookup['abuse_report_email'] = self.get_email_for_hosted_by_whois(brand.NAME, whois_lookup)
                 return whois_lookup
 
         # Retrieving CNAMES to check for Website Builder for Designers (WSBD) products.
@@ -167,8 +171,43 @@ class BrandDetector:
                 whois_lookup['brand'] = GoDaddyBrand.NAME
                 whois_lookup['hosting_company_name'] = GoDaddyBrand.HOSTING_COMPANY_NAME
                 whois_lookup['hosting_abuse_email'] = [GoDaddyBrand.HOSTING_ABUSE_EMAIL]
+                whois_lookup['abuse_report_email'] = GoDaddyBrand.HOSTING_ABUSE_EMAIL
                 return whois_lookup
 
         self._logger.info("Unable to find a matching hosting provider for domain/ip: {}. Brand is FOREIGN.".format(ip))
         whois_lookup['brand'] = "FOREIGN"
         return whois_lookup
+
+    def get_plid_email(self, plid):
+        """
+        Function that returns the email address associated with a given PLID
+        :param plid:
+        :return:
+        """
+        mail_to = {'525844': 'abuse@123-reg.co.uk',  # 123REG
+                   '525845': 'abuse@df.eu',  # Domain Factory
+                   '525848': 'abuse@heartinternet.uk',  # Heart Internet
+                   '525847': 'abuse@hosteurope.de',  # HostEurope
+                   '527397': 'abuse@tsohost.com',  # TSOHost
+                   '541136': 'abuse@velia.net',  # Velia
+                   '536004': 'abuse@webhuset.no',  # Webhuset
+                   'default': 'automationfails-emea@godaddy.com'  # Default address for undefined PLID or enrichment error
+                   }
+        test = mail_to.get(plid, mail_to.get('default'))
+        return {'email': test}
+
+    def get_email_for_registrar_by_whois(self, brand_name, whois):
+        if brand_name == GoDaddyBrand.NAME:
+            return GoDaddyBrand.HOSTING_ABUSE_EMAIL
+        return EMEABrand().get_email_for_registrar_from_whois(whois_lookup=whois)
+
+    def get_email_for_hosted_by_whois(self, brand_name, whois):
+        if brand_name == GoDaddyBrand.NAME:
+            return GoDaddyBrand.HOSTING_ABUSE_EMAIL
+        return EMEABrand().get_email_for_hosted_from_whois(whois_lookup=whois)
+
+    def get_email_by_ip(self, brand_name, ip):
+        if brand_name == GoDaddyBrand.NAME:
+            return GoDaddyBrand.HOSTING_ABUSE_EMAIL
+        else:
+            return EMEABrand().get_email_from_ip(ip=ip)
