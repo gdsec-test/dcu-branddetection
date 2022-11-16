@@ -47,13 +47,3 @@ spec:
               secretKeyRef:
                 name: apm-access
                 key: secret
-          volumeMounts:
-          - name: encryption-keys
-            mountPath: /keyfiles
-            readOnly: true
-
-      volumes:
-        - name: encryption-keys
-          secret:
-            secretName: encryption-key-files
-

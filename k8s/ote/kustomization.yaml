@@ -13,6 +13,5 @@ configMapGenerator:
 - literals:
   - sysenv=ote
   - REDIS=brand-detection-redis.abuse-api-ote.svc.cluster.local
-  - KEYFILE=/keyfiles/key.txt
   - DOMAIN_SERVICE_URL=domainservice.abuse-api-ote.svc.cluster.local:9000
   name: env-specific-values

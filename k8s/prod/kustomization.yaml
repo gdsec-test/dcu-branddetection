@@ -16,6 +16,5 @@ configMapGenerator:
 - literals:
   - sysenv=prod
   - REDIS=brand-detection-redis.abuse-api-prod.svc.cluster.local
-  - KEYFILE=/keyfiles/key.txt
   - DOMAIN_SERVICE_URL=domainservice.abuse-api-prod.svc.cluster.local:9000
   name: env-specific-values
