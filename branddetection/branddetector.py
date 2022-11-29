@@ -11,6 +11,9 @@ from branddetection.domainhelper import DomainHelper
 class BrandDetectorDecorator:
     _HOSTING_REDIS_KEY = '{}-hosting_whois_info'
     _REGISTRAR_REDIS_KEY = '{}-registrar_whois_info'
+    WHITELISTED_DOMAINS = [
+        'godaddysites.com'
+    ]
 
     def __init__(self, decorated, redis):
         self._decorated = decorated
@@ -24,8 +27,18 @@ class BrandDetectorDecorator:
         :return:
         """
         ip = DomainHelper.convert_domain_to_ip(sourceDomainOrIp)
+
         if ip is None:
             return {'brand': None, 'hosting_company_name': None, 'hosting_abuse_email': None, 'ip': None, 'abuse_report_email': None}
+        elif any(sourceDomainOrIp.endswith(x) for x in self.WHITELISTED_DOMAINS):
+            return {
+                'brand': GoDaddyBrand.NAME,
+                'hosting_company_name': GoDaddyBrand.HOSTING_COMPANY_NAME,
+                'ip': ip,
+                'hosting_abuse_email': [GoDaddyBrand.HOSTING_ABUSE_EMAIL],
+                'abuse_report_email': GoDaddyBrand.HOSTING_ABUSE_EMAIL,
+                'first_pass_enrichment': 'whitelisted'
+            }
 
         redis_record_key = self._HOSTING_REDIS_KEY.format(ip)
         whois_lookup = self._get_whois_info_from_cache(redis_record_key)

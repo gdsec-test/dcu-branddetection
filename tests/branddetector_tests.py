@@ -1,7 +1,7 @@
 import json
+from unittest import TestCase
 
 from mock import patch
-from nose.tools import assert_equal, assert_is_none
 
 from branddetection.asnhelper import ASNPrefixes
 from branddetection.branddetector import BrandDetector, BrandDetectorDecorator
@@ -12,21 +12,21 @@ from branddetection.rediscache import RedisCache
 from settings import TestAppConfig
 
 
-class TestBrandDetectorDecorator:
+class TestBrandDetectorDecorator(TestCase):
     _gd_ip = '208.109.192.70'
     _gd_abuse_email = 'abuse@godaddy.com'
     _gd_brand = 'GODADDY'
     _gd_llc = 'GoDaddy.com LLC'
     _gd_report_email = 'abuse@godaddy.com'
 
-    def __init__(self):
+    def setUp(self):
         self._tbd = BrandDetectorDecorator(BrandDetector, RedisCache(None))
 
     @patch.object(DomainHelper, 'convert_domain_to_ip', return_value=None)
     def test_none_get_hosting_info(self, convert_domain_to_ip):
         test_value = {'brand': None, 'hosting_company_name': None, 'hosting_abuse_email': None, 'ip': None, 'abuse_report_email': None}
         result = self._tbd.get_hosting_info(self._gd_ip)
-        assert_equal(result, test_value)
+        self.assertEqual(result, test_value)
 
     @patch.object(BrandDetectorDecorator, '_add_whois_info_to_cache', return_value=None)
     @patch.object(BrandDetectorDecorator, '_get_whois_info_from_cache', return_value=None)
@@ -44,7 +44,7 @@ class TestBrandDetectorDecorator:
                       'abuse_report_email': self._gd_abuse_email}
 
         result = self._tbd.get_hosting_info(self._gd_ip)
-        assert_equal(result, test_value)
+        self.assertEqual(result, test_value)
 
     @patch.object(BrandDetectorDecorator, '_add_whois_info_to_cache', return_value=None)
     @patch.object(BrandDetectorDecorator, '_get_whois_info_from_cache', return_value=None)
@@ -59,20 +59,31 @@ class TestBrandDetectorDecorator:
                       'registrar_name': self._gd_llc, 'abuse_report_email': self._gd_abuse_email}
 
         result = self._tbd.get_registrar_info('godaddy.com')
-        assert_equal(result, test_value)
+        self.assertEqual(result, test_value)
 
     @patch.object(RedisCache, 'get_value', return_value=json.dumps({'result': 'test'}))
     def test_result_get_whois_info_from_cache(self, get_value):
         result = self._tbd._get_whois_info_from_cache('godaddy.com-registrar_whois_info')
-        assert_equal(result, 'test')
+        self.assertEqual(result, 'test')
 
     @patch.object(RedisCache, 'get_value', return_value=None)
     def test_none_get_whos_info_from_cache(self, get_value):
         result = self._tbd._get_whois_info_from_cache('godaddy.com-registrar_whois_info')
-        assert_is_none(result)
+        self.assertIsNone(result)
+
+    @patch.object(BrandDetector, 'get_hosting_info')
+    @patch.object(DomainHelper, 'convert_domain_to_ip')
+    def test_whitelisted_domain_hosting(self, convert_domain_to_ip, get_hosting_info):
+        convert_domain_to_ip.return_value = self._gd_ip
+        test_value = {'brand': self._gd_brand, 'hosting_company_name': self._gd_llc,
+                      'ip': self._gd_ip, 'hosting_abuse_email': [self._gd_abuse_email],
+                      'abuse_report_email': self._gd_abuse_email, 'first_pass_enrichment': 'whitelisted'}
+
+        result = self._tbd.get_hosting_info('testing.godaddysites.com')
+        self.assertEqual(result, test_value)
 
 
-class TestBrandDetector:
+class TestBrandDetector(TestCase):
     _gd_ip = '208.109.192.70'
     _gd_abuse_email = 'abuse@godaddy.com'
     _gd_brand = 'GODADDY'
@@ -84,7 +95,7 @@ class TestBrandDetector:
     _wsbd_domain = 'wsbddemo.com'
 
     @patch.object(ASNPrefixes, '_ripe_get_prefixes_per_asn')
-    def __init__(self, _ripe_get_prefixes_per_asn):
+    def setUp(self, _ripe_get_prefixes_per_asn):
         self._bd = BrandDetector(TestAppConfig())
 
     @patch.object(BrandDetector, '_get_hosting_in_known_ip_range')
@@ -96,7 +107,7 @@ class TestBrandDetector:
         test_value = _get_hosting_in_known_ip_range.return_value
 
         result = self._bd.get_hosting_info(self._gd_ip, self._sample_domain)
-        assert_equal(result, test_value)
+        self.assertEqual(result, test_value)
 
     @patch.object(BrandDetector, '_get_hosting_in_known_ip_range', return_value=None)
     @patch.object(BrandDetector, '_get_hosting_by_fallback')
@@ -108,7 +119,7 @@ class TestBrandDetector:
         test_value = _get_hosting_by_fallback.return_value
 
         result = self._bd.get_hosting_info(self._gd_ip, self._sample_domain)
-        assert_equal(result, test_value)
+        self.assertEqual(result, test_value)
 
     @patch.object(DomainHelper, 'get_registrar_information_via_whois')
     @patch.object(DomainService, 'get_registration', return_value=None)
@@ -124,7 +135,7 @@ class TestBrandDetector:
                       'abuse_report_email': self._gd_abuse_email}
 
         result = self._bd.get_registrar_info('godaddy.com')
-        assert_equal(result, test_value)
+        self.assertEqual(result, test_value)
 
     @patch.object(ASNPrefixes, '_query_ripe')
     @patch.object(DomainHelper, 'get_registrar_information_via_whois')
@@ -141,7 +152,7 @@ class TestBrandDetector:
                       'abuse_report_email': self._emea_report_email}
 
         result = self._bd.get_registrar_info('jenisawesome.co.uk')
-        assert_equal(result, test_value)
+        self.assertEqual(result, test_value)
 
     @patch.object(DomainHelper, 'get_registrar_information_via_whois')
     @patch.object(DomainService, 'get_registration', return_value=None)
@@ -158,7 +169,7 @@ class TestBrandDetector:
                       'first_pass_enrichment': 'whois'}
 
         result = self._bd.get_registrar_info('verisign.com')
-        assert_equal(result, test_value)
+        self.assertEqual(result, test_value)
 
     @patch.object(ASNPrefixes, '_query_ripe')
     def test_godaddy_get_hosting_in_known_ip_range(self, _query_ripe):
@@ -168,7 +179,7 @@ class TestBrandDetector:
                       'hosting_abuse_email': [self._gd_abuse_email]}
 
         result = self._bd._get_hosting_in_known_ip_range(self._gd_ip)
-        assert_equal(result, test_value)
+        self.assertEqual(result, test_value)
 
     @patch.object(ASNPrefixes, '_query_ripe')
     def test_emea_get_hosting_in_known_ip_range(self, _query_ripe):
@@ -180,20 +191,20 @@ class TestBrandDetector:
                       'hosting_abuse_email': ['abuse-input@heg.com'], 'abuse_report_email': self._emea_report_email}
 
         result = bd._get_hosting_in_known_ip_range(self._emea_ip)
-        assert_equal(result, test_value)
+        self.assertEqual(result, test_value)
 
     def test_none_get_hosting_in_known_ip_range(self):
         self._bd._brands = []  # overwrite with empty for testing return of None
         test_value = None
         result = self._bd._get_hosting_in_known_ip_range('127.0.0.0')
-        assert_equal(result, test_value)
+        self.assertEqual(result, test_value)
 
     def test_godaddy_get_hosting_by_fallback(self):
         test_value = {'brand': self._gd_brand, 'hosting_company_name': 'GoDaddy.com LLC', 'ip': self._gd_ip,
                       'hosting_abuse_email': [self._gd_abuse_email, 'noc@godaddy.com'],
                       'abuse_report_email': self._gd_abuse_email}
         result = self._bd._get_hosting_by_fallback(self._gd_ip, self._sample_domain)
-        assert_equal(result, test_value)
+        self.assertEqual(result, test_value)
 
     @patch.object(ASNPrefixes, '_query_ripe')
     @patch.object(EMEABrand, 'is_hosted', return_value=True)
@@ -207,18 +218,18 @@ class TestBrandDetector:
         bd._brands = [EMEABrand()]  # overwrite with removed GoDaddyBrand() to test EMEABrand
         test_value['brand'] = self._emea_brand
         result = bd._get_hosting_by_fallback(self._emea_ip, self._sample_domain)
-        assert_equal(result, test_value)
+        self.assertEqual(result, test_value)
 
     def test_foreign_get_hosting_by_fallback(self):
         test_value = {'hosting_company_name': None, 'ip': None, 'brand': 'FOREIGN', 'hosting_abuse_email': None}
         result = self._bd._get_hosting_by_fallback('127.0.0.0', self._sample_domain)
-        assert_equal(result, test_value)
+        self.assertEqual(result, test_value)
 
     @patch.object(DomainHelper, 'get_cname_from_domain', return_value={'gdtest-082701.godaddysiteonline.com.'})
     def test_wsbd_get_hosting_by_fallback(self, mock_cname):
         test_value = {'brand': self._gd_brand, 'hosting_company_name': self._gd_llc,
                       'hosting_abuse_email': [self._gd_abuse_email]}
         result = self._bd._get_hosting_by_fallback('127.0.0.0', self._wsbd_domain)
-        assert_equal(result.get('brand'), test_value.get('brand'))
-        assert_equal(result.get('hosting_company_name'), test_value.get('hosting_company_name'))
-        assert_equal(result.get('hosting_abuse_email'), test_value.get('hosting_abuse_email'))
+        self.assertEqual(result.get('brand'), test_value.get('brand'))
+        self.assertEqual(result.get('hosting_company_name'), test_value.get('hosting_company_name'))
+        self.assertEqual(result.get('hosting_abuse_email'), test_value.get('hosting_abuse_email'))
