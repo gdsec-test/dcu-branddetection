@@ -1,6 +1,6 @@
-from mock import patch
 from unittest import TestCase
-from mock import MagicMock
+
+from mock import MagicMock, patch
 
 from branddetection.asnhelper import ASNPrefixes
 from branddetection.brands.emeabrand import EMEABrand
