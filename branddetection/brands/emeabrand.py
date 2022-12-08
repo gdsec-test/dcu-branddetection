@@ -32,25 +32,30 @@ class EMEABrand(Brand):
                         Server4UGmbH(), VeliaBrand(), MeshDigitalBrand(), PlusServerBrand()]
 
     def is_hosted(self, whois_lookup: dict) -> bool:
-        if isinstance(whois_lookup, dict):
-            for brand in self._brands:
-                hostname = self.get_hostname_from_whois(whois_lookup) or ''
-                if brand.NAME in hostname.upper():
-                    return True
-                for hosting_string in brand.HOSTING_MATCHES:
-                    if hosting_string in hostname.upper():
-                        return True
+        for brand in self._brands:
+            if self.is_brand_hosted(whois_lookup, brand):
+                return True
+        return False
 
-                host_ip = whois_lookup.get('ip')
-                # If we don't have a match, check whether Host lookup matches same pattern
-                if host_ip:
-                    try:
-                        host_result = socket.gethostbyaddr(host_ip)[0].upper()
-                        for hosting_string in brand.HOSTING_MATCHES:
-                            if hosting_string in host_result:
-                                return True
-                    except Exception as e:
-                        self._logger.warning('Unknown host for {} : {}'.format(host_ip, e))
+    def is_brand_hosted(self, whois_lookup: dict, brand: Brand) -> bool:
+        if isinstance(whois_lookup, dict):
+            hostname = self.get_hostname_from_whois(whois_lookup) or ''
+            if brand.NAME in hostname.upper():
+                return True
+            for hosting_string in brand.HOSTING_MATCHES:
+                if hosting_string in hostname.upper():
+                    return True
+
+            host_ip = whois_lookup.get('ip')
+            # If we don't have a match, check whether Host lookup matches same pattern
+            if host_ip:
+                try:
+                    host_result = socket.gethostbyaddr(host_ip)[0].upper()
+                    for hosting_string in brand.HOSTING_MATCHES:
+                        if hosting_string in host_result:
+                            return True
+                except Exception as e:
+                    self._logger.warning('Unknown host for {} : {}'.format(host_ip, e))
 
         return False
 
@@ -80,6 +85,6 @@ class EMEABrand(Brand):
 
     def get_email_for_hosted_from_whois(self, whois_lookup):
         for brand in self._brands:
-            if brand.is_hosted(whois_lookup):
+            if self.is_brand_hosted(whois_lookup, brand):
                 return brand.HOSTING_ABUSE_EMAIL
         return self.DEFAULT_REPORT_EMAIL
