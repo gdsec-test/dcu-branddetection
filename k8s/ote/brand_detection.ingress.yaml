@@ -1,19 +1,24 @@
 ---
-apiVersion: "networking.k8s.io/v1beta1"
-kind: "Ingress"
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  name: "brand-detection"
-  namespace: "abuse-api-ote"
+  name: brand-detection
+  namespace: abuse-api-ote
+  annotations:
+    kubernetes.io/ingress.class: nginx
 spec:
   tls:
     - hosts:
-      - "branddetection.cset.int.ote-gdcorp.tools"
+      - branddetection.cset.int.ote-gdcorp.tools
       secretName: cset-wildcard
   rules:
-  - host: "branddetection.cset.int.ote-gdcorp.tools"
+  - host: branddetection.cset.int.ote-gdcorp.tools
     http:
       paths:
       - path: /
+        pathType: Prefix
         backend:
-          serviceName: "brand-detection"
-          servicePort: 5000
+          service:
+            name: brand-detection
+            port:
+              number: 5000

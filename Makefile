@@ -51,7 +51,7 @@ prep: tools test
 
 dev: prep
 	@echo "----- building $(REPONAME) dev -----"
-	docker build --no-cache=true -t $(DOCKERREPO):dev $(BUILDROOT)
+	docker build -t $(DOCKERREPO):dev $(BUILDROOT)
 
 test-env: prep
 	@echo "----- building $(REPONAME) test -----"
@@ -59,17 +59,15 @@ test-env: prep
 
 ote: prep
 	@echo "----- building $(REPONAME) ote -----"
-	docker build --no-cache=true -t $(DOCKERREPO):ote $(BUILDROOT)
+	docker build -t $(DOCKERREPO):ote $(BUILDROOT)
 
 prod: prep
 	@echo "----- building $(REPONAME) prod -----"
-	read -p "About to build production image from main branch. Are you sure? (Y/N): " response ; \
+	read -p "About to build production. Are you sure? (Y/N): " response ; \
 	if [[ $$response == 'N' || $$response == 'n' ]] ; then exit 1 ; fi
 	if [[ `git status --porcelain | wc -l` -gt 0 ]] ; then echo "You must stash your changes before proceeding" ; exit 1 ; fi
-	git fetch && git checkout $(BUILD_BRANCH)
 	$(eval COMMIT:=$(shell git rev-parse --short HEAD))
 	docker build -t $(DOCKERREPO):$(COMMIT) $(BUILDROOT)
-	git checkout -
 
 .PHONY: dev-deploy
 dev-deploy: dev
@@ -84,12 +82,12 @@ test-deploy: test-env
 .PHONY: ote-deploy
 ote-deploy: ote
 	@echo "----- deploying $(REPONAME) ote -----"
-	$(call deploy_k8s,ote,ote,ote-dcu)
+	$(call deploy_k8s,ote,ote,ote-cset)
 
 .PHONY: prod-deploy
 prod-deploy: prod
 	@echo "----- deploying $(REPONAME) prod -----"
-	$(call deploy_k8s,prod,$(COMMIT),prod-dcu)
+	$(call deploy_k8s,prod,$(COMMIT),prod-cset)
 
 .PHONY: clean
 clean:
