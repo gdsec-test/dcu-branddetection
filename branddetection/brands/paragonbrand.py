@@ -8,8 +8,8 @@ class ParagonBrand(Brand):
     """
     NAME = 'PARAGON'
     HOSTING_COMPANY_NAME = 'Paragon Internet Group Limited'
-    HOSTING_MATCHES = ['PARAGON', 'PARAGON INTERNET GROUP LIMITED']
-    HOSTING_ABUSE_EMAIL = 'abuse@paragon.net.uk'
+    HOSTING_MATCHES = ['PARAGON', 'PARAGON INTERNET GROUP LIMITED', 'PRGN.MISP.CO.UK']
+    HOSTING_ABUSE_EMAIL = 'abuse@tsohost.com'
 
     _asns = [133882, 198047]
 
