@@ -198,12 +198,11 @@ class BrandDetector:
         :return:
         """
         mail_to = {'525844': 'abuse@123-reg.co.uk',  # 123REG
-                   '525845': 'abuse@df.eu',  # Domain Factory
-                   '525848': 'abuse@heartinternet.uk',  # Heart Internet
+                   '525845': 'abuse@domainfactory.de',  # Domain Factory
+                   '525848': 'abuse@heartinternet.co.uk',  # Heart Internet
                    '525847': 'abuse@hosteurope.de',  # HostEurope
                    '527397': 'abuse@tsohost.com',  # TSOHost
                    '541136': 'abuse@velia.net',  # Velia
-                   '536004': 'abuse@webhuset.no',  # Webhuset
                    'default': 'automationfails-emea@godaddy.com'  # Default address for undefined PLID or enrichment error
                    }
         test = mail_to.get(plid, mail_to.get('default'))
