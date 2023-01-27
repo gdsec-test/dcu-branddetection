@@ -5,7 +5,6 @@ import dns.rdtypes.IN.A as mock_dns
 from dns import resolver
 from ipwhois.ipwhois import IPWhois
 from mock import patch
-from nose.tools import assert_equal, assert_false, assert_is_none, assert_true
 from whois.parser import WhoisCom
 
 from branddetection.domainhelper import DomainHelper
@@ -78,51 +77,51 @@ class TestDomainHelper(TestCase):
 
     def test_none_convert_domain_to_ip(self):
         no_source = self._DH.convert_domain_to_ip(None)
-        assert_is_none(no_source)
+        self.assertIsNone(no_source)
 
     @patch.object(resolver.Resolver, 'query', return_value=[MockDNSResolver])
     def test_convert_intl_domain_to_ip(self, get_ip):
         domain = self._DH.convert_domain_to_ip(self._intl_domain)
-        assert_equal(domain, self._gd_ip)
+        self.assertEqual(domain, self._gd_ip)
 
     @patch.object(resolver.Resolver, 'query', return_value=[MockDNSResolver])
     def test_convert_domain_to_ip(self, get_ip):
         domain = self._DH.convert_domain_to_ip(self._gd_domain)
-        assert_equal(domain, self._gd_ip)
+        self.assertEqual(domain, self._gd_ip)
 
     def test_ip_empty_convert_domain_to_ip(self):
         ip = self._DH.convert_domain_to_ip('')
-        assert_is_none(ip)
+        self.assertIsNone(ip)
 
     def test_str_ip_convert_domain_to_ip(self):
         ip = self._DH.convert_domain_to_ip(self._gd_ip)
-        assert_equal(ip, self._gd_ip)
+        self.assertEqual(ip, self._gd_ip)
 
     def test_false_is_ip(self):
         domain = self._DH.is_ip('comicsn.beer')
-        assert_false(domain)
+        self.assertFalse(domain)
 
     def test_is_ip_string_ip(self):
         ip = self._DH.is_ip(self._gd_ip)
-        assert_true(ip)
+        self.assertTrue(ip)
 
     def test_is_ip_string_random(self):
         ip = self._DH.is_ip(self._random)
-        assert_false(ip)
+        self.assertFalse(ip)
 
     def test_is_ip_bytes_random(self):
         ip = self._DH.is_ip(self._random_bytes)
-        assert_false(ip)
+        self.assertFalse(ip)
 
     @patch.object(resolver.Resolver, 'query', return_value=[MockDNSResolver1()])
     @patch('branddetection.domainhelper.reversename.from_address', return_value='0.0.0.0.in-addr.arpa.')
     def test_gd_get_domain_from_ip(self, get_reverse_name, get_byte_string):
         ip = self._DH.get_domain_from_ip(self._gd_ip)
-        assert_equal(ip, 'ip-0-0-0-0.ip.secureserver.net')
+        self.assertEqual(ip, 'ip-0-0-0-0.ip.secureserver.net')
 
     def test_none_domain_from_ip(self):
         domain = self._DH.get_domain_from_ip(self._local_ip)
-        assert_true(domain is None or domain == 'localhost')
+        self.assertTrue(domain is None or domain == 'localhost')
 
     @patch('branddetection.domainhelper.whois', return_value=MockWhoisResponse())
     @patch.object(IPWhois, 'lookup_rdap', return_value=_rdap_dict)
@@ -131,15 +130,15 @@ class TestDomainHelper(TestCase):
         ip = query_value['ip']
         org = query_value['hosting_company_name']
         email = query_value['hosting_abuse_email']
-        assert_equal(ip, self._rdap_ip)
-        assert_equal(org, self._gd_llc)
-        assert_equal(email, [self._gd_abuse_email, self._gd_noc_email])
+        self.assertEqual(ip, self._rdap_ip)
+        self.assertEqual(org, self._gd_llc)
+        self.assertEqual(email, [self._gd_abuse_email, self._gd_noc_email])
 
     @patch('branddetection.domainhelper.whois', return_value=MockWhoisResponse())
     def test_none_get_hosting_information_via_whois(self, get_whois):
         fp_value = self._DH.get_hosting_information_via_whois(self._local_ip)
         org = fp_value['hosting_company_name']
-        assert_is_none(org)
+        self.assertIsNone(org)
 
     @patch('branddetection.domainhelper.whois', return_value=MockWhoisResponse())
     def test_gd_get_registrar_information_via_whois(self, get_whois):
@@ -147,16 +146,16 @@ class TestDomainHelper(TestCase):
         date = gd_value['domain_create_date']
         email = gd_value['registrar_abuse_email']
         registrar = gd_value['registrar_name']
-        assert_true(date == '1999-03-02')
+        self.assertTrue(date == '1999-03-02')
 
         # sometimes ['abuse@godaddy.com', 'companynames@godaddy.com'] or ['abuse@godaddy.com']
-        assert_true(email == [self._gd_abuse_email] or [self._gd_abuse_email, 'companynames@godaddy.com'])
+        self.assertTrue(email == [self._gd_abuse_email] or [self._gd_abuse_email, 'companynames@godaddy.com'])
 
         # sometimes GoDaddy.com, LLC, or 'GO-DADDY-COM-LLC'
-        assert_true(registrar == self._gd_llc or registrar == 'GoDaddy.com, LLC')
+        self.assertTrue(registrar == self._gd_llc or registrar == 'GoDaddy.com, LLC')
 
     @patch('branddetection.domainhelper.whois', return_value=MockWhoisResponse(''))
     def test_none_get_registrar_information_via_whois(self, get_whois):
         fp_value = self._DH.get_registrar_information_via_whois(self._gd_domain)
         registrar = fp_value['registrar_name']
-        assert_is_none(registrar)
+        self.assertIsNone(registrar)
