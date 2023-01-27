@@ -39,7 +39,7 @@ test:
 .PHONY: testcov
 testcov:
 	@echo "----- Running tests with coverage -----"
-	@coverage run --source=zeus -m unittest discover tests "*_tests.py"
+	@coverage run --source=branddetection -m unittest discover tests "*_tests.py"
 	@coverage xml
 	@coverage report
 
