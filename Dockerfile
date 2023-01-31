@@ -1,11 +1,12 @@
 # Brand Detection Service
-FROM docker-dcu-local.artifactory.secureserver.net/dcu-python3.7:3.3
+FROM docker-dcu-local.artifactory.secureserver.net/dcu-python3.11:1.1
 LABEL MAINTAINER=dcueng@godaddy.com
 
 USER root
 RUN apt-get update && apt-get install -y gcc
 
 RUN mkdir -p /tmp/build
+RUN apt-get update && apt-get install gcc libffi-dev -y
 COPY requirements.txt /tmp/build/
 COPY pip_config /tmp/build/pip_config
 RUN PIP_CONFIG_FILE=/tmp/build/pip_config/pip.conf pip install -r /tmp/build/requirements.txt
@@ -13,11 +14,13 @@ RUN PIP_CONFIG_FILE=/tmp/build/pip_config/pip.conf pip install -r /tmp/build/req
 # Move files to new dir
 
 COPY *.py /tmp/build/
+RUN apt-get update && apt-get install gcc libffi-dev -y
 COPY test_requirements.txt /tmp/build/
 COPY README.md /tmp/build/
 COPY branddetection /tmp/build/branddetection
 COPY pb /tmp/build/pb
 RUN PIP_CONFIG_FILE=/tmp/build/pip_config/pip.conf pip install --compile /tmp/build
+RUN apt-get remove gcc libffi-dev -y
 
 EXPOSE 5000
 
