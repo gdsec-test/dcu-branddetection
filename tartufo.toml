@@ -1,8 +1,13 @@
 [tool.tartufo]
 repo-path = "."
 exclude-path-patterns = [
-    'tartufo.*'
+    { path-pattern = 'tartufo.*'},
 ]
 exclude-signatures = [
-    '17c6ee95d32b69a29653dba8042b964e7cd4dd21493727fc71a5129f59d3d827'
+    { signature = '17c6ee95d32b69a29653dba8042b964e7cd4dd21493727fc71a5129f59d3d827'},
+    { signature = 'a054ef08eb66278970a0e830c896e4f3f3881193877dec596c072514d5c6fa24'},
+    { signature = 'fceeaed685bd7554f7af49f650937cef11322d693a9fe414d670cd8a559c7bec'},
+    { signature = 'cf702b70ed5847f6875168778b36c303ba0c052d395c16d199404969f4110028'},
+    { signature = 'd2b7c9659aa0840694af181d3a1fb89195ab7a7949f57de4be186f8db74d715b'},
+    { signature = '17b860d6290f762dc87f3a880e9ce275f3320666e06439c3ddac7ff88b8f5e80'},
 ]
