@@ -180,7 +180,7 @@ class BrandDetector:
         # Retrieving CNAMES to check for Website Builder for Designers (WSBD) products.
         cnames = self._domain_helper.get_cname_from_domain(domain)
         for cname in cnames:
-            if 'godaddysiteonline.com' in cname or 'godaddysiteonline.com' in domain:
+            if cname.endswith('godaddysiteonline.com.') or domain.endswith('godaddysiteonline.com'):
                 whois_lookup['brand'] = GoDaddyBrand.NAME
                 whois_lookup['hosting_company_name'] = GoDaddyBrand.HOSTING_COMPANY_NAME
                 whois_lookup['hosting_abuse_email'] = [GoDaddyBrand.HOSTING_ABUSE_EMAIL]
