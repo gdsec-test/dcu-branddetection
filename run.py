@@ -1,4 +1,5 @@
 import os
+from html import escape
 
 from csetutils.flask import instrument
 from flask import Flask, jsonify, request
@@ -7,7 +8,6 @@ from branddetection.branddetector import BrandDetector, BrandDetectorDecorator
 from branddetection.rediscache import RedisCache
 from branddetection.utils.auth_tools import authenticate_jwt
 from settings import config_by_name
-from html import escape
 
 env = os.getenv('sysenv', 'dev')
 app_settings = config_by_name[env]()
