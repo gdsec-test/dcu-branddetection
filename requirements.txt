@@ -14,7 +14,7 @@ PyAuth==7.2.3
 pycparser==2.20
 python-whois==0.7.2
 PyYAML==5.4
-redis==4.5.3
+redis==4.5.4
 six==1.11.0
 uWSGI==2.0.21
 Werkzeug==2.2.3
