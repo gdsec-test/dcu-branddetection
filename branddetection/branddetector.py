@@ -12,7 +12,8 @@ class BrandDetectorDecorator:
     _HOSTING_REDIS_KEY = '{}-hosting_whois_info'
     _REGISTRAR_REDIS_KEY = '{}-registrar_whois_info'
     WHITELISTED_DOMAINS = [
-        'godaddysites.com'
+        'godaddysites.com',
+        'go.studio'
     ]
 
     def __init__(self, decorated, redis):

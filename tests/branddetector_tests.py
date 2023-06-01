@@ -82,6 +82,9 @@ class TestBrandDetectorDecorator(TestCase):
         result = self._tbd.get_hosting_info('testing.godaddysites.com')
         self.assertEqual(result, test_value)
 
+        result = self._tbd.get_hosting_info('testing.go.studio')
+        self.assertEqual(result, test_value)
+
 
 class TestBrandDetector(TestCase):
     _gd_ip = '208.109.192.70'
