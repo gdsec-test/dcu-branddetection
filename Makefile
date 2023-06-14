@@ -12,27 +12,19 @@ define deploy_k8s
 	cd k8s/$(1) && kustomize edit set image $(DOCKERREPO):$(1)
 endef
 
-all: env
+all: init
 
-env:
+init:
 	pip install -r test_requirements.txt
 	pip install -r requirements.txt
 
-.PHONY: flake8
-flake8:
-	@echo "----- Running linter -----"
+.PHONY: lint
+lint:
+	isort --atomic .
 	flake8 --config ./.flake8 .
 
-.PHONY: isort
-isort:
-	@echo "----- Optimizing imports -----"
-	isort --atomic .
-
-.PHONY: tools
-tools: flake8 isort
-
-.PHONY: test
-test:
+.PHONY: unit-test
+unit-test:
 	@echo "----- Running tests -----"
 	python -m unittest discover tests "*_tests.py"
 
@@ -45,7 +37,7 @@ testcov:
 
 
 .PHONY: prep
-prep: tools test
+prep: lint unit-test
 	@echo "----- preparing $(REPONAME) build -----"
 	mkdir -p $(BUILDROOT)
 	cp -rp ./* $(BUILDROOT)
