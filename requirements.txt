@@ -13,7 +13,6 @@ protobuf==3.20.2
 PyAuth==7.2.3
 pycparser==2.20
 python-whois==0.7.2
-PyYAML==5.4
 redis==4.5.4
 six==1.11.0
 uWSGI==2.0.21

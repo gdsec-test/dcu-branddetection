@@ -9,6 +9,7 @@ RUN mkdir -p /tmp/build
 RUN apt-get update && apt-get install gcc libffi-dev -y
 COPY requirements.txt /tmp/build/
 COPY pip_config /tmp/build/pip_config
+RUN PIP_CONFIG_FILE=/tmp/build/pip_config/pip.conf python -m pip install --upgrade pip
 RUN PIP_CONFIG_FILE=/tmp/build/pip_config/pip.conf pip install -r /tmp/build/requirements.txt
 
 # Move files to new dir
