@@ -10,6 +10,7 @@ class DomainFactoryBrand(Brand):
     HOSTING_COMPANY_NAME = 'DomainFactory GmbH'
     HOSTING_MATCHES = ['DOMAINFACTORY', 'DOMAINFACTORY GMBH', 'ISPGATEWAY', 'DF.EU', 'JIFFYBOX', 'JIFFYBOXSERVERS']
     HOSTING_ABUSE_EMAIL = 'abuse@domainfactory.de'
+    PLID = '525845'
 
     # AS34011 currently has no originating prefixes
     _asns = [34011]

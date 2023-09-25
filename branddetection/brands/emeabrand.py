@@ -71,6 +71,12 @@ class EMEABrand(Brand):
                 return True
         return False
 
+    def has_plid(self, plid):
+        for brand in self._brands:
+            if brand.PLID == plid:
+                return True
+        return False
+
     def get_email_from_ip(self, ip):
         for brand in self._brands:
             if brand.is_ip_in_range(ip):

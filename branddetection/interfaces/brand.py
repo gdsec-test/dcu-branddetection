@@ -3,6 +3,7 @@ import re
 
 
 class Brand(object, metaclass=abc.ABCMeta):
+    PLID = 'NOT_DEFINED'
     """
     Abstract base class for all brands
     """

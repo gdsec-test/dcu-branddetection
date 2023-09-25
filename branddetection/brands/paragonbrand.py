@@ -10,6 +10,7 @@ class ParagonBrand(Brand):
     HOSTING_COMPANY_NAME = 'Paragon Internet Group Limited'
     HOSTING_MATCHES = ['PARAGON', 'PARAGON INTERNET GROUP LIMITED', 'PRGN.MISP.CO.UK']
     HOSTING_ABUSE_EMAIL = 'abuse@tsohost.com'
+    PLID = '527397'
 
     _asns = [133882, 198047]
 

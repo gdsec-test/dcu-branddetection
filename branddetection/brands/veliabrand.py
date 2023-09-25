@@ -10,6 +10,7 @@ class VeliaBrand(Brand):
     HOSTING_COMPANY_NAME = 'Velia.net Internetdienste GmbH'
     HOSTING_MATCHES = ['VELIA', 'VELIA.NET INTERNETDIENSTE GMBH', 'PROTONINTERNET']
     HOSTING_ABUSE_EMAIL = 'abuse@velia.net'
+    PLID = '541136'
 
     _asns = [29066]
 

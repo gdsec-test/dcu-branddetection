@@ -14,6 +14,7 @@ class Reg123Brand(Brand):
     HOSTING_MATCHES = ['123REG', 'WEBFUSION', 'SIGNUPTO', 'DOMAINMONSTER', 'DOMAINBOX', '123-REG', '123-VPS', 'DONHOST',
                        'SUPANAMES', 'XCALIBRE', 'EXTENDCP']
     HOSTING_ABUSE_EMAIL = 'abuse@123-reg.co.uk'
+    PLID = '525844'
 
     _asns = [20738]
 

@@ -47,5 +47,11 @@ def get_plid_email():
     return jsonify(brand_detector.get_plid_email(plid))
 
 
+@app.route('/plid', methods=['GET'])
+def get_brand_by_plid():
+    plid = escape(request.args.get('plid'))
+    return jsonify(brand_detector.get_brand_by_plid(plid))
+
+
 if __name__ == '__main__':
     app.run()

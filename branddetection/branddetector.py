@@ -193,6 +193,14 @@ class BrandDetector:
         whois_lookup['brand'] = "FOREIGN"
         return whois_lookup
 
+    def get_brand_by_plid(self, plid: str):
+        for brand in self._brands:
+            if brand.has_plid(plid):
+                return {'brand': brand.NAME, 'hosting_company_name': brand.HOSTING_COMPANY_NAME,
+                        'hosting_abuse_email': [brand.HOSTING_ABUSE_EMAIL],
+                        'abuse_report_email': self.get_plid_email(plid)}
+        return {}
+
     def get_plid_email(self, plid):
         """
         Function that returns the email address associated with a given PLID

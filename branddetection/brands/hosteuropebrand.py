@@ -10,7 +10,7 @@ class HostEuropeBrand(Brand):
     HOSTING_COMPANY_NAME = 'Host Europe GmbH'
     HOSTING_MATCHES = ['HOSTEUROPE', 'HOST EUROPE GMBH', 'HOSTEUROPEIBERIA']
     HOSTING_ABUSE_EMAIL = 'abuse@hosteurope.de'
-
+    PLID = '525847'
     _asns = [20773]
 
     def __init__(self):

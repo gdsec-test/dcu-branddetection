@@ -10,7 +10,7 @@ class HeartInternetBrand(Brand):
     HOSTING_COMPANY_NAME = 'Heart Internet Ltd'
     HOSTING_MATCHES = ['HEARTINTERNET', 'HEART INTERNET', 'VPS-10', 'DS-10', 'EXTENDCP', 'EXTENDNET']
     HOSTING_ABUSE_EMAIL = 'abuse@heartinternet.co.uk'
-
+    PLID = '525848'
     # AS43788 currently has no originating prefixes
     _asns = [43788]
 

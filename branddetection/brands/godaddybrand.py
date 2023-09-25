@@ -23,6 +23,7 @@ class GoDaddyBrand(Brand):
     HOSTING_ABUSE_EMAIL = 'abuse@godaddy.com'
     IP = 'ip'
     SECURESERVER = 'secureserver.net'
+    PLID = '1'
 
     # ASN 21501 is used in AMS (Amsterdam) for GoDaddy US products
     _asns = [26496, 21501]
@@ -56,3 +57,8 @@ class GoDaddyBrand(Brand):
                 return True
 
         return self._asn.get_network_for_ip(ip)
+
+    def has_plid(self, plid):
+        if plid == '1':
+            return True
+        return False

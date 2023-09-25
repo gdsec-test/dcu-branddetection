@@ -236,3 +236,15 @@ class TestBrandDetector(TestCase):
         self.assertEqual(result.get('brand'), test_value.get('brand'))
         self.assertEqual(result.get('hosting_company_name'), test_value.get('hosting_company_name'))
         self.assertEqual(result.get('hosting_abuse_email'), test_value.get('hosting_abuse_email'))
+
+    def test_get_by_plid_EMEA(self):
+        brand = self._bd.get_brand_by_plid('525844')
+        self.assertEquals(brand['brand'], 'EMEA')
+
+    def test_get_by_plid_Godaddy(self):
+        brand = self._bd.get_brand_by_plid('1')
+        self.assertEquals(brand['brand'], 'GODADDY')
+
+    def test_get_by_plid(self):
+        brand = self._bd.get_brand_by_plid('123')
+        self.assertEquals(brand, {})
