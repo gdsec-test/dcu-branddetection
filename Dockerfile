@@ -1,5 +1,5 @@
 # Brand Detection Service
-FROM docker-dcu-local.artifactory.secureserver.net/dcu-python3.11:1.1
+FROM gdartifactory1.jfrog.io/docker-dcu-local/dcu-python3.11:1.1
 LABEL MAINTAINER=dcueng@godaddy.com
 
 USER root

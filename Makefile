@@ -1,6 +1,6 @@
 REPONAME=digital-crimes/branddetection
 BUILDROOT=$(HOME)/dockerbuild/$(REPONAME)
-DOCKERREPO=docker-dcu-local.artifactory.secureserver.net/brand_detection
+DOCKERREPO=gdartifactory1.jfrog.io/docker-dcu-local/brand_detection
 DATE=$(shell date)
 COMMIT=
 BUILD_BRANCH=origin/main

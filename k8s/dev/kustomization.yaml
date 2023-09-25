@@ -7,7 +7,7 @@ resources:
 namespace: abuse-api-dev
 
 images:
-- name: docker-dcu-local.artifactory.secureserver.net/brand_detection
+- name: gdartifactory1.jfrog.io/docker-dcu-local/brand_detection
   newTag: dev
 
 configMapGenerator:
