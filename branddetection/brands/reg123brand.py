@@ -10,7 +10,7 @@ class Reg123Brand(Brand):
     encapsulates WebFusion, Signupto, DomainMonster, and DomainBox.
     """
     NAME = '123REG'
-    HOSTING_COMPANY_NAME = 'Host Europe GmbH'
+    HOSTING_COMPANY_NAME = '123REG'
     HOSTING_MATCHES = ['123REG', 'WEBFUSION', 'SIGNUPTO', 'DOMAINMONSTER', 'DOMAINBOX', '123-REG', '123-VPS', 'DONHOST',
                        'SUPANAMES', 'XCALIBRE', 'EXTENDCP']
     HOSTING_ABUSE_EMAIL = 'abuse@123-reg.co.uk'

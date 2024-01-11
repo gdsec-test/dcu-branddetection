@@ -7,9 +7,9 @@ class Server4UGmbH(Brand):
     Server4U specific brand for determining whether or not a domain is hosted or registered with Server4U
     """
     NAME = 'SERVER4U'
-    HOSTING_COMPANY_NAME = 'Host Europe GmbH'
-    HOSTING_MATCHES = ['HOST EUROPE GMBH']
-    HOSTING_ABUSE_EMAIL = 'abuse@hosteurope.de'
+    HOSTING_COMPANY_NAME = 'SERVER4U'
+    HOSTING_MATCHES = ['SERVER4YOU']
+    HOSTING_ABUSE_EMAIL = 'abuse@server4you.com '
 
     _asns = [8972]
 
