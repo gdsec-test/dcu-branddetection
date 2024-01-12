@@ -9,7 +9,7 @@ class Server4UGmbH(Brand):
     NAME = 'SERVER4U'
     HOSTING_COMPANY_NAME = 'SERVER4U'
     HOSTING_MATCHES = ['SERVER4YOU']
-    HOSTING_ABUSE_EMAIL = 'abuse@server4you.com '
+    HOSTING_ABUSE_EMAIL = 'abuse@server4you.com'
 
     _asns = [8972]
 
