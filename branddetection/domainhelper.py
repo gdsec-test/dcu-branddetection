@@ -50,8 +50,7 @@ class DomainHelper:
         """
         if type(sourceDomainOrIp) != str:
             sourceDomainOrIp = sourceDomainOrIp.decode('utf-8')
-        pattern = re.compile('((([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])[ (\\[]?(\\.|dot)[ )\\]]?){3}[0-9]{1,3})')
-
+        pattern = re.compile('^((([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])[ (\\[]?(\\.|dot)[ )\\]]?){3}[0-9]{1,3})$')
         return pattern.match(sourceDomainOrIp) is not None
 
     @staticmethod

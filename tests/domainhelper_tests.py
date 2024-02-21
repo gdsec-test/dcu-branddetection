@@ -112,6 +112,14 @@ class TestDomainHelper(TestCase):
     def test_is_ip_bytes_random(self):
         ip = self._DH.is_ip(self._random_bytes)
         self.assertFalse(ip)
+    
+    def test_is_not_ip_secureserverip(self):
+        ip = self._DH.is_ip("120.136.206.88.host.secureserver.net")
+        self.assertFalse(ip)
+    
+    def test_is_ip_regular(self):
+        ip = self._DH.is_ip("120.136.206.88")
+        self.assertTrue(ip)
 
     @patch.object(resolver.Resolver, 'query', return_value=[MockDNSResolver1()])
     @patch('branddetection.domainhelper.reversename.from_address', return_value='0.0.0.0.in-addr.arpa.')
