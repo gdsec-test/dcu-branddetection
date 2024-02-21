@@ -112,11 +112,11 @@ class TestDomainHelper(TestCase):
     def test_is_ip_bytes_random(self):
         ip = self._DH.is_ip(self._random_bytes)
         self.assertFalse(ip)
-    
+
     def test_is_not_ip_secureserverip(self):
         ip = self._DH.is_ip("120.136.206.88.host.secureserver.net")
         self.assertFalse(ip)
-    
+
     def test_is_ip_regular(self):
         ip = self._DH.is_ip("120.136.206.88")
         self.assertTrue(ip)
