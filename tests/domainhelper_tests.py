@@ -113,6 +113,23 @@ class TestDomainHelper(TestCase):
         ip = self._DH.is_ip(self._random_bytes)
         self.assertFalse(ip)
 
+    def test_is_not_ip_secureserverip(self):
+        ip = self._DH.is_ip("120.136.206.88.host.secureserver.net")
+        self.assertFalse(ip)
+    
+    def test_is_ipv6_regular(self):
+        ip = self._DH.is_ip("2001:db8:3333:4444:5555:6666:7777:8888")
+        self.assertTrue(ip)
+
+    def test_is_ip_regular(self):
+        ip = self._DH.is_ip("120.136.206.88")
+        self.assertTrue(ip)
+
+    def test_is_domain_not_ip(self):
+        ip = self._DH.is_ip("http://www.abc.com")
+        self.assertFalse(ip)
+        
+
     @patch.object(resolver.Resolver, 'query', return_value=[MockDNSResolver1()])
     @patch('branddetection.domainhelper.reversename.from_address', return_value='0.0.0.0.in-addr.arpa.')
     def test_gd_get_domain_from_ip(self, get_reverse_name, get_byte_string):
