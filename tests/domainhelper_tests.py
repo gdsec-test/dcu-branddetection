@@ -116,6 +116,10 @@ class TestDomainHelper(TestCase):
     def test_is_not_ip_secureserverip(self):
         ip = self._DH.is_ip("120.136.206.88.host.secureserver.net")
         self.assertFalse(ip)
+    
+    def test_is_ipv6_regular(self):
+        ip = self._DH.is_ip("2001:db8:3333:4444:5555:6666:7777:8888")
+        self.assertTrue(ip)
 
     def test_is_ip_regular(self):
         ip = self._DH.is_ip("120.136.206.88")
